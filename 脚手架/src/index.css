@@ -1,0 +1,79 @@
+
+.button{
+    box-sizing: border-box;
+  }
+  .page {
+    background-color: #eeeeee;
+    font-size: 16px;
+    font-family: unset;
+    height: 100vh;
+   
+  }
+  .background{
+    width:100%;
+    height:100%;
+    position: fixed;
+    background-size:100% 100%;
+    z-index: -1;
+  }
+  
+  .all{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .prev-btn {
+    width: 70rpx;
+    height: 60rpx;
+    margin-right: 610rpx;
+  }
+  
+  .img-button image {
+    width: 50%;
+    height: 70%;
+  }
+  
+  .flex-item{
+    width:85%;
+    height:480rpx;
+    background-color:rgba(255, 255, 255, 0.644);
+    border-radius: 13rpx;
+    box-shadow: 7rpx 7rpx 7rpx #969696b4;
+    margin-top: 230rpx;
+    overflow: hidden;
+  }
+  .flex-item_title{
+    background-color:rgba(76, 126, 202, 0.842)!important;
+    height:105rpx;
+    display: flex;
+    justify-content:center ;
+    align-items: center;
+    font-size: 38rpx;
+    font-weight: 550;
+    color:rgb(255, 255, 255);
+  }
+  .flex-item_gapDays{
+    height:270rpx;
+    padding-top: 8rpx;
+    
+    display: flex;
+    justify-content:center ;
+    align-items: center;
+    font-size: 140rpx;
+  }
+  
+  
+  .flex-item_desc{
+    height:90rpx;
+    font-size: 33rpx;
+    border-top: 1px dashed #00000031;
+    display: flex;
+    justify-content:center ;
+    align-items: center;
+    color:rgba(0, 0, 0, 0.61);
+  }
+  
+  
+  
+  
