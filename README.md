@@ -1,7 +1,16 @@
 # MiniProgram-HotUpdate
-小程序热更新方案，可以随时修改js代码进行热更新
+小程序热更新方案，可以随时修改html,css,js代码进行热更新
 
 这个是一个小程序热更新一个方案，绕过小程序审核，比h5的优势是可以调用微信小程序的接口，比如wx.xxxx，可以加载一次，多次使用
+
+比web-view更方便
+## 原理
+- 框架实现
+  - src/index.js → dist/index.js → build.js → run.js → pages/index/index.js → js解析（eval） → pages/index/index
+- 实现热更新需要你自己写wx.request 
+  - src/index.js → dist/index.js → build.js → 把 build.js的字符串给后端数据库 → 前端读到数据库 → pages/index/index.js → js解析（eval） → pages/index/index
+
+
 
 ## 使用文档
 ---
@@ -23,7 +32,7 @@
 生成的代码在dist/index.js，然后打开小程序的pages/index/index.js的目录下，把对应的代码替换掉
 
 --- 
-## 注意
+## 注意(以下都在src/index.js下操作！！)
 - 可以用that.xxx()对函数的绑定
 ```javascript
   //比如你在html写了
@@ -59,4 +68,5 @@
 
 ---
 # Demo
+
 ![Demo](https://raw.githubusercontent.com/UncAnnyZ/MiniProgram-HotUpdate/main/images/demo.png)
