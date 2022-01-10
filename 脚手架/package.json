@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack && node build.js",
-    "hh": "babel src/index.js -o dist/index.js && node build.js $$"
+    "start": "webpack && node build.js && node run.js"
   },
   "author": "",
   "license": "ISC",
