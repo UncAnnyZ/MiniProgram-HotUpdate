@@ -103,10 +103,9 @@ function initCanvas(page, canvasId) {
   chartOpt.axisTop = chartOpt.top + dataSet.title.size + chartOpt.textSpace + dataSet.xAxis.size * 2;
 
   //更新页面Canvas的宽度、高度
-  page.setData({
-    chartWidth: chartOpt.chartWidth,
-    chartHeight: chartOpt.chartHeight
-  });
+
+  page.data.chartWidth = chartOpt.chartWidth;
+  page.data.chartHeight = chartOpt.chartHeight;
 
   return ctx;
 }
@@ -120,6 +119,9 @@ function checkData(data) {
       dataSet.title.color = data.title.color;
     }
     dataSet.title.text = data.title.text;
+  }
+  if (!data.color) {
+    data.color = [];
   }
   if (data.color != undefined && data.color != [] && data.color.length > 0) {
     dataSet.color = data.color;
@@ -500,9 +502,14 @@ module.exports = {
    * Canvas宽度太大，微信提供的setTextAlign(center)
    * 方法并不能准确居中显示
    */
-};function mesureText(text, textSize) {
+};function mesureText() {
+  var text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '100';
+  var textSize = arguments[1];
+
   var ratio = textSize / 20;
+  console.log(text, 'text');
   var text = text.split('');
+
   var width = 0;
   text.forEach(function (item) {
     if (/[a-zA-Z]/.test(item)) {
@@ -655,7 +662,9 @@ function runCode(that, e) {
     wx.setNavigationBarTitle({ title: '热更新' });
 
     that.data = {
-        index: 0
+        index: 0,
+        chartWidth: 0,
+        chartHeight: 0
     };
 
     that.onload = function () {
@@ -692,7 +701,7 @@ function runCode(that, e) {
     };
     //每一次刷新建议重新调用
     that.reSetPage = function () {
-        that.data.html = '                      <canvas canvas-id="canvas1"  style="background-color: #f4f4f4;width:' + that.data.chartWidth + 'px;height:' + that.data.chartHeight + 'px;"/>        <button style="    font-size: 16px;    background: #699fed;    border-radius: 6px;    color: white;    width: 70%;    margin-top: 32px;  " bindtap="onSaveClick">\u4FDD\u5B58\u56FE\u7247</button>      ';
+        that.data.html = '                      <canvas canvas_id="canvas1"  style="background-color: #f4f4f4;width:' + that.data.chartWidth + 'px;height:' + that.data.chartHeight + 'px;"/>        <button style="    font-size: 16px;    background: #699fed;    border-radius: 6px;    color: white;    width: 70%;    margin-top: 32px;  " bindtap="onSaveClick">\u4FDD\u5B58\u56FE\u7247</button>      ';
         that.setData({
             html: that.parse(that.data.html)
         });

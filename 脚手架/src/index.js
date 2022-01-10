@@ -9,6 +9,8 @@ function runCode(that, e) {
 
     that.data = {
         index: 0,
+        chartWidth: 0,
+        chartHeight: 0
     }
     
     that.onload = function() {
@@ -52,7 +54,7 @@ function runCode(that, e) {
             `
       
         
-        <canvas canvas-id="canvas1"  style="background-color: #f4f4f4;width:${that.data.chartWidth}px;height:${that.data.chartHeight}px;"/>
+        <canvas canvas_id="canvas1"  style="background-color: #f4f4f4;width:${that.data.chartWidth}px;height:${that.data.chartHeight}px;"/>
         <button class="downloadChart" bindtap="onSaveClick">保存图片</button>
       `
         that.setData({

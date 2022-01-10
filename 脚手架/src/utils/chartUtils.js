@@ -9,9 +9,11 @@ module.exports = {
  * Canvas宽度太大，微信提供的setTextAlign(center)
  * 方法并不能准确居中显示
  */
-function mesureText(text, textSize) {
+function mesureText(text = '100', textSize) {
   var ratio = textSize / 20;
+  console.log(text, 'text')
   var text = text.split('');
+  
   var width = 0;
   text.forEach(function (item) {
     if (/[a-zA-Z]/.test(item)) {

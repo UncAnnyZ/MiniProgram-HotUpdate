@@ -95,12 +95,11 @@ function initCanvas(page, canvasId) {
   chartOpt.axisTop = chartOpt.top + dataSet.title.size + chartOpt.textSpace + dataSet.xAxis.size * 2;
 
 
-
   //更新页面Canvas的宽度、高度
-  page.setData({
-    chartWidth: chartOpt.chartWidth,
-    chartHeight: chartOpt.chartHeight
-  });
+
+  page.data.chartWidth = chartOpt.chartWidth;
+  page.data.chartHeight = chartOpt.chartHeight;
+
 
   return ctx;
 }
@@ -115,6 +114,9 @@ function checkData(data) {
     }
     dataSet.title.text = data.title.text;
 
+  }
+  if(!data.color){
+    data.color = []
   }
   if (data.color != undefined && data.color != [] && data.color.length > 0) {
     dataSet.color = data.color;
