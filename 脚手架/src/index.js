@@ -10,12 +10,15 @@ function runCode(that, e) {
       backgroundColor: '#eeeeee',
       frontColor: '#000000',
     })
-
+    const a = () => {
+      
+    }
+  
     that.data = {
       index : 0,
-      gapDays: e.gapDays,
-      Name: e.Name,
-      Date: e.Date
+      gapDays: "1",
+      Name: "hello world",
+      Date: "2022.01.01"
     }
     //每一次刷新建议重新调用
     that.reSetPage = function () {
@@ -26,7 +29,7 @@ function runCode(that, e) {
         <view class="flex-item"  data-index="${that.data.index}">  
             <view class="flex-item_title">
             ${that.data.gapDays > 0 ? ` <text >${that.data.Name} 还有</text>` : `    <text>${that.data.Name} 已经</text>`}
-
+  
         
             </view>
             <view class="flex-item_gapDays">

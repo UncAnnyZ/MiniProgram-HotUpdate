@@ -98,6 +98,8 @@ fs.readFile('dist/index.js', (err, buffer) => {
         }
         // console.log(str)
 
+        str = str.replace('window.exports', 'module.exports')
+
 
         fs.writeFile('dist/index.js', str, { encoding: 'utf8' }, err => { })
       }
