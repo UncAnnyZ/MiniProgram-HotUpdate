@@ -10,6 +10,19 @@
 ```
 生成的代码在dist/index.js，然后打开小程序的pages/index/index.js的目录下，把对应的代码替换掉
 ## 注意
+- 可以用that.xxx()对函数的绑定
+```javascript
+  //比如你在html写了
+  that.data = {
+    demo = ''
+  }
+  `<view bindtap="test">${that.data.demo}</view>`
+  // 你在index.js可以
+  that.test = function (){
+      that.data.demo = 'hello world'
+      that.reSetPage()
+  }
+```
 - 使用不了wx:for,  wx:if
 - 渲染不使用setData而是
 ```javascript
