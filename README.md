@@ -32,4 +32,4 @@
 
 ---
 # Demo
-![avatar]()
+![Demo](https://raw.githubusercontent.com/UncAnnyZ/MiniProgram-HotUpdate/main/images/demo.png)
