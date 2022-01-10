@@ -20,7 +20,7 @@ function mesureText(text = '100', textSize) {
       width += (14 * ratio);
     } else if (/[0-9]/.test(item)) {
       width += (11 * ratio);
-    } else if (/\./.test(item)) {
+    } else if (/\\./.test(item)) {
       width += (5.4 * ratio);
     } else if (/-/.test(item)) {
       width += (6.5 * ratio);
