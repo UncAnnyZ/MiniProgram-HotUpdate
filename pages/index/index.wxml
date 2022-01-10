@@ -1146,7 +1146,7 @@
 
 <template name="test-canvas2">
 
-    <canvas canvas-id="{{item.canvas-id}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <canvas canvas-id="{{item.canvas_id}}"style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text>{{item.text}}</text>
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
@@ -1155,7 +1155,7 @@
 </template>
 
 <template name="test-canvas3">
-    <canvas canvas-id="{{item.canvas-id}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <canvas canvas-id="{{item.canvas_id}}"style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text>{{item.text}}</text>
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
@@ -1164,7 +1164,7 @@
 </template>
 
 <template name="test-canvas4">
-    <canvas canvas-id="{{item.canvas-id}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <canvas canvas-id="{{item.canvas_id}}"style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text>{{item.text}}</text>
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
@@ -1173,7 +1173,7 @@
 </template>
 
 <template name="test-canvas5">
-    <canvas canvas-id="{{item.canvas-id}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <canvas canvas-id="{{item.canvas_id}}"style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text>{{item.text}}</text>
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
@@ -1182,7 +1182,7 @@
 </template>
 
 <template name="test-canvas6">
-    <canvas canvas-id="{{item.canvas-id}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <canvas canvas-id="{{item.canvas_id}}"style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text>{{item.text}}</text>
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
@@ -1191,7 +1191,7 @@
 </template>
 
 <template name="test-canvas7">
-    <canvas canvas-id="{{item.canvas-id}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <canvas canvas-id="{{item.canvas_id}}"style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text>{{item.text}}</text>
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
@@ -1200,7 +1200,7 @@
 </template>
 
 <template name="test-canvas8">
-    <canvas canvas-id="{{item.canvas-id}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <canvas canvas-id="{{item.canvas_id}}"style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text>{{item.text}}</text>
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
@@ -1209,7 +1209,7 @@
 </template>
 
 <template name="test-canvas9">
-    <canvas canvas-id="{{item.canvas-id}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <canvas canvas-id="{{item.canvas_id}}"style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text>{{item.text}}</text>
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
