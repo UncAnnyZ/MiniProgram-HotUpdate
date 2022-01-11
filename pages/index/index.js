@@ -691,57 +691,78 @@ console.log(chart);
 
 function runCode(that, e) {
 
-    wx.setNavigationBarTitle({ title: '热更新' });
+  wx.setNavigationBarTitle({ title: "热更新" });
 
-    that.data = {
-        index: 0,
-        chartWidth: 0,
-        chartHeight: 0
-    };
-
-    that.onload = function () {
-        chart.draw(that, 'canvas1', {
-            title: {
-                text: "2017城市人均收入(万)",
-                color: "#333333"
-            },
-            xAxis: {
-                data: ['北京', '上海', '杭州', '深圳', '广州', '成都', '南京', '西安']
-            },
-            series: [
-            // {
-            //   name: "第一季度",
-            //   category: "bar",
-            //   data: [37, 63, 60, 78, 92, 63, 57, 48]
-            // },
-            // {
-            //   name: "第二季度",
-            //   category: "line",
-            //   data: [20, 35, 38, 59, 48, 27, 43, 35]
-            // },
-            {
-                name: ['北京', '上海', '杭州', '深圳', '广州', '成都'],
-                category: "pie",
-                data: [40, 38, 39, 28, 27, 33]
-            }]
-        });
-        that.reSetPage();
-    };
-
-    that.onSaveClick = function () {
-        chart.saveCanvans(function () {});
-    };
-    //每一次刷新建议重新调用
-    that.reSetPage = function () {
-        that.data.html = '                      <canvas canvas_id="canvas1"  style="background-color: #f4f4f4;width:' + that.data.chartWidth + 'px;height:' + that.data.chartHeight + 'px;"/>        <button style="    font-size: 16px;    background: #699fed;    border-radius: 6px;    color: white;    width: 70%;    margin-top: 32px;  " bindtap="onSaveClick">\u4FDD\u5B58\u56FE\u7247</button>      ';
-        that.setData({
-            html: that.parse(that.data.html)
-        });
-    };
+  that.data = {
+    achievement: [],
+    array: [],
+    color: [],
+    block_show: true,
+    skrw: "",
+    date: new Date().getFullYear() + "-" + (new Date().getMonth() + 1) + "-" + new Date().getDate(),
+    index: 0,
+    campusArrayIndex: 0,
+    campusArray: ["官渡校区", "西城校区", "光华校区"],
+    classIndex: 0,
+    classArray: [{
+      "dm": "1",
+      "mc": "主教"
+    }, {
+      "dm": "2",
+      "mc": "二教A"
+    }, {
+      "dm": "6",
+      "mc": "二教B"
+    }, {
+      "dm": "7",
+      "mc": "其它"
+    }, {
+      "dm": "8",
+      "mc": "实验"
+    }, {
+      "dm": "9",
+      "mc": "体育场地(官渡)"
+    }],
+    cookies: "",
+    list: [],
+    week: []
+  };
+  that.bindDateChange = function (e) {
+    //获取倒数日日期
+    that.setData({
+      date: e.detail.value
+    });
+  };
+  that.bindxqChange = function (e) {
+    //获取倒数日日期
+    that.setData({
+      classIndex: e.detail.value
+    });
+    that.reSetPage();
+  };
+  that.onload = function () {
 
     that.reSetPage();
+  };
 
-    that.onload();
+  that.onSaveClick = function () {
+    chart.saveCanvans(function () {});
+  };
+  //每一次刷新建议重新调用
+  that.reSetPage = function () {
+    that.data.html = "            <view style='  background-color:#fff;    display: flex;    line-height: 60rpx;    box-shadow:0px 0px 10px #e2e2e2;    padding-bottom: 8rpx;wx-head"+that.data.show+"'>            <view style='  margin-left: 25rpx;'>              <view bindtap='show'>                <view style='    font-size:30rpx;    font-weight:600;'>\u5207\u6362\u65F6\u95F4                  <text style='iconfont  margin-left: 20rpx;'></text>                </view>              </view>                      </view>            <view style='    flex: 1;    text-align: right;    margin-right: 25rpx;' style='    flex: 1;            text-align: right;            margin-right: 25rpx;color:coral'>              <view>\u6570\u91CF:                <text>" + that.data.Totalnumber + "</text>              </view>            </view>          </view>          <view style='    margin:100rpx 26rpx 30rpx 20rpx;'>            <view style='  text-align:center;  font-size:40rpx;  color:#1cbbb4;  margin-top:30rpx;' style='  text-align:center;            font-size:40rpx;            color:#1cbbb4;            margin-top:30rpx;display:" + (that.data.list.length ? "block" : "none") + "'>\u6728\u6709\u54DF</view>            <view style='  margin-bottom: 30rpx;'>              " + that.data.list.map(function (item, id) {
+      return "              <view style='    display: flex;'>              <view style='    width: 70rpx;'>                <view style='  margin: auto;  width:7rpx;  height:90rpx;  background-color:#000000;' style='background-color:" + (id == 0 ? "#fff" : "#fff") + "'></view>                <view style='  margin: auto;  width:20rpx;  height:20rpx;  border-radius:50%;' style='background-color:" + that.data.color[id] + "'></view>                <view style='  margin: auto;  width:7rpx;  height:55rpx;  background-color:#ffffff;'></view>              </view>              <view style='    margin-top: 25rpx;    display: flex;    flex: 1;    padding:20rpx 35rpx;    border-radius: 50rpx;    box-shadow: 0rpx 0rpx 10rpx #e2e2e2;'>                <view style='grade-title'>                  <view style='    font-size:32rpx;    font-weight:500;    line-height:60rpx;    width:500rpx;    overflow:hidden;    text-overflow:elipsis;    white-space:nowrap;'>" + that.data.list[id].jxcdmc + "</view>                    <view style='    margin-top: 10rpx;    font-size: 24rpx;    line-height: 30rpx'>                      <text>" + that.data.list[id].xqmc + "\uFF5C" + that.data.list[id].jzwmc + "</text>                    </view>                  </view>                  <view style='    flex: 1;    margin:auto;    text-align:right;    font-size: 33rpx;    white-space:nowrap;    width:50rpx;    text-overflow:ellipsis;' style='margin-left: -170rpx;color:" + that.data.color[id] + "'>\u8BE5\u6559\u5BA4\u6709" + that.data.list[id].rnskrs + "\u4F4D\u7F6E</view>                </view>              </view>              ";
+    }) + "            </view>            <text></text>          </view>                    <view style='add' style='display:" + (that.data.block_show ? "block" : "none") + "'>            <!-- \u80CC\u666F\u8499\u7248 -->            <view style='  background-color: #000;  opacity: 0.6;  height: 100%;' bindtap='block_show'></view>                      <view style='  position: relative;  position: fixed;  display: flex;  flex-direction: column;  align-items: center;  bottom: 0;  width: 100%;  /* background-color: rgb(230,230,230); */  background-color: #fff;  border-radius: 50rpx;  padding: 50rpx 0;  z-index: 99999;"+that.data.add_style+"'>              <view style='  padding-bottom: 50rpx;  size: 18px;  font-weight: 600;'>                <text>\u8BFE\u7A0B\u8BE6\u60C5</text>              </view>                        <!-- \u65F6\u95F4 -->              <view style='  display: flex;  flex-direction: row;  align-items: center;  background-color: rgb(245, 245, 245);  width: 80%;  height: 80rpx;  padding: 0 20rpx;  border-radius: 20rpx;  margin: 20rpx 0;'>                <label>\u65F6\u95F4</label>                <picker mode='date' start='1978-01-01' end='2050-1-23' bindchange='bindDateChange'>                  " + that.data.date + "                </picker>              </view>              <!-- \u6821\u533A -->              <view style='  display: flex;  flex-direction: row;  align-items: center;  background-color: rgb(245, 245, 245);  width: 80%;  height: 80rpx;  padding: 0 20rpx;  border-radius: 20rpx;  margin: 20rpx 0;'>                <label>\u6821\u533A</label>                <picker value='" + that.data.campusArrayIndex + "' range='" + that.data.campusArray + "' bindchange='bindCampushange'>                  " + that.data.campusArray[that.data.campusArrayIndex] + "                </picker>              </view>              <!-- \u6559\u5B66\u697C -->              <view style='  display: flex;  flex-direction: row;  align-items: center;  background-color: rgb(245, 245, 245);  width: 80%;  height: 80rpx;  padding: 0 20rpx;  border-radius: 20rpx;  margin: 20rpx 0;'>                <label>\u6559\u5B66\u697C</label>                <picker value='" + that.data.classIndex + "' range-key='" + "mc" + "' range='" + that.data.classArray + "' bindchange='bindxqChange'>                  " + that.data.classArray[that.data.classIndex].mc + "                </picker>              </view>                        <!-- \u4E0A\u8BFE\u5468\u6570 -->              <view style='  display: flex;  justify-content: flex-start;  align-items: center;  width: 80%;  height: 80rpx;'>                <label>\u8282\u6B21\uFF08\u70B9\u4EAE\u5373\u4EE3\u8868\u9009\u62E9\uFF09</label>              </view>              <view style='  display: flex;  align-content: center;  flex-wrap: wrap;  width: 85%;'>                " + that.data.week.map(function (item) {
+      return "                  <label id='" + that.data.index + "' bindtap='changeWB' style='"+(item?"  background: rgb(8, 178, 255);  color: rgb(245,245,245) !important;  border: none !important;":"  color: rgb(100, 100, 100);")+"'>                  " + (index + 1) + "                  </label>                ";
+    }) + "              </view>                        <!-- \u6309\u94AE -->              <view style='  display: flex;  flex-direction: row;  justify-content: center;  align-items: center;  margin: 70rpx 0 50rpx;  width: 85%;'>                <button bindtap='block_show'>\u53D6 \u6D88</button>                <button bindtap='addSubmit' style='"+(that.data.addSubmitStyle?"  background-color:rgb(20, 205, 255) !important;  color: #fff !important;":"")+"' disabled='" + !that.data.addSubmitStyle + "'>\u67E5 \u8BE2</button>              </view>            </view>          </view>              ";
+    that.setData({
+      html: that.parse(that.data.html)
+    });
+  };
+
+  that.reSetPage();
+
+  that.onload();
 }
 
 module.exports = runCode;
@@ -812,50 +833,55 @@ module.exports = runCode;
 
   parseTag(tag) {
     let res = {
-      type: "tag",
-      name: "",
-      voidElement: false,
-      // attrs: {},
-      children: [],
+        type: "tag",
+        name: "",
+        voidElement: false,
+        // attrs: {},
+        children: [],
     };
     let tagMatch = tag.match(/<\/?([^\s]+?)[/\s>]/);
     if (tagMatch) {
-      // 标签名称为正则匹配的第2项
-      res.type = tagMatch[1];
-      if (tag.charAt(tag.length - 2) === "/") {
-        // 判断tag字符串倒数第二项是不是 / 设置为空标签。 例子：<img/>
-        res.voidElement = true;
-      }
+        // 标签名称为正则匹配的第2项
+        res.type = tagMatch[1];
+        if (tag.charAt(tag.length - 2) === "/") {
+            // 判断tag字符串倒数第二项是不是 / 设置为空标签。 例子：<img/>
+            res.voidElement = true;
+        }
     }
     // 匹配所有的标签正则
     let classList = tag.match(/\s([^'"/\s><]+?)\s*?=\s*?(".*?"|'.*?')/g);
-
+  
     if (classList && classList.length) {
-      for (let i = 0; i < classList.length; i++) {
-        // 去空格再以= 分隔字符串  得到['属性名称','属性值']
-        let c = classList[i].replace(/\s*/g, "").split("=");
-
-        // 循环设置属性
-        let p = c[1].substring(1, c[1].length - 1)
-        if (p.indexOf("padding") || p.indexOf("margin")) {
-
-          p = p.replace(/px/g, "px ").replace(/px 0/g, "px 0 ").replace(/all/g, "all ")
-
-          // console.log(p)
+      let style = ''
+        for (let i = 0; i < classList.length; i++) {
+            // 去空格再以= 分隔字符串  得到['属性名称','属性值']
+   
+            let c = classList[i].split("=");
+            // c[1] = c[1].replace(/\s*/g, "")
+            c[0] = c[0].replace(/\s*/g, "")
+            // 循环设置属性
+            let p = c[1].substring(1, c[1].length - 1)
+            try{
+              p = JSON.parse(c[1].substring(1, c[1].length - 1))
+            }catch{
+             
+            }
+  
+            if (c[1]) {
+              if(c[0] === 'style'){
+                style += p
+                res[c[0]] = style
+              }else{
+                res[c[0]] = p
+              }
+      
+            };
+  
         }
-        try {
-          p = JSON.parse(c[1].substring(1, c[1].length - 1))
-        } catch {
-
-        }
-
-        if (c[1]) res[c[0]] = p;
-
-      }
     }
     return res;
   },
-
+  
   parse(html) {
     var that = this;
     let result = [];
@@ -864,43 +890,43 @@ module.exports = runCode;
     let arr = [];
     let tagRE = /<[a-zA-Z\-\!\/](?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])*>/g;
     html.replace(tagRE, function (tag, index) {
-      // 判断第二个字符是不是'/'来判断是否open
-      let isOpen = tag.charAt(1) !== "/";
-      // 获取标签末尾的索引
-      let start = index + tag.length;
-      // 标签之前的文本信息
-      let text = html.slice(start, html.indexOf("<", start));
-
-      let parent;
-      if (isOpen) {
-        level++;
-        // 设置标签属性
-        current = that.parseTag(tag);
-        // 判断是否为文本信息，是就push一个text children  不等于'  '
-        if (!current.voidElement && text.trim()) {
-          current["text"] = text
+        // 判断第二个字符是不是'/'来判断是否open
+        let isOpen = tag.charAt(1) !== "/";
+        // 获取标签末尾的索引
+        let start = index + tag.length;
+        // 标签之前的文本信息
+        let text = html.slice(start, html.indexOf("<", start));
+  
+        let parent;
+        if (isOpen) {
+            level++;
+            // 设置标签属性
+            current = that.parseTag(tag);
+            // 判断是否为文本信息，是就push一个text children  不等于'  '
+            if (!current.voidElement && text.trim()) {
+                current["text"] = text
+            }
+            // 如果我们是根用户，则推送新的基本节点
+            if (level === 0) {
+                result.push(current);
+            }
+            // 判断有没有上层，有就push当前标签
+            parent = arr[level - 1];
+            if (parent) {
+                parent.children.push(current);
+            }
+            // console.log(current)
+            arr[level] = current;
         }
-        // 如果我们是根用户，则推送新的基本节点
-        if (level === 0) {
-          result.push(current);
+        // 如果不是开标签，或者是空元素：</div><img>
+        if (!isOpen || current.voidElement) {
+            // level--
+            level--;
         }
-        // 判断有没有上层，有就push当前标签
-        parent = arr[level - 1];
-        if (parent) {
-          parent.children.push(current);
-        }
-        // console.log(current)
-        arr[level] = current;
-      }
-      // 如果不是开标签，或者是空元素：</div><img>
-      if (!isOpen || current.voidElement) {
-        // level--
-        level--;
-      }
     });
     // console.log(result)
     return result;
-
+  
   }
 
 
