@@ -117,25 +117,28 @@ Page({
     let classList = tag.match(/\\s([^'"/\\s><]+?)\\s*?=\\s*?(".*?"|'.*?')/g);
 
     if (classList && classList.length) {
+      let style = ""
       for (let i = 0; i < classList.length; i++) {
         // 去空格再以= 分隔字符串  得到['属性名称','属性值']
-        let c = classList[i].replace(/\\s*/g, "").split("=");
-
+        let c = classList[i].split("=");
+        c[0] = c[0].replace(/\\s*/g, "");
         // 循环设置属性
         let p = c[1].substring(1, c[1].length - 1)
-        if (p.indexOf("padding") || p.indexOf("margin")) {
-
-          p = p.replace(/px/g, "px ").replace(/px 0/g, "px 0 ").replace(/all/g, "all ")
-
-          // console.log(p)
-        }
         try {
           p = JSON.parse(c[1].substring(1, c[1].length - 1))
         } catch {
 
         }
 
-        if (c[1]) res[c[0]] = p;
+        if (c[1]) {
+          if(c[0] === 'style'){
+            style += p
+            res[c[0]] = style
+          }else{
+            res[c[0]] = p
+          }
+  
+        };
 
       }
     }
