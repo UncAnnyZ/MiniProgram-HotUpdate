@@ -6,23 +6,30 @@
 比web-view更方便
 ## 原理
 - 框架实现
+  - 在脚手架中将 html 与 js 代码进行转译后利用递归放入 pages/index/index
   - src/index.js → dist/index.js → build.js → run.js → pages/index/index.js → js解析（eval） → pages/index/index
 - 实现热更新需要你自己写wx.request 
   - src/index.js → dist/index.js → build.js → 把 build.js的字符串给后端数据库 → 前端读到数据库 → pages/index/index.js → js解析（eval） → pages/index/index
-
+- 
 
 
 ## 使用文档
 ---
+</br>
+
 ### 方法一
-打开小程序
+打开小程序进入终端
 ```cmd
  cd 脚手架
  npm run start
 ```
 会自动生成代码，马上呈现到小程序上
 
+</br>
+
 ---
+
+</br>
 
 ### 方法二
 打开脚手架，在src/index.js敲完代码
@@ -31,42 +38,37 @@
 ```
 生成的代码在dist/index.js，然后打开小程序的pages/index/index.js的目录下，把对应的代码替换掉
 
+</br>
+
 --- 
-## 注意(以下都在src/index.js下操作！！)
-- 可以用that.xxx()对函数的绑定
+
+</br>
+
+## 注意事项
+
+- 不支持 `wx:if` ，使用请查看下面推荐写法
 ```javascript
-  //比如你在html写了
-  that.data = {
-    demo = ''
-  }
-  `<view bindtap="test">${that.data.demo}</view>`
-  // 你在index.js可以
-  that.test = function (){
-      that.data.demo = 'hello world'
-      that.reSetPage()
-  }
+  // 原生 
+  <view wx:if="{{boxShow}}" class="box">
+  </view>
+  
+  // 推荐写法
+  {{ boxShow === 'true' ? '<view class="box"></view>' : '' }}
 ```
-- 使用不了wx:for,  wx:if
-- 渲染不使用setData而是
-```javascript
-
-   that.reSetPage = function () {
-        that.data.html =
-         `
-         <view>hello world</view>
-         `
-        that.setData({
-            html: that.parse(that.data.html)
-        });
-    };
-
-    // 每一次都需要调用
-
-     that.reSetPage()
-```
-- 可以使用wx.xxxx的接口，例如wx.getStorageSync,云函数等等
+- 不支持 `<block>` 标签，请用 `<view>` 标签替代
+- 不支持CSS子类继承、伪类选择器等写法
+</br>
 
 ---
+</br>
+
+## 补丁修复
+---
+- `setData({})` 重渲染
+- 单引号与双引号同译修复
+- 允许 `html` 高亮和语法提示
+- 生命周期与小程序一致
+- 可以使用wx.xxxx的接口，例如wx.getStorageSync,云函数等等
 # Demo
 
 ![Demo](https://raw.githubusercontent.com/UncAnnyZ/MiniProgram-HotUpdate/main/images/demo.png)

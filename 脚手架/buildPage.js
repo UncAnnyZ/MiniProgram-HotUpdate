@@ -110,7 +110,7 @@ fs.readFile('src/index.js', (err, buffer) => {
         }
         html = html.replace(p[i], `\${${p1}}`)
       }
-
+      console.log(html)
       // wx:for的内容转换
       html = html.replace(/[\n\r]/g, "");
       let wxForexp = /\.map(.*?)`\)}/g;
@@ -121,6 +121,7 @@ fs.readFile('src/index.js', (err, buffer) => {
         for (j in noChange) {
 
           if (wxForhtml[i].match(noChange[j])) {
+            console.log('123456')
             wxForhtml[i] = wxForhtml[i].replaceAll('this.data.' + noChange[j], noChange[j])
             // console.log(wxForhtml[i])
           }

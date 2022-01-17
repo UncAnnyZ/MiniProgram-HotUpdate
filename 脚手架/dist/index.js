@@ -15,6 +15,11 @@ function runCode() {
     return page;
   };
   return Page({
+
+    onReady: function onReady(options) {
+      this.setdata({});
+    },
+
     parseTag: function parseTag(tag) {
       var res = {
         type1: "tag",
