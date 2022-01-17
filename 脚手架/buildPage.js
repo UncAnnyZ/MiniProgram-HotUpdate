@@ -109,16 +109,20 @@ fs.readFile('src/index.js', (err, buffer) => {
         }
         html = html.replace(p[i], `\${${p1}}`)
       }
-
+      console.log(html)
       // wx:for的内容转换
-      html = html.replace(/\n/g, "");
+      html = html.replace(/[\n\r]/g, "");
+      console.log(html)
       let wxForexp = /\.map(.*?)`\)}/g;
       let wxForhtml = html.match(wxForexp)
       let wxForhtml1 = html.match(wxForexp)
+      console.log(wxForhtml)
+
       for (i in wxForhtml) {
         for (j in noChange) {
 
           if (wxForhtml[i].match(noChange[j])) {
+            console.log('123456')
             wxForhtml[i] = wxForhtml[i].replaceAll('this.data.' + noChange[j], noChange[j])
             // console.log(wxForhtml[i])
           }
