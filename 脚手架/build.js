@@ -25,7 +25,7 @@ fs.readFile('dist/index.js', (err, buffer) => {
       } else {
         // css处理
         let css = buffer.toString()
-        css = css.replace(/\n/g, "");
+        css = css.replace(/[\n\r]/g, "");
         var regexp = /\.(.*?)(.*?){(.*?)}/g;
         allcss = css.match(regexp);
 

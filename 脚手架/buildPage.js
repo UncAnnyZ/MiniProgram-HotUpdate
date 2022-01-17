@@ -9,6 +9,7 @@ fs.readFile('src/index.js', (err, buffer) => {
     fs.readFile('src/index.wxml', (err, buffer1) => {
       let noChange = []
       let html = buffer1.toString()
+
       let y = 0;
       let tagRE = /<[a-zA-Z\\-\\!\\/](?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])*>/g;
       let tagAll = []
@@ -112,12 +113,10 @@ fs.readFile('src/index.js', (err, buffer) => {
       console.log(html)
       // wx:for的内容转换
       html = html.replace(/[\n\r]/g, "");
-      console.log(html)
       let wxForexp = /\.map(.*?)`\)}/g;
       let wxForhtml = html.match(wxForexp)
       let wxForhtml1 = html.match(wxForexp)
-      console.log(wxForhtml)
-
+      html = html.replace( /<!--(.*?)-->/g, "")
       for (i in wxForhtml) {
         for (j in noChange) {
 
@@ -142,12 +141,24 @@ fs.readFile('src/index.js', (err, buffer) => {
         `
       str += buffer.toString()
       str = str.replace(/setData/g, "setdata");
+
+      let onload = /onReady:(.*)function(.*)\((.*?)\)(.*){/
+        let onloadJS = str.match(onload)
+        if(onloadJS){
+          str = str.replace(onloadJS[0], onloadJS[0] + ' this.setdata({})')
+        }
+        
       str = str.replace('Page({', `  
       
       var Page = function(page){
         return page
       }
     return Page({
+      ${onloadJS ? '': `
+      onReady: function (options) {
+        this.setdata({})
+      },
+      `}
       parseTag(tag) {
         let res = {
             type1: "tag",
