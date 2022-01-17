@@ -1,719 +1,793 @@
 /******/ (function() { // webpackBootstrap
 /******/ 	"use strict";
-/******/ 	var __webpack_modules__ = ({
-
-/***/ "./src/utils/chart.js":
-/*!****************************!*\
-  !*** ./src/utils/chart.js ***!
-  \****************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+var __webpack_exports__ = {};
+/*!***********************!*\\
+  !*** ./dist/index.js ***!
+  \\***********************/
 
 
+function runCode() {
+  //index.js
+  //获取应用实例
 
-module.exports = {
-  draw: init,
-  saveCanvans: saveCanvans
-};
 
-var util = __webpack_require__(/*! ./chartUtils */ "./src/utils/chartUtils.js");
-var canvasId = '';
-var pageObj = null;
-var chartOpt = {
-  chartPieCount: 0,
-  hideXYaxis: false,
-  axisMark: [],
-  barLength: 0,
-  barNum: 0,
-  // bgColor: "transparent",
-  lineColor: "#c2c2c2",
-  bgColor: "#ffffff",
-  chartWidth: 0,
-  chartHeight: 0,
-  legendWidth: 0,
-  legendHeight: 0,
-  chartSpace: 10,
-  textSpace: 5,
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  axisLeft: 0,
-  axisBottom: 0,
-  axisTop: 0
-};
-var dataSet = {
-  hideYaxis: false,
-  title: {
-    color: "#394655",
-    size: 16,
-    text: ""
-  },
-  legend: {
-    color: "",
-    size: 12
-  },
-  color: ['#74DAE5', '#394655', '#FEE746', '#B9A39B', '#C18734', '#9EC3AD', '#6D9BA3', '#7E9C82', '#DAEE59', '#CFDCED'],
-  xAxis: {
-    color: "#666A73",
-    size: 10,
-    data: []
-  },
-  series: [{
-    name: "",
-    category: "bar",
-    data: []
-  }, {
-    name: "",
-    category: "line",
-    data: []
-  }]
-};
-
-function init(page, canvas, data) {
-  canvasId = canvas;
-  pageObj = page;
-  checkData(data);
-
-  var ctx = initCanvas(page, canvasId);
-  drawChart(ctx);
-}
-/**
- * 初始化Canvas
- */
-function initCanvas(page, canvasId) {
-  var ctx = wx.createCanvasContext(canvasId);
-  var Sys = wx.getSystemInfoSync();
-
-  chartOpt.chartWidth = Sys.windowWidth;
-  chartOpt.chartHeight = Sys.windowWidth * 0.8; //Canvas组件的宽高比
-
-  chartOpt.legendWidth = dataSet.legend.size * 1.3;
-  chartOpt.legendHeight = dataSet.legend.size * 0.8;
-
-  chartOpt.top = chartOpt.left = chartOpt.chartSpace;
-  chartOpt.right = chartOpt.chartWidth - chartOpt.chartSpace;
-  chartOpt.bottom = chartOpt.chartHeight - chartOpt.chartSpace;
-
-  //3个数字的文字长度
-  var textWidth = util.mesureText('100', dataSet.xAxis.size);
-  var legendHeight = dataSet.series.length > 1 ? chartOpt.legendHeight + chartOpt.chartSpace * 2 : 0;
-
-  chartOpt.axisLeft = chartOpt.left + (dataSet.hideYaxis ? 0 : textWidth + chartOpt.textSpace);
-  chartOpt.axisBottom = chartOpt.bottom - dataSet.xAxis.size - chartOpt.textSpace - legendHeight;
-  chartOpt.axisTop = chartOpt.top + dataSet.title.size + chartOpt.textSpace + dataSet.xAxis.size * 2;
-
-  //更新页面Canvas的宽度、高度
-
-  page.data.chartWidth = chartOpt.chartWidth;
-  page.data.chartHeight = chartOpt.chartHeight;
-
-  return ctx;
-}
-/**
- * 检查并更新图表数据
- */
-function checkData(data) {
-
-  if (data.title != undefined) {
-    if (data.title.color != undefined && data.title.color != '') {
-      dataSet.title.color = data.title.color;
-    }
-    dataSet.title.text = data.title.text;
-  }
-  if (!data.color) {
-    data.color = [];
-  }
-  if (data.color != undefined && data.color != [] && data.color.length > 0) {
-    dataSet.color = data.color;
-  }
-  dataSet.xAxis.data = data.xAxis.data;
-
-  dataSet.series = data.series;
-
-  var value = new Array();
-  for (var i = 0; i < dataSet.series.length; i++) {
-    var item = dataSet.series[i];
-    var itemLenght = item.data.length;
-    if (itemLenght > chartOpt.barLength) {
-      chartOpt.barLength = itemLenght;
-    }
-    for (var k = 0; k < itemLenght; k++) {
-      value.push(item.data[k]);
-    }
-    if (item.category == 'bar') {
-      chartOpt.barNum += 1;
-    }
-    if (item.category == 'pie') {
-      chartOpt.hideXYaxis = true;
-      for (var k = 0; k < itemLenght; k++) {
-        chartOpt.chartPieCount += item.data[k];
+  var Page = function Page(page) {
+    return page;
+  };
+  return Page({
+    parseTag: function parseTag(tag) {
+      var res = {
+        type1: "tag",
+        name: "",
+        voidElement: false,
+        // attrs: {},
+        children: []
+      };
+      var tagMatch = tag.match(/<\\/?([^\\s]+?)[/\\s>]/);
+      if (tagMatch) {
+        // 标签名称为正则匹配的第2项
+        res.type1 = tagMatch[1];
+        if (tag.charAt(tag.length - 2) === "/") {
+          // 判断tag字符串倒数第二项是不是 / 设置为空标签。 例子：<img/>
+          res.voidElement = true;
+        }
       }
-    }
-  }
+      // 匹配所有的标签正则
+      var classList = tag.match(/\\s([^'"/\\s><]+?)\\s*?=\\s*?(".*?"|'.*?')/g);
 
-  var minNum = Math.min.apply(null, value);
-  var maxNum = Math.max.apply(null, value);
-  //计算Y轴刻度尺数据
-  chartOpt.axisMark = util.calculateY(minNum, maxNum, 5);
-}
-/**
- * 绘制图表
- */
-function drawChart(ctx) {
-  drawBackground(ctx);
-  drawTitle(ctx);
-  drawLegend(ctx);
-  if (!chartOpt.hideXYaxis) {
-    drawXaxis(ctx);
-    drawYaxis(ctx);
-  }
+      if (classList) {
+        var style = '';
+        for (var i = 0; i < classList.length; i++) {
+          // 去空格再以= 分隔字符串  得到['属性名称','属性值']
 
-  // drawBarChart(ctx);
-  drawCharts(ctx);
-  ctx.draw();
-}
-/**
- * 绘制图表背景
- */
-function drawBackground(ctx) {
-  if (chartOpt.bgColor != "" && chartOpt.bgColor != "transparent") {
-    ctx.setFillStyle(chartOpt.bgColor);
-    ctx.fillRect(0, 0, chartOpt.chartWidth, chartOpt.chartHeight);
-  }
-}
-/**
- * 绘制标题
- */
-function drawTitle(ctx) {
-  var title = dataSet.title;
-  if (title.text != '') {
+          var c = classList[i].split("=");
+          // c[1] = c[1].replace(/\\s*/g, "")
+          c[0] = c[0].replace(/\\s*/g, "");
+          // 循环设置属性
+          var p = c[1].substring(1, c[1].length - 1);
+          try {
+            p = JSON.parse(c[1].substring(1, c[1].length - 1));
+          } catch (e) {}
 
-    var textWidth = util.mesureText(title.text, title.size);
-    ctx.setFillStyle(title.color);
-    ctx.setFontSize(title.size);
-    ctx.setTextAlign('left');
-    ctx.fillText(title.text, (chartOpt.chartWidth - textWidth) / 2, chartOpt.top + title.size);
-  }
-}
-/**
- * 绘制X轴刻度尺
- */
-function drawXaxis(ctx) {
-  //绘制X轴横线
-  ctx.setLineWidth(0.5);
-  ctx.setLineCap('round');
-  ctx.moveTo(chartOpt.axisLeft, chartOpt.axisBottom);
-  ctx.lineTo(chartOpt.right, chartOpt.axisBottom);
-  ctx.stroke();
-
-  var width = (chartOpt.right - chartOpt.axisLeft) / chartOpt.barLength;
-  var data = dataSet.xAxis.data;
-  //绘制X轴显示文字
-  for (var i = 0; i < data.length; i++) {
-    var textX = width * (i + 1) - width / 2 + chartOpt.axisLeft;
-    ctx.setFillStyle(dataSet.xAxis.color);
-    ctx.setFontSize(dataSet.xAxis.size);
-    ctx.setTextAlign('center');
-    ctx.fillText(data[i], textX, chartOpt.axisBottom + dataSet.xAxis.size + chartOpt.textSpace);
-  }
-}
-/**
- * 绘制Y轴刻度尺
- */
-function drawYaxis(ctx) {
-
-  //绘制Y轴横线
-  ctx.setLineWidth(0.5);
-  ctx.setLineCap('round');
-
-  var height = (chartOpt.axisBottom - chartOpt.axisTop) / (chartOpt.axisMark.length - 1);
-  //绘制Y轴显示数字
-  for (var i = 0; i < chartOpt.axisMark.length; i++) {
-    var y = chartOpt.axisBottom - height * i;
-    if (i > 0) {
-      ctx.setStrokeStyle(chartOpt.lineColor);
-      util.drawDashLine(ctx, chartOpt.axisLeft, y, chartOpt.right, y);
-    }
-
-    if (!dataSet.hideYaxis) {
-      ctx.setFillStyle(dataSet.xAxis.color);
-      ctx.setFontSize(dataSet.xAxis.size);
-      ctx.setTextAlign('right');
-      ctx.fillText(chartOpt.axisMark[i], chartOpt.axisLeft - chartOpt.textSpace, y + chartOpt.textSpace);
-    }
-  }
-}
-
-/**
- * 绘制图例
- */
-function drawLegend(ctx) {
-  var series = dataSet.series;
-
-  for (var i = 0; i < series.length; i++) {
-    var names = series[i].name;
-    var isPie = series[i].category == 'pie';
-    var textWidth = util.mesureText(isPie ? names[0] : names, dataSet.xAxis.size);
-    var legendWidth = chartOpt.legendWidth + textWidth + chartOpt.chartSpace * 2;
-    var startX = chartOpt.chartWidth / 2 - legendWidth * (isPie ? names.length : series.length) / 2;
-
-    if (series[i].category == 'pie') {
-      for (var k = 0; k < names.length; k++) {
-        var x = startX + legendWidth * k;
-        var y = chartOpt.bottom - chartOpt.legendHeight;
-
-        ctx.setFillStyle(dataSet.xAxis.color);
-        ctx.setFontSize(dataSet.legend.size);
-        ctx.setTextAlign('left');
-        ctx.fillText(names[k], x + chartOpt.textSpace + chartOpt.legendWidth, chartOpt.bottom);
-
-        var color = getColor(k);
-        ctx.setFillStyle(color);
-        ctx.fillRect(x, y + 1, chartOpt.legendWidth, chartOpt.legendHeight);
+          if (c[1]) {
+            if (c[0] === 'style') {
+              style += p;
+              res[c[0]] = style;
+            } else {
+              res[c[0]] = p;
+            }
+          };
+        }
       }
-    } else {
+      return res;
+    },
+    parse: function parse(html) {
+      var that = this;
+      var result = [];
+      var current = void 0;
+      var level = -1;
+      var arr = [];
+      var tagRE = /<[a-zA-Z\\-\\!\\/](?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])*>/g;
+      html.replace(tagRE, function (tag, index) {
+        // 判断第二个字符是不是'/'来判断是否open
+        var isOpen = tag.charAt(1) !== "/";
+        // 获取标签末尾的索引
+        var start = index + tag.length;
+        // 标签之前的文本信息
+        var text = html.slice(start, html.indexOf("<", start));
 
-      var x = startX + legendWidth * i + chartOpt.legendWidth * i;
-      var y = chartOpt.bottom - chartOpt.legendHeight;
-
-      ctx.setFillStyle(dataSet.xAxis.color);
-      ctx.setFontSize(dataSet.legend.size);
-      ctx.setTextAlign('left');
-      ctx.fillText(series[i].name, x + chartOpt.chartSpace + chartOpt.legendWidth, chartOpt.bottom);
-
-      var color = getColor(i);
-      ctx.setFillStyle(color);
-      ctx.setLineWidth(2);
-      ctx.setStrokeStyle(color);
-      if (series[i].category == 'bar') {
-        ctx.fillRect(x, y + 1, chartOpt.legendWidth, chartOpt.legendHeight);
-      } else if (series[i].category == 'line') {
-        var lx = x + chartOpt.legendWidth / 2;
-        var ly = y + chartOpt.legendHeight / 2 + 1;
-        ctx.beginPath();
-        ctx.moveTo(x, ly);
-        ctx.lineTo(x + chartOpt.legendWidth, ly);
-        ctx.stroke();
-        ctx.closePath();
-        drawPoint(ctx, lx, ly, chartOpt.legendHeight / 2, color);
-        drawPoint(ctx, lx, ly, chartOpt.legendHeight / 4, chartOpt.bgColor);
-      }
-    }
-  }
-}
-/**
- * 绘制数据标签
- */
-function drawToolTips(ctx, text, x, y, color) {
-  ctx.setFillStyle(color);
-  ctx.setFontSize(dataSet.xAxis.size);
-  ctx.setTextAlign('center');
-  ctx.fillText(text, x, y);
-}
-/**
- * 画图
- */
-function drawCharts(ctx) {
-  var series = dataSet.series;
-  for (var i = 0; i < series.length; i++) {
-    var category = series[i].category;
-    var barWidth = (chartOpt.right - chartOpt.axisLeft) / chartOpt.barLength;
-    var barHeight = chartOpt.axisBottom - chartOpt.axisTop;
-    var maxMark = chartOpt.axisMark[chartOpt.axisMark.length - 1];
-
-    if (category == "bar") {
-      barWidth = barWidth - chartOpt.chartSpace;
-      drawBarChart(ctx, i, series, barWidth, barHeight, maxMark);
-    } else if (category == "line") {
-      drawLineChart(ctx, i, series, barWidth, barHeight, maxMark);
-    } else if (category == 'pie') {
-      drawPieChart(ctx, i, series);
-    }
-  }
-}
-/**
- * 绘制柱状图
- */
-function drawBarChart(ctx, i, series, barWidth, barHeight, maxMark) {
-  var item = series[i];
-  var itemWidth = barWidth / chartOpt.barNum;
-
-  for (var k = 0; k < item.data.length; k++) {
-    var itemHeight = barHeight * (item.data[k] / maxMark);
-    var x = barWidth * k + chartOpt.axisLeft + k * chartOpt.chartSpace + chartOpt.chartSpace / 2 + i * itemWidth;
-    var y = chartOpt.axisBottom - itemHeight;
-    var color = getColor(series.length <= 1 ? k : i);
-    ctx.setFillStyle(color);
-    ctx.fillRect(x, y, itemWidth, itemHeight);
-
-    drawToolTips(ctx, item.data[k], x + itemWidth / 2, y - chartOpt.textSpace, color);
-  }
-}
-/**
- * 绘制折线图
- */
-function drawLineChart(ctx, i, series, barWidth, barHeight, maxMark) {
-  var item = series[i];
-  var color = getColor(i);
-  ctx.setLineWidth(2);
-  ctx.setStrokeStyle(color);
-  ctx.beginPath();
-  for (var k = 0; k < item.data.length; k++) {
-    var point = getLinePoint(k, item, barWidth, barHeight, maxMark);
-    if (k == 0) {
-      ctx.moveTo(point.x, point.y);
-    } else {
-      ctx.lineTo(point.x, point.y);
-    }
-  }
-  ctx.stroke();
-  ctx.closePath();
-  for (var k = 0; k < item.data.length; k++) {
-    var point = getLinePoint(k, item, barWidth, barHeight, maxMark);
-    drawPoint(ctx, point.x, point.y, 3, color);
-    drawPoint(ctx, point.x, point.y, 1, chartOpt.bgColor);
-    drawToolTips(ctx, item.data[k], point.x, point.y - chartOpt.chartSpace, color);
-  }
-}
-function getLinePoint(k, item, barWidth, barHeight, maxMark) {
-  var x = barWidth * k + chartOpt.axisLeft + barWidth / 2;
-  var y = chartOpt.axisBottom - barHeight * (item.data[k] / maxMark);
-  return { x: x, y: y };
-}
-function drawPoint(ctx, x, y, radius, color) {
-  ctx.setFillStyle(color);
-  ctx.beginPath();
-  ctx.arc(x, y, radius, 0, 2 * Math.PI);
-  ctx.fill();
-  ctx.closePath();
-}
-/**
- * 绘制饼图
- */
-function drawPieChart(ctx, i, series) {
-  var item = series[i];
-
-  var x = (chartOpt.right - chartOpt.left) / 2 + chartOpt.left;
-  var radius = (chartOpt.axisBottom - chartOpt.axisTop) / 3;
-  var y = (chartOpt.axisBottom - chartOpt.axisTop) / 2 + chartOpt.axisTop;
-
-  var lastAngel = 0;
-  for (var k = 0; k < item.data.length; k++) {
-    var color = getColor(k);
-    var curAngel = 2 / chartOpt.chartPieCount * item.data[k];
-    var precent = 100 / chartOpt.chartPieCount * item.data[k];
-
-    drawPieToolTips(ctx, item.data[k] + "(" + Math.round(precent) + "%)", color, x, y, radius, lastAngel, curAngel);
-
-    ctx.setFillStyle(color);
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.arc(x, y, radius, (lastAngel - 0.5) * Math.PI, (lastAngel + curAngel - 0.5) * Math.PI);
-    ctx.fill();
-    ctx.closePath();
-    lastAngel += curAngel;
-  }
-}
-/**
- * 绘制饼图数据标签
- */
-function drawPieToolTips(ctx, value, color, x, y, radius, lastAngel, curAngel) {
-  var textWidth = util.mesureText(value, dataSet.xAxis.size);
-  var cosc = Math.cos((lastAngel - 0.5 + curAngel / 2) * Math.PI);
-  var sinc = Math.sin((lastAngel - 0.5 + curAngel / 2) * Math.PI);
-  var x1 = radius * cosc + x;
-  var y1 = radius * sinc + y;
-
-  var x2 = (radius + 20) * cosc + x;
-  var y2 = (radius + 20) * sinc + y;
-
-  ctx.setFillStyle(color);
-  ctx.setTextAlign(x2 < x1 ? 'right' : 'left');
-  ctx.setFontSize(dataSet.xAxis.size);
-  ctx.setStrokeStyle(color);
-  ctx.setLineWidth(1);
-  ctx.beginPath();
-  ctx.moveTo(x1, y1);
-  if (x1 >= x && y1 < y) {
-    ctx.quadraticCurveTo(x2, y2, x2 + 15, y2);
-    ctx.fillText(value, x2 + 15 + chartOpt.textSpace, y2 + dataSet.xAxis.size / 2);
-  } else if (x1 >= x && y1 >= y) {
-    ctx.quadraticCurveTo(x2, y2, x2 + 15, y2);
-    ctx.fillText(value, x2 + 15 + chartOpt.textSpace, y2 + dataSet.xAxis.size / 2);
-  } else if (x1 < x && y1 >= y) {
-    ctx.quadraticCurveTo(x2, y2, x2 - 15, y2);
-    ctx.fillText(value, x2 - 15 - chartOpt.textSpace, y2 + dataSet.xAxis.size / 2);
-  } else if (x1 < x && y1 < y) {
-    ctx.quadraticCurveTo(x2, y2, x2 - 15, y2);
-    ctx.fillText(value, x2 - 15 - chartOpt.textSpace, y2 + dataSet.xAxis.size / 2);
-  }
-  ctx.stroke();
-  ctx.closePath();
-}
-/**
- * 获取柱状图颜色值，循环渲染
- */
-function getColor(index) {
-  var cLength = dataSet.color.length;
-  if (index >= cLength) {
-    return dataSet.color[index % cLength];
-  } else {
-    return dataSet.color[index];
-  }
-}
-/**
- * 保存图表为图片
- */
-function saveCanvans(func) {
-  wx.canvasToTempFilePath({
-    canvasId: canvasId,
-    success: function success(res) {
-      console.log(res.tempFilePath);
-      // wx.previewImage({
-      //   urls: [res.tempFilePath],
-      // })
-      wx.saveImageToPhotosAlbum({
-        filePath: res.tempFilePath,
-        success: function success(ress) {
-          console.log(ress);
+        var parent = void 0;
+        if (isOpen) {
+          level++;
+          // 设置标签属性
+          current = that.parseTag(tag);
+          // 判断是否为文本信息，是就push一个text children  不等于'  '
+          if (!current.voidElement && text.trim()) {
+            current["text"] = text;
+          }
+          // 如果我们是根用户，则推送新的基本节点
+          if (level === 0) {
+            result.push(current);
+          }
+          // 判断有没有上层，有就push当前标签
+          parent = arr[level - 1];
+          if (parent) {
+            parent.children.push(current);
+          }
+          // console.log(current)
+          arr[level] = current;
+        }
+        // 如果不是开标签，或者是空元素：</div><img>
+        if (!isOpen || current.voidElement) {
+          // level--
+          level--;
         }
       });
+      // console.log(result)
+      return result;
+    },
+
+    setdata: function setdata(dictData) {
+      var _this = this;
+
+      this.setData(dictData);
+      var html = "<view style='  border-top: 1rpx solid rgb(200, 200, 200);'><view style='  display: flex;  flex-direction: row;  justify-content: space-between;  align-items: center;  padding: 35rpx 30rpx;'>  <view style='  font-size: 50rpx;  /* color: rgb(200, 40, 40);   */  /* 0-50 */  /* color: rgb(250, 246, 40);  */  /* 50-60*/  /* color: rgb(40, 250, 40);   */'>    <label>\\u603B\\u5206\\uFF1A</label>    <text      style='color:rgb(" + (this.data.total < 50 ? 200 + this.data.total : 250 - 21 * (this.data.total - 50)) + "," + (this.data.total < 50 ? this.data.total * 4 + 40 : 240 + this.data.total) + ",40)'>" + this.data.total + "</text>  </view>  <view style='  display: flex;  flex-direction: row;  justify-content: center;  align-items: center;'>    <label>\\u5973</label>    <switch type='switch' bindchange='Setsex' checked='true'></switch>    <label>\\u7537</label>   </view></view><view style='  display: flex;  justify-content: space-evenly;  padding: 20rpx;  background-color: whitesmoke;  border-top: 1rpx solid rgb(200, 200, 200);'>  <button id='1' style='"+(this.data.grade==1?"  background-color: rgb(60, 200, 60);  color: white;":"  background-color: white;")+"' bindtap='gradeClick'>\\u5927\\u4E00</button>  <button id='2' style='"+(this.data.grade==2?"  background-color: rgb(60, 200, 60);  color: white;":"  background-color: white;")+"' bindtap='gradeClick'>\\u5927\\u4E8C</button>  <button id='3' style='"+(this.data.grade==3?"  background-color: rgb(60, 200, 60);  color: white;":"  background-color: white;")+"' bindtap='gradeClick'>\\u5927\\u4E09</button>  <button id='4' style='"+(this.data.grade==4?"  background-color: rgb(60, 200, 60);  color: white;":"  background-color: white;")+"' bindtap='gradeClick'>\\u5927\\u56DB</button></view>" + this.data.block.map(function (item, index) {
+        return " <view wx:for='" + _this.data.block + "' wx:key='index'>  <view style='  display: flex;  flex-direction: row;  justify-content: space-between;  align-items: center;  padding: 35rpx 30rpx;  border-top: 1rpx solid rgb(200, 200, 200);'>    <label style='    width: 30%;' bindtap='tips' id='" + item.score + "' data-power='" + item.power + "'      data-label='" + item.label + "'>" + item.label + "\\uFF1A</label>    <view style='  display: flex;  flex-direction: row;  justify-content: center;  align-items: center;  width: 45%;'>      <input value='" + _this.data[item.input] + "' style='  color: rgb(100, 100, 100);  height: 50rpx;  width: 35%;  border-bottom: 1rpx solid rgb(200, 200, 200);  text-align: center;' bindinput='" + item.input + "' type='digit'></input>      <text style='  color: gray;  font-size: 14px;  padding-left: 10rpx;  width: 15%;  text-align: center;'>" + item.unit + "</text>    </view>    <view style='  width: 25%;  height: 100%;  font-size: 15px;  text-align: end;  color: rgb(0, 200, 0);'>      <text hidden='" + !(_this.data.score[item.score] != "" && _this.data.score[item.score] != 0) + "'>" + (_this.data.score[item.score] + " 分") + "</text>    </view>  </view></view>";
+      }) + "<view style='  display: flex;  flex-direction: row;  justify-content: space-between;  align-items: center;  padding: 35rpx 30rpx;  border-top: 1rpx solid rgb(200, 200, 200);' id='longrun'>  <label style='    width: 30%;' bindtap='tips' id='longrun' data-power='0.2'    data-label='" + (this.data.sex ? "1000m" : "800m") + "'>" + (this.data.sex ? "1000m" : "800m") + "\\uFF1A</label>  <view style='  display: flex;  flex-direction: row;  justify-content: center;  align-items: center;  width: 45%;'>    <input style='  color: rgb(100, 100, 100);  height: 50rpx;  width: 35%;  border-bottom: 1rpx solid rgb(200, 200, 200);  text-align: center;' style='width:25%;' placeholder='\\u5206' bindinput='min' type='number'></input>    <text  style='  color: gray;  font-size: 14px;  padding-left: 10rpx;  width: 15%;  text-align: center;' style='width:10%;'>'</text>    <input style='width:25%;' placeholder=' \\u79D2' bindinput='second' type='number'></input>    <text style='  color: gray;  font-size: 14px;  padding-left: 10rpx;  width: 15%;  text-align: center;' style='width:10%;'>'</text>  </view>  <view style='  width: 25%;  height: 100%;  font-size: 15px;  text-align: end;  color: rgb(0, 200, 0);'>    <text hidden='" + !(this.data.score.longrun != "" && this.data.score.longrun != 0) + "'>" + (this.data.score.longrun + " 分") + "</text>  </view></view><view style='  display: flex;  flex-direction: row;  justify-content: center;  align-items: flex-end;      border-top: 1rpx solid rgb(200, 200, 200);  height: 100rpx;'>  <navigator style='  font-size: 300;  border: rgb(216, 216, 216) 1rpx solid;  border-radius: 50rpx;  padding: 10rpx 50rpx;' url='./tcdetail?sex=" + this.data.sex + "'>\\u56FD\\u5BB6\\u5B66\\u751F\\u4F53\\u8D28\\u5065\\u5EB7\\u6807\\u51C6</navigator></view></view>";
+      this.setData({ html: this.parse(html) });
+    },
+
+    data: {
+      grade: '', //年级
+      sex: true, //性别    男:true  女:false
+      tall: 0, //身高
+      weight: 0, //体重
+      volume: 0, //肺活量
+      jump: 0, //跳远
+      handlong: 0, //坐位体前屈
+      ishandlong: false, //是否已填写
+      shortrun: 0, //50m
+      longrun: 0, //800、1000m
+      min: 0,
+      second: 0,
+      sit_up: 0, //仰卧起坐
+      pull_up: 0, //引体向上
+      score: {
+        fat: 0, //体脂
+        tall: 0, //身高
+        weight: 0, //体重
+        volume: 0, //肺活量
+        jump: 0, //跳远
+        handlong: 0, //坐位体前屈
+        shortrun: 0, //50m
+        longrun: 0, //800、1000m
+        sit_up: 0, //仰卧起坐
+        pull_up: 0 //引体向上
+      },
+      total: 0,
+      block: [{
+        label: "身高",
+        input: "tall",
+        unit: "cm",
+        score: "tall",
+        sex: 2,
+        power: 0.15
+      }, {
+        label: "体重",
+        input: "weight",
+        unit: "kg",
+        score: "fat",
+        sex: 2,
+        power: 0.15
+      }, {
+        label: "肺活量",
+        input: "volume",
+        unit: "ml",
+        score: "volume",
+        sex: 2,
+        power: 0.15
+      }, {
+        label: "立定跳远",
+        input: "jump",
+        unit: "cm",
+        score: "jump",
+        sex: 2,
+        power: 0.1
+      }, {
+        label: "坐位体前屈",
+        input: "handlong",
+        unit: "cm",
+        score: "handlong",
+        sex: 2,
+        power: 0.1
+      }, {
+        label: "引体向上",
+        input: "pull_up",
+        unit: "个",
+        score: "pull_up",
+        sex: true,
+        power: 0.1
+      }, {
+        label: "仰卧起坐",
+        input: "sit_up",
+        unit: "个",
+        score: "sit_up",
+        sex: false,
+        power: 0.1
+      }, {
+        label: "50m",
+        input: "shortrun",
+        unit: '"',
+        score: "shortrun",
+        sex: 2,
+        power: 0.2
+      }]
+    },
+
+    onLoad: function onLoad(e) {
+      var that = this;
+      wx.getSystemInfo({
+        success: function success(res) {
+          that.setdata({
+            elementStyle: 'width:' + res.windowWidth + 'px;' + 'min-height:' + res.windowHeight + 'px;'
+          });
+        }
+      });
+      wx.setStorageSync('state', "onload");
+      this.gradeClick({
+        target: { id: 1 }
+      });
+      wx.removeStorageSync('state');
+    },
+
+    tips: function tips(e) {
+      var id = e.target.id;
+      var text;
+      if (id == "tall" || id == "fat") text = "体脂权重为：" + e.target.dataset.power;else text = e.target.dataset.label + "" + "权重为：" + e.target.dataset.power;
+
+      wx.showToast({
+        title: text,
+        icon: "none",
+        duration: 2000
+      });
+    },
+
+
+    /* 性别 */
+    Setsex: function Setsex(e) {
+      if (e.detail.value) {
+        this.setdata({
+          sex: e.detail.value, //男：true 女：false
+          min: 0,
+          second: 0,
+          longrun: 0,
+          "score.longrun": 0,
+          sit_up: 0
+
+        });
+      }
+      if (!e.detail.value) {
+        this.setdata({
+          sex: e.detail.value, //男：true 女：false
+          min: 0,
+          second: 0,
+          longrun: 0,
+          "score.longrun": 0,
+          pull_up: 0
+        });
+      }
+      this.update();
+    },
+
+    /* 年级 */
+    gradeClick: function gradeClick(e) {
+      this.setdata({
+        grade: e.target.id
+      });
+      this.update();
+    },
+
+    /* 体脂 */
+    tall: function tall(e) {
+      if (e != undefined) this.setdata({
+        tall: Number(e.detail.value)
+      });
+      var fat;
+      if (this.data.tall != 0 && this.data.tall != "" && this.data.weight != 0 && this.data.weight != "") {
+        fat = this.data.weight / (this.data.tall * this.data.tall / 10000);
+        if (this.data.sex == true) //男生
+          {
+            if (fat >= 27.95) this.setdata({
+              'score.fat': 60
+            });
+            if (23.95 <= fat < 27.95) this.setdata({
+              'score.fat': 80
+            });
+            if (17.75 <= fat < 23.95) this.setdata({
+              'score.fat': 100
+            });
+            if (fat < 17.75) this.setdata({
+              'score.fat': 80
+            });
+          }
+        if (this.data.sex == false) //女生
+          {
+            if (fat >= 27.95) this.setdata({
+              'score.fat': 60
+            });
+            if (23.95 <= fat < 27.95) this.setdata({
+              'score.fat': 80
+            });
+            if (17.15 <= fat < 23.95) this.setdata({
+              'score.fat': 100
+            });
+            if (fat < 17.15) this.setdata({
+              'score.fat': 80
+            });
+          }
+        this.calculate();
+      } else {
+        this.setdata({
+          'score.fat': 0
+        });
+        this.calculate();
+      }
+    },
+    weight: function weight(e) {
+      if (e != undefined) this.setdata({
+        weight: Number(e.detail.value)
+      });
+      var fat;
+      if (this.data.tall != 0 && this.data.tall != "" && this.data.weight != 0 && this.data.weight != "") {
+        fat = this.data.weight / (this.data.tall * this.data.tall / 10000);
+        if (this.data.sex == true) //男生
+          {
+            if (fat >= 27.95) this.setdata({
+              'score.fat': 60
+            });else if (fat >= 23.95) this.setdata({
+              'score.fat': 80
+            });else if (fat >= 17.75) this.setdata({
+              'score.fat': 100
+            });else if (fat < 17.75) this.setdata({
+              'score.fat': 80
+            });
+          }
+        if (this.data.sex == false) //女生
+          {
+            if (fat >= 27.95) this.setdata({
+              'score.fat': 60
+            });else if (fat >= 23.95) this.setdata({
+              'score.fat': 80
+            });else if (fat >= 17.15) this.setdata({
+              'score.fat': 100
+            });else if (fat < 17.15) this.setdata({
+              'score.fat': 80
+            });
+          }
+        this.calculate();
+      } else {
+        this.setdata({
+          'score.fat': 0
+        });
+        this.calculate();
+      }
+    },
+
+    /* 肺活量 */
+    volume: function volume(e) {
+      if (e != undefined) this.setdata({
+        volume: Number(e.detail.value)
+      });
+      var volume;
+
+      if (this.data.sex == true) {
+        //男生
+        if (this.data.grade == 1 || this.data.grade == 2) {
+          //大一、大二
+          if (this.data.volume >= 4300) {
+            if (this.data.volume >= 5040) volume = 100;else if (this.data.volume >= 4800) volume = Math.floor((this.data.volume - 4800) / 120) * 5 + 90;else {
+              volume = Math.floor((this.data.volume - 4300) / 250) * 5 + 80;
+            }
+          } else if (this.data.volume >= 3100) {
+            volume = Math.floor((this.data.volume - 3100) / 120) * 2 + 60;
+          } else if (this.data.volume >= 2300) {
+            volume = Math.floor((this.data.volume - 2300) / 160) * 10 + 10;
+          } else volume = 0;
+        }
+        if (this.data.grade == 3 || this.data.grade == 4) {
+          //大三、大四
+          if (this.data.volume >= 4400) {
+            if (this.data.volume >= 5140) volume = 100;else if (this.data.volume >= 4900) volume = Math.floor((this.data.volume - 4900) / 120) * 5 + 90;else {
+              volume = Math.floor((this.data.volume - 4400) / 250) * 5 + 80;
+            }
+          } else if (this.data.volume >= 3200) {
+            volume = Math.floor((this.data.volume - 3200) / 120) * 2 + 60;
+          } else if (this.data.volume >= 2350) {
+            volume = Math.floor((this.data.volume - 2350) / 170) * 10 + 10;
+          } else volume = 0;
+        }
+      }
+      if (this.data.sex == false) {
+        //女生
+        if (this.data.grade == 1 || this.data.grade == 2) {
+          if (this.data.volume >= 3000) {
+            if (this.data.volume >= 3400) volume = 100;else if (this.data.volume >= 3300) volume = Math.floor((this.data.volume - 3300) / 50) * 5 + 90;else {
+              volume = Math.floor((this.data.volume - 3000) / 150) * 5 + 80;
+            }
+          } else if (this.data.volume >= 2000) {
+            volume = Math.floor((this.data.volume - 2000) / 100) * 2 + 60;
+          } else if (this.data.volume >= 1800) {
+            volume = Math.floor((this.data.volume - 1800) / 40) * 10 + 10;
+          } else volume = 0;
+        }
+        if (this.data.grade == 3 || this.data.grade == 4) {
+          if (this.data.volume >= 3050) {
+            if (this.data.volume >= 3450) volume = 100;else if (this.data.volume >= 3350) volume = Math.floor((this.data.volume - 3350) / 50) * 5 + 90;else {
+              volume = Math.floor((this.data.volume - 3050) / 150) * 5 + 80;
+            }
+          } else if (this.data.volume >= 2050) {
+            volume = Math.floor((this.data.volume - 2050) / 100) * 2 + 60;
+          } else if (this.data.volume >= 1800) {
+            volume = Math.floor((this.data.volume - 1850) / 40) * 10 + 10;
+          } else volume = 0;
+        }
+      }
+      this.setdata({
+        'score.volume': volume
+      });
+      this.calculate();
+    },
+    /* 跳远 */
+    jump: function jump(e) {
+      if (e != undefined) this.setdata({
+        jump: Number(e.detail.value)
+      });
+      var jump;
+
+      if (this.data.sex == true) {
+        //男生
+        if (this.data.grade == 1 || this.data.grade == 2) {
+          //大一、大二
+          if (this.data.jump >= 248) {
+            if (this.data.jump >= 273) jump = 100;else if (this.data.jump >= 268) jump = 95;else if (this.data.jump >= 263) jump = 90;else if (this.data.jump >= 256) jump = 85;else if (this.data.jump >= 248) jump = 80;
+          } else if (this.data.jump >= 208) {
+            jump = Math.floor((this.data.jump - 208) / 4) * 2 + 60;
+          } else if (this.data.jump >= 183) {
+            jump = Math.floor((this.data.jump - 183) / 5) * 10 + 10;
+          } else jump = 0;
+        }
+        if (this.data.grade == 3 || this.data.grade == 4) {
+          //大三、大四
+          if (this.data.jump >= 250) {
+            if (this.data.jump >= 275) jump = 100;else if (this.data.jump >= 270) jump = 95;else if (this.data.jump >= 265) jump = 90;else if (this.data.jump >= 258) jump = 85;else if (this.data.jump >= 250) jump = 80;
+          } else if (this.data.jump >= 210) {
+            jump = Math.floor((this.data.jump - 210) / 4) * 2 + 60;
+          } else if (this.data.jump >= 185) {
+            jump = Math.floor((this.data.jump - 185) / 5) * 10 + 10;
+          } else jump = 0;
+        }
+      }
+      if (this.data.sex == false) {
+        //女生
+        if (this.data.grade == 1 || this.data.grade == 2) {
+          //大一、大二
+          if (this.data.jump >= 181) {
+            if (this.data.jump >= 207) jump = 100;else if (this.data.jump >= 201) jump = 95;else if (this.data.jump >= 195) jump = 90;else if (this.data.jump >= 188) jump = 85;else if (this.data.jump >= 181) jump = 80;
+          } else if (this.data.jump >= 151) {
+            jump = Math.floor((this.data.jump - 151) / 3) * 2 + 60;
+          } else if (this.data.jump >= 126) {
+            jump = Math.floor((this.data.jump - 126) / 5) * 10 + 10;
+          } else jump = 0;
+        }
+        if (this.data.grade == 3 || this.data.grade == 4) {
+          //大三、大四
+          if (this.data.jump >= 182) {
+            if (this.data.jump >= 208) jump = 100;else if (this.data.jump >= 202) jump = 95;else if (this.data.jump >= 196) jump = 90;else if (this.data.jump >= 189) jump = 85;else if (this.data.jump >= 182) jump = 80;
+          } else if (this.data.jump >= 152) {
+            jump = Math.floor((this.data.jump - 152) / 3) * 2 + 60;
+          } else if (this.data.jump >= 127) {
+            jump = Math.floor((this.data.jump - 127) / 5) * 10 + 10;
+          } else jump = 0;
+        }
+      }
+      this.setdata({
+        'score.jump': jump
+      });
+      this.calculate();
+    },
+    /* 体前屈 */
+    handlong: function handlong(e) {
+      if (e != "update") {
+        this.setdata({
+          ishandlong: true,
+          handlong: Number(e.detail.value)
+        });
+        if (e.detail.value == "") {
+          this.setdata({
+            ishandlong: false
+          });
+        }
+      }
+
+      var handlong;
+
+      if (this.data.sex == true) {
+        //男生
+        if (this.data.grade == 1 || this.data.grade == 2) {
+          //大一、大二
+          if (this.data.handlong >= 17.7) {
+            if (this.data.handlong >= 24.9) handlong = 100;else if (this.data.handlong >= 17.7) handlong = Math.floor((this.data.handlong - 17.7) / 1.8) * 5 + 80;
+          } else if (this.data.handlong >= 3.7) {
+            handlong = Math.floor((this.data.handlong - 3.7) / 1.4) * 2 + 60;
+          } else if (this.data.handlong >= -1.3) {
+            handlong = Math.floor((this.data.handlong + 1.3) / 1) * 10 + 10;
+          } else handlong = 0;
+        }
+        if (this.data.grade == 3 || this.data.grade == 4) {
+          //大三、大四
+          if (this.data.handlong >= 18.2) {
+            if (this.data.handlong >= 25.1) handlong = 100;else if (this.data.handlong >= 21.5) handlong = Math.floor((this.data.handlong - 21.5) / 1.8) * 5 + 90;else if (this.data.handlong >= 18.2) handlong = Math.floor((this.data.handlong - 18.2) / 1.7) * 5 + 80;
+          } else if (this.data.handlong >= 4.2) {
+            handlong = Math.floor((this.data.handlong - 4.2) / 1.4) * 2 + 60;
+          } else if (this.data.handlong >= -0.8) {
+            handlong = Math.floor((this.data.handlong + 0.8) / 1) * 10 + 10;
+          } else handlong = 0;
+        }
+      }
+      if (this.data.sex == false) {
+        //女生
+        if (this.data.grade == 1 || this.data.grade == 2) {
+          //大一、大二
+          if (this.data.handlong >= 19) {
+            if (this.data.handlong >= 25.8) handlong = 100;else if (this.data.handlong >= 22.2) handlong = Math.floor((this.data.handlong - 22.2) / 1.8) * 5 + 90;else if (this.data.handlong >= 19) handlong = Math.floor((this.data.handlong - 19) / 1.6) * 5 + 80;
+          } else if (this.data.handlong >= 6) {
+            handlong = Math.floor((this.data.handlong - 6) / 1.3) * 2 + 60;
+          } else if (this.data.handlong >= 2) {
+            handlong = Math.floor((this.data.handlong - 2) / 0.8) * 10 + 10;
+          } else handlong = 0;
+        }
+        if (this.data.grade == 3 || this.data.grade == 4) {
+          //大三、大四
+          if (this.data.handlong >= 19.5) {
+            if (this.data.handlong >= 26.3) handlong = 100;else if (this.data.handlong >= 24.4) handlong = 95;else if (this.data.handlong >= 22.4) handlong = 90;else if (this.data.handlong >= 21.0) handlong = 85;else if (this.data.handlong >= 19.5) handlong = 80;
+          } else if (this.data.handlong >= 6.5) {
+            handlong = Math.floor((this.data.handlong - 6.5) / 1.3) * 2 + 60;
+          } else if (this.data.handlong >= 2.5) {
+            handlong = Math.floor((this.data.handlong - 2.5) / 0.8) * 10 + 10;
+          } else handlong = 0;
+        }
+      }
+
+      if (!this.data.ishandlong) handlong = 0;
+
+      this.setdata({
+        'score.handlong': handlong
+      });
+      this.calculate();
+    },
+    /* 仰卧起坐 */
+    sit_up: function sit_up(e) {
+      if (e != undefined) this.setdata({
+        sit_up: Number(e.detail.value)
+      });
+      var sit_up;
+
+      if (this.data.grade == 1 || this.data.grade == 2) {
+        //大一、大二
+        if (this.data.sit_up >= 46) {
+          if (this.data.sit_up >= 56) sit_up = 100;else if (this.data.sit_up >= 52) sit_up = Math.floor((this.data.sit_up - 52) / 2) * 5 + 90;else if (this.data.sit_up >= 46) sit_up = Math.floor((this.data.sit_up - 46) / 3) * 5 + 80;
+        } else if (this.data.sit_up >= 26) {
+          sit_up = Math.floor((this.data.sit_up - 26) / 2) * 2 + 60;
+        } else if (this.data.sit_up >= 16) {
+          sit_up = Math.floor((this.data.sit_up - 16) / 2) * 10 + 10;
+        } else sit_up = 0;
+      }
+      if (this.data.grade == 3 || this.data.grade == 4) {
+        //大三、大四
+        if (this.data.sit_up >= 47) {
+          if (this.data.sit_up >= 57) sit_up = 100;else if (this.data.sit_up >= 53) sit_up = Math.floor((this.data.sit_up - 53) / 2) * 5 + 90;else if (this.data.sit_up >= 47) sit_up = Math.floor((this.data.sit_up - 47) / 3) * 5 + 80;
+        } else if (this.data.sit_up >= 27) {
+          sit_up = Math.floor((this.data.sit_up - 27) / 2) * 2 + 60;
+        } else if (this.data.sit_up >= 17) {
+          sit_up = Math.floor((this.data.sit_up - 17) / 2) * 10 + 10;
+        } else sit_up = 0;
+      }
+      this.setdata({
+        'score.sit_up': sit_up
+      });
+      this.setdata({
+        total: (this.data.score.fat * 0.15 + this.data.score.volume * 0.15 + this.data.score.jump * 0.1 + this.data.score.handlong * 0.1 + sit_up * 0.1 + this.data.score.shortrun * 0.2 + this.data.score.longrun * 0.2).toFixed(2)
+      });
+    },
+    /* 引体向上 */
+    pull_up: function pull_up(e) {
+      if (e != undefined) this.setdata({
+        pull_up: Number(e.detail.value)
+      });
+      var pull_up;
+
+      if (this.data.grade == 1 || this.data.grade == 2) {
+        //大一、大二
+        if (this.data.pull_up >= 19) pull_up = 100;else if (this.data.pull_up >= 15) {
+          pull_up = (this.data.pull_up - 15) * 5 + 80;
+        } else if (this.data.pull_up >= 10) {
+          pull_up = (this.data.pull_up - 10) * 4 + 60;
+        } else if (this.data.pull_up >= 5) {
+          pull_up = (this.data.pull_up - 5) * 10 + 10;
+        } else pull_up = 0;
+      }
+      if (this.data.grade == 3 || this.data.grade == 4) {
+        //大三、大四
+        if (this.data.pull_up >= 20) pull_up = 100;else if (this.data.pull_up >= 16) {
+          pull_up = (this.data.pull_up - 16) * 5 + 80;
+        } else if (this.data.pull_up >= 11) {
+          pull_up = (this.data.pull_up - 11) * 4 + 60;
+        } else if (this.data.pull_up >= 6) {
+          pull_up = (this.data.pull_up - 6) * 10 + 10;
+        } else pull_up = 0;
+      }
+      this.setdata({
+        'score.pull_up': pull_up
+      });
+      this.setdata({
+        total: (this.data.score.fat * 0.15 + this.data.score.volume * 0.15 + this.data.score.jump * 0.1 + this.data.score.handlong * 0.1 + pull_up * 0.1 + this.data.score.shortrun * 0.2 + this.data.score.longrun * 0.2).toFixed(2)
+      });
+    },
+    /* 短跑50m */
+    shortrun: function shortrun(e) {
+      if (e != undefined) this.setdata({
+        shortrun: Number(e.detail.value)
+      });
+
+      var shortrun;
+
+      if (this.data.sex == true) {
+        //男生
+        if (this.data.grade == 1 || this.data.grade == 2) {
+          //大一、大二
+          if (this.data.shortrun > 10.1 || this.data.shortrun == 0) shortrun = 0;else if (this.data.shortrun >= 9.1) {
+            shortrun = 60 - Math.ceil((this.data.shortrun - 9.1) / 0.2) * 10;
+          } else if (this.data.shortrun >= 7.1) {
+            shortrun = 80 - Math.ceil((this.data.shortrun - 7.1) / 0.2) * 2;
+          } else if (this.data.shortrun >= 6.7) {
+            shortrun = 100 - Math.ceil((this.data.shortrun - 6.7) / 0.1) * 5;
+          } else shortrun = 100;
+        }
+        if (this.data.grade == 3 || this.data.grade == 4) {
+          //大三、大四
+          if (this.data.shortrun > 10) shortrun = 0;else if (this.data.shortrun >= 9) {
+            shortrun = 60 - Math.ceil((this.data.shortrun - 9) / 0.2) * 10;
+          } else if (this.data.shortrun >= 7.0) {
+            shortrun = 80 - Math.ceil((this.data.shortrun - 7) / 0.2) * 2;
+          } else if (this.data.shortrun >= 6.6) {
+            shortrun = 100 - Math.ceil((this.data.shortrun - 6.6) / 0.1) * 5;
+          } else shortrun = 100;
+        }
+      }
+      if (this.data.sex == false) {
+        //女生
+        if (this.data.grade == 1 || this.data.grade == 2) {
+          //大一、大二
+          if (this.data.shortrun > 11.3) shortrun = 0;else if (this.data.shortrun >= 10.3) {
+            shortrun = 60 - Math.ceil((this.data.shortrun - 10.3) / 0.2) * 10;
+          } else if (this.data.shortrun >= 8.3) {
+            shortrun = 80 - Math.ceil((this.data.shortrun - 8.3) / 0.2) * 2;
+          } else if (this.data.shortrun >= 7.7) {
+            shortrun = 100 - Math.ceil((this.data.shortrun - 7.7) / 0.3) * 5;
+          } else if (this.data.shortrun >= 7.5) {
+            shortrun = 100 - Math.ceil((this.data.shortrun - 7.5) / 0.1) * 5;
+          } else shortrun = 100;
+        }
+        if (this.data.grade == 3 || this.data.grade == 4) {
+          //大三、大四
+          if (this.data.shortrun > 11.2) shortrun = 0;else if (this.data.shortrun >= 10.2) {
+            shortrun = 60 - Math.ceil((this.data.shortrun - 10.2) / 0.2) * 10;
+          } else if (this.data.shortrun >= 8.2) {
+            shortrun = 80 - Math.ceil((this.data.shortrun - 8.2) / 0.2) * 2;
+          } else if (this.data.shortrun >= 7.6) {
+            shortrun = 100 - Math.ceil((this.data.shortrun - 7.6) / 0.3) * 5;
+          } else if (this.data.shortrun >= 7.4) {
+            shortrun = 100 - Math.ceil((this.data.shortrun - 7.4) / 0.1) * 5;
+          } else shortrun = 100;
+        }
+      }
+
+      if (e != undefined && e.detail.value == 0) shortrun = 0;
+
+      this.setdata({
+        'score.shortrun': shortrun
+      });
+      // if (this.data.shortrun != 0)
+      this.calculate();
+    },
+    /* 长跑800、1000 */
+    min: function min(e) {
+      if (e != undefined) this.setdata({
+        min: e.detail.value,
+        longrun: Number(e.detail.value) * 60 + Number(this.data.second)
+      });
+      this.longrun();
+    },
+    second: function second(e) {
+      if (e != undefined) this.setdata({
+        second: e.detail.value,
+        longrun: Number(this.data.min) * 60 + Number(e.detail.value)
+      });
+      this.longrun();
+    },
+    longrun: function longrun(e) {
+      var longrun;
+      if (this.data.sex == true) {
+        //男生
+        if (this.data.grade == 1 || this.data.grade == 2) {
+          //大一、大二
+          if (this.data.longrun > 372) longrun = 0;else if (this.data.longrun >= 272) {
+            longrun = 60 - Math.ceil((this.data.longrun - 272) / 20) * 10;
+          } else if (this.data.longrun >= 222) {
+            longrun = 80 - Math.ceil((this.data.longrun - 222) / 5) * 2;
+          } else if (this.data.longrun >= 207) {
+            longrun = 90 - Math.ceil((this.data.longrun - 207) / 7) * 5;
+          } else if (this.data.longrun >= 197) {
+            longrun = 100 - Math.ceil((this.data.longrun - 197) / 5) * 5;
+          } else longrun = 100;
+        }
+        if (this.data.grade == 3 || this.data.grade == 4) {
+          //大三、大四
+          if (this.data.longrun > 370) longrun = 0;else if (this.data.longrun >= 270) {
+            longrun = 60 - Math.ceil((this.data.longrun - 270) / 20) * 10;
+          } else if (this.data.longrun >= 220) {
+            longrun = 80 - Math.ceil((this.data.longrun - 220) / 5) * 2;
+          } else if (this.data.longrun >= 205) {
+            longrun = 90 - Math.ceil((this.data.longrun - 205) / 7) * 5;
+          } else if (this.data.longrun >= 195) {
+            longrun = 100 - Math.ceil((this.data.longrun - 195) / 5) * 5;
+          } else longrun = 100;
+        }
+      }
+      if (this.data.sex == false) {
+        //女生
+        if (this.data.grade == 1 || this.data.grade == 2) {
+          //大一、大二
+          if (this.data.longrun > 324) longrun = 0;else if (this.data.longrun >= 274) {
+            longrun = 60 - Math.ceil((this.data.longrun - 274) / 10) * 10;
+          } else if (this.data.longrun >= 224) {
+            longrun = 80 - Math.ceil((this.data.longrun - 224) / 5) * 2;
+          } else if (this.data.longrun >= 210) {
+            longrun = 90 - Math.ceil((this.data.longrun - 210) / 7) * 5;
+          } else if (this.data.longrun >= 198) {
+            longrun = 100 - Math.ceil((this.data.longrun - 198) / 6) * 5;
+          } else longrun = 100;
+        }
+        if (this.data.grade == 3 || this.data.grade == 4) {
+          //大三、大四
+          if (this.data.longrun > 322) longrun = 0;else if (this.data.longrun >= 272) {
+            longrun = 60 - Math.ceil((this.data.longrun - 272) / 10) * 10;
+          } else if (this.data.longrun >= 222) {
+            longrun = 80 - Math.ceil((this.data.longrun - 222) / 5) * 2;
+          } else if (this.data.longrun >= 208) {
+            longrun = 90 - Math.ceil((this.data.longrun - 208) / 7) * 5;
+          } else if (this.data.longrun >= 196) {
+            longrun = 100 - Math.ceil((this.data.longrun - 196) / 6) * 5;
+          } else longrun = 100;
+        }
+      }
+      if (this.data.longrun == 0) longrun = 0;
+
+      this.setdata({
+        'score.longrun': longrun
+      });
+      // if (this.data.longrun != 0)
+      this.calculate();
+    },
+
+    /* 计算统计 */
+    calculate: function calculate(e) {
+      if (this.data.sex == true) this.setdata({
+        total: (this.data.score.fat * 0.15 + this.data.score.volume * 0.15 + this.data.score.jump * 0.1 + this.data.score.handlong * 0.1 + this.data.score.pull_up * 0.1 + this.data.score.shortrun * 0.2 + this.data.score.longrun * 0.2).toFixed(2)
+      });
+      if (this.data.sex == false) this.setdata({
+        total: (this.data.score.fat * 0.15 + this.data.score.volume * 0.15 + this.data.score.jump * 0.1 + this.data.score.handlong * 0.1 + this.data.score.sit_up * 0.1 + this.data.score.shortrun * 0.2 + this.data.score.longrun * 0.2).toFixed(2)
+      });
+    },
+
+    /* 更新数据 */
+    update: function update(e) {
+      this.tall();
+      this.weight();
+      this.volume();
+      this.jump();
+      if (wx.getStorageSync("state") == "") this.handlong("update");
+      this.sit_up();
+      this.pull_up();
+      if (this.data.shortrun != 0) this.shortrun();
+      if (this.data.longrun != 0) this.longrun();
+
+      this.calculate();
     }
+
   });
 }
-
-/***/ }),
-
-/***/ "./src/utils/chartUtils.js":
-/*!*********************************!*\
-  !*** ./src/utils/chartUtils.js ***!
-  \*********************************/
-/***/ (function(module) {
-
-
-
-module.exports = {
-  mesureText: mesureText,
-  calculateY: calculateY,
-  drawDashLine: drawDashLine,
-  drawRoundBar: drawRoundBar
-  /**
-   * 测量文字宽度，
-   * Canvas宽度太大，微信提供的setTextAlign(center)
-   * 方法并不能准确居中显示
-   */
-};function mesureText() {
-  var text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '100';
-  var textSize = arguments[1];
-
-  var ratio = textSize / 20;
-  console.log(text, 'text');
-  var text = text.split('');
-
-  var width = 0;
-  text.forEach(function (item) {
-    if (/[a-zA-Z]/.test(item)) {
-      width += 14 * ratio;
-    } else if (/[0-9]/.test(item)) {
-      width += 11 * ratio;
-    } else if (/\\./.test(item)) {
-      width += 5.4 * ratio;
-    } else if (/-/.test(item)) {
-      width += 6.5 * ratio;
-    } else if (/[\u4e00-\u9fa5]/.test(item)) {
-      width += 20 * ratio;
-    }
-  });
-  return width;
-}
-/**
- * 计算Y轴显示刻度
- */
-function calculateY(dMin, dMax, iMaxAxisNum) {
-  if (iMaxAxisNum < 1 || dMax < dMin) return;
-
-  var dDelta = dMax - dMin;
-  if (dDelta < 1.0) {
-    dMax += (1.0 - dDelta) / 2.0;
-    dMin -= (1.0 - dDelta) / 2.0;
-  }
-  dDelta = dMax - dMin;
-
-  var iExp = parseInt(Math.log(dDelta) / Math.log(10.0)) - 2;
-  var dMultiplier = Math.pow(10, iExp);
-  var dSolutions = [1, 2, 2.5, 5, 10, 20, 25, 50, 100, 200, 250, 500];
-  var i;
-  for (i = 0; i < dSolutions.length; i++) {
-    var dMultiCal = dMultiplier * dSolutions[i];
-    if (parseInt(dDelta / dMultiCal) + 1 <= iMaxAxisNum) {
-      break;
-    }
-  }
-
-  var dInterval = dMultiplier * dSolutions[i];
-
-  var dStartPoint = (parseInt(dMin / dInterval) - 1) * dInterval;
-  var yIndex = [];
-  var iAxisIndex;
-  for (iAxisIndex = 1; true; iAxisIndex++) {
-    var y = dStartPoint + dInterval * iAxisIndex;
-    console.log(y);
-    yIndex.push(y);
-    if (y > dMax) break;
-  }
-  return yIndex;
-}
-/**
- * 绘制虚线
- */
-function drawDashLine(ctx, x1, y1, x2, y2, dashLen) {
-  dashLen = dashLen === undefined ? 4 : dashLen;
-  var beveling = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-  var num = Math.floor(beveling / dashLen);
-
-  ctx.beginPath();
-  for (var i = 0; i < num; i++) {
-    var x = x1 + (x2 - x1) / num * i;
-    var y = y1 + (y2 - y1) / num * i;
-    if (i % 2 == 0) {
-      ctx.moveTo(x, y);
-    } else {
-      ctx.lineTo(x, y);
-    }
-  }
-  ctx.stroke();
-  ctx.closePath();
-}
-/**
- * 绘制圆角矩形
- */
-function drawRoundBar(ctx, x, y, width, height, radius) {
-  ctx.beginPath();
-  ctx.arc(x + radius, y + radius, radius, Math.PI, Math.PI * 3 / 2);
-  ctx.lineTo(width - radius + x, y);
-  ctx.arc(width - radius + x, radius + y, radius, Math.PI * 3 / 2, Math.PI * 2);
-  ctx.lineTo(width + x, height + y - radius);
-  ctx.arc(width - radius + x, height - radius + y, radius, 0, Math.PI * 1 / 2);
-  ctx.lineTo(radius + x, height + y);
-  ctx.arc(radius + x, height - radius + y, radius, Math.PI * 1 / 2, Math.PI);
-  ctx.closePath();
-  ctx.fill();
-}
-
-function requestAnimation(callback) {
-  var that = this;
-  // 保证如果重复执行callback的话，callback的执行起始时间相隔16ms 
-  var currTime = new Date().getTime();
-  var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-  var id = setTimeout(function () {
-    callback(currTime + timeToCall);
-  }, timeToCall);
-  lastTime = currTime + timeToCall;
-  return id;
-}
-
-function easeOut(t, b, c, d) {
-  return c * ((t = t / d - 1) * t * t + 1) + b;
-}
-
-/***/ })
-
-/******/ 	});
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/ 	
-/************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-!function() {
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
-
-
-var chart = __webpack_require__(/*! ./utils/chart */ "./src/utils/chart.js");
-
-console.log(chart);
-
-function runCode(that, e) {
-
-    wx.setNavigationBarTitle({ title: '热更新' });
-
-    that.data = {
-        index: 0,
-        chartWidth: 0,
-        chartHeight: 0
-    };
-
-    that.onload = function () {
-        chart.draw(that, 'canvas1', {
-            title: {
-                text: "2017城市人均收入(万)",
-                color: "#333333"
-            },
-            xAxis: {
-                data: ['北京', '上海', '杭州', '深圳', '广州', '成都', '南京', '西安']
-            },
-            series: [
-            // {
-            //   name: "第一季度",
-            //   category: "bar",
-            //   data: [37, 63, 60, 78, 92, 63, 57, 48]
-            // },
-            // {
-            //   name: "第二季度",
-            //   category: "line",
-            //   data: [20, 35, 38, 59, 48, 27, 43, 35]
-            // },
-            {
-                name: ['北京', '上海', '杭州', '深圳', '广州', '成都'],
-                category: "pie",
-                data: [40, 38, 39, 28, 27, 33]
-            }]
-        });
-        that.reSetPage();
-    };
-
-    that.onSaveClick = function () {
-        chart.saveCanvans(function () {});
-    };
-    //每一次刷新建议重新调用
-    that.reSetPage = function () {
-        that.data.html = '                      <canvas canvas_id="canvas1"  style="background-color: #f4f4f4;width:' + that.data.chartWidth + 'px;height:' + that.data.chartHeight + 'px;"/>        <button style="    font-size: 16px;    background: #699fed;    border-radius: 6px;    color: white;    width: 70%;    margin-top: 32px;  " bindtap="onSaveClick">\u4FDD\u5B58\u56FE\u7247</button>      ';
-        that.setData({
-            html: that.parse(that.data.html)
-        });
-    };
-
-    that.reSetPage();
-
-    that.onload();
-}
-
 module.exports = runCode;
-}();
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map

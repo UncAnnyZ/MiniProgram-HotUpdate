@@ -1,0 +1,62 @@
+
+
+<view class="all">
+
+<view class="head">
+
+  <view class="total">
+    <label>总分：</label>
+    <text
+      style="color:rgb({{total<50?(200+total):(250-21*(total-50))}},{{total<50?(total*4+40):(240+total)}},40)">{{total}}</text>
+  </view>
+
+  <view class="sex">
+    <label>女</label>
+    <switch type="switch" bindchange="Setsex" checked="true"></switch>
+    <label>男</label> 
+  </view>
+
+</view>
+
+<view class="grade">
+  <button id="1" class="{{grade == 1?'garde2':'garde1'}}" bindtap="gradeClick">大一</button>
+  <button id="2" class="{{grade == 2?'garde2':'garde1'}}" bindtap="gradeClick">大二</button>
+  <button id="3" class="{{grade == 3?'garde2':'garde1'}}" bindtap="gradeClick">大三</button>
+  <button id="4" class="{{grade == 4?'garde2':'garde1'}}" bindtap="gradeClick">大四</button>
+</view>
+
+<view wx:for="{{block}}" wx:key="index">
+
+  <view class="block">
+    <label class="block_label" bindtap="tips" id="{{item.score}}" data-power="{{item.power}}"
+      data-label="{{item.label}}">{{item.label}}：</label>
+    <view class="block_middle">
+      <input value="${this.data[item.input]}" class="block_middle_input" bindinput="{{item.input}}" type="digit"></input>
+      <text class="unit">{{item.unit}}</text>
+    </view>
+    <view class="score">
+      <text hidden="{{!(score[item.score]!='' && score[item.score]!=0)}}">{{score[item.score]+" 分"}}</text>
+    </view>
+  </view>
+
+</view>
+
+<view class="block" id="longrun">
+  <label class="block_label" bindtap="tips" id="longrun" data-power="0.2"
+    data-label="{{sex?'1000m':'800m'}}">{{sex?"1000m":"800m"}}：</label>
+  <view class="block_middle">
+    <input class="block_middle_input" style="width:25%;" placeholder="分" bindinput="min" type="number"></input>
+    <text  class="unit" style="width:10%;">'</text>
+    <input style="width:25%;" placeholder=" 秒" bindinput="second" type="number"></input>
+    <text class="unit" style="width:10%;">"</text>
+  </view>
+  <view class="score">
+    <text hidden="{{!(score.longrun != '' && score.longrun != 0)}}">{{score.longrun+" 分"}}</text>
+  </view>
+</view>
+
+<view class="last">
+  <navigator class="last_navigator" url="./tcdetail?sex={{sex}}">国家学生体质健康标准</navigator>
+</view>
+
+</view>

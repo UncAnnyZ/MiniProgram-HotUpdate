@@ -1,87 +1,149 @@
+/**index.wxss**/
+Page {
+  background-color: #fcfcfc;
+}
 
-.button{
-    box-sizing: border-box;
-  }
-  .page {
-    background-color: #eeeeee;
-    font-size: 16px;
-    font-family: unset;
-    height: 100vh;
-   
-  }
-  .downloadChart {
-    font-size: 16px;
-    background: #699fed;
-    border-radius: 6px;
-    color: white;
-    width: 70%;
-    margin-top: 32px;
-  }
-  .background{
-    width:100%;
-    height:100%;
-    position: fixed;
-    background-size:100% 100%;
-    z-index: -1;
-  }
-  
-  .all{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .prev-btn {
-    width: 70rpx;
-    height: 60rpx;
-    margin-right: 610rpx;
-  }
-  
-  .img-button image {
-    width: 50%;
-    height: 70%;
-  }
-  
-  .flex-item{
-    width:85%;
-    height:480rpx;
-    background-color:rgba(255, 255, 255, 0.644);
-    border-radius: 13rpx;
-    box-shadow: 7rpx 7rpx 7rpx #969696b4;
-    margin-top: 230rpx;
-    overflow: hidden;
-  }
-  .flex-item_title{
-    background-color:rgba(76, 126, 202, 0.842)!important;
-    height:105rpx;
-    display: flex;
-    justify-content:center ;
-    align-items: center;
-    font-size: 38rpx;
-    font-weight: 550;
-    color:rgb(255, 255, 255);
-  }
-  .flex-item_gapDays{
-    height:270rpx;
-    padding-top: 8rpx;
-    
-    display: flex;
-    justify-content:center ;
-    align-items: center;
-    font-size: 140rpx;
-  }
-  
-  
-  .flex-item_desc{
-    height:90rpx;
-    font-size: 33rpx;
-    border-top: 1px dashed #00000031;
-    display: flex;
-    justify-content:center ;
-    align-items: center;
-    color:rgba(0, 0, 0, 0.61);
-  }
-  
-  
-  
-  
+view, text, scroll-view, swiper, button, form, input, textarea, label, navigator, image {
+  box-sizing: border-box;
+}
+switch, checkbox, radio {
+  position: relative;
+}
+
+.all {
+  border-top: 1rpx solid rgb(200, 200, 200);
+}
+
+.head{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 35rpx 30rpx;
+}
+
+.total text{
+  font-size: 50rpx;
+  /* color: rgb(200, 40, 40);   */
+  /* 0-50 */
+  /* color: rgb(250, 246, 40);  */
+  /* 50-60*/
+  /* color: rgb(40, 250, 40);   */
+}
+
+/**性别**/
+.sex {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.sex switch {
+  margin-left: 10rpx;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+
+/*年级*/
+.grade {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20rpx;
+  background-color: whitesmoke;
+  border-top: 1rpx solid rgb(200, 200, 200);
+}
+.grade button{
+  padding: 15rpx 0;
+  margin: 20rpx;
+  width: 150rpx !important;
+}
+button {
+  line-height: 2;
+  font-size: 16px;
+  margin: 5rpx;
+}
+.garde1 {
+  background-color: white;
+}
+.garde2 {
+  background-color: rgb(60, 200, 60);
+  color: white;
+}
+
+/* 块 */
+.block{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 35rpx 30rpx;
+  border-top: 1rpx solid rgb(200, 200, 200);
+}
+.block_label{  
+  width: 30%;
+}
+.block_middle{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 45%;
+}
+.block_middle_input{
+  color: rgb(100, 100, 100);
+  height: 50rpx;
+  width: 35%;
+  border-bottom: 1rpx solid rgb(200, 200, 200);
+  text-align: center;
+} 
+.unit{
+  color: gray;
+  font-size: 14px;
+  padding-left: 10rpx;
+  width: 15%;
+  text-align: center;
+}
+.score {
+  width: 25%;
+  height: 100%;
+  font-size: 15px;
+  text-align: end;
+  color: rgb(0, 200, 0);
+}
+
+/* 最后 */
+.last {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;    
+  border-top: 1rpx solid rgb(200, 200, 200);
+  height: 100rpx;
+}
+.last_navigator{
+  font-size: 300;
+  border: rgb(216, 216, 216) 1rpx solid;
+  border-radius: 50rpx;
+  padding: 10rpx 50rpx;
+}
+/* .last_left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;  
+  font-size: 20rpx
+}
+.last_right{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  color: #aaa;
+}
+.last_right image{
+  width: 100rpx;
+  height: 100rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+} */

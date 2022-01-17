@@ -2,7 +2,7 @@ const path = require('path')
 module.exports = {
     target: ['web', 'es5'],
     devtool: 'cheap-module-source-map',
-    entry: './src/index.js', // 这种配置打包后的JS文件会放在一个文件里
+    entry: './dist/index.js', // 这种配置打包后的JS文件会放在一个文件里
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: 'index.js'

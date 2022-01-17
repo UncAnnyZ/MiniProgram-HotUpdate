@@ -7,6 +7,11 @@ fs.readFile('dist/index.js', (err, buffer) => {
   if (err) {
     console.log(err)
   } else {
+    fs.readFile('dist/index.js', (err, buffer) => {
+      
+    })
+
+
 
     let str = buffer.toString()
     // print(str)
@@ -23,7 +28,7 @@ fs.readFile('dist/index.js', (err, buffer) => {
         css = css.replace(/\n/g, "");
         var regexp = /\.(.*?)(.*?){(.*?)}/g;
         allcss = css.match(regexp);
-    
+
         let s = new Set()
         for (i in allcss) {
        
@@ -74,7 +79,7 @@ fs.readFile('dist/index.js', (err, buffer) => {
               // console.log(newStyle[j])
               Style += newStyle[j]
             }
-            console.log(Style)
+            // console.log(Style)
             
             if(allStrClass1 === null){
               allStrClass[i] = allStrClass[i].replace(regexp, 'style=\"' + Style + '\"')
@@ -99,7 +104,7 @@ fs.readFile('dist/index.js', (err, buffer) => {
         // console.log(str)
 
         str = str.replace('window.exports', 'module.exports')
-
+        str = str.replace(/\\/g, '\\\\')
 
         fs.writeFile('dist/index.js', str, { encoding: 'utf8' }, err => { })
       }

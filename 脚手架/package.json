@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack && node build.js",
-    "start": "webpack && node build.js && node run.js"
+    "start": "node buildPage.js && webpack && node build.js && node run.js",
+    "test": "node buildPage.js"
   },
   "author": "",
   "license": "ISC",
