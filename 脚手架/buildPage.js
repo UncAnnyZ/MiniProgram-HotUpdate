@@ -9,6 +9,7 @@ fs.readFile('src/index.js', (err, buffer) => {
     fs.readFile('src/index.wxml', (err, buffer1) => {
       let noChange = []
       let html = buffer1.toString()
+
       let y = 0;
       let tagRE = /<[a-zA-Z\\-\\!\\/](?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])*>/g;
       let tagAll = []
@@ -115,6 +116,7 @@ fs.readFile('src/index.js', (err, buffer) => {
       let wxForexp = /\.map(.*?)`\)}/g;
       let wxForhtml = html.match(wxForexp)
       let wxForhtml1 = html.match(wxForexp)
+      html = html.replace( /<!--(.*?)-->/g, "")
       for (i in wxForhtml) {
         for (j in noChange) {
 
