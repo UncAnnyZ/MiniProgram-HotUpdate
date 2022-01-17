@@ -112,7 +112,7 @@ fs.readFile('src/index.js', (err, buffer) => {
       }
       console.log(html)
       // wx:for的内容转换
-      html = html.replace(/[\n\r]/g, "");
+      html = html.replace(/[\n]/g, "");
       let wxForexp = /\.map(.*?)`\)}/g;
       let wxForhtml = html.match(wxForexp)
       let wxForhtml1 = html.match(wxForexp)
