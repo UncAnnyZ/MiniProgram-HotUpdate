@@ -9,49 +9,53 @@ fs.readFile('src/index.js', (err, buffer) => {
     fs.readFile('src/index.wxml', (err, buffer1) => {
       let noChange = []
       let html = buffer1.toString()
-
+      html = html.replace( /<!--(.*?)-->/g, "")
       let y = 0;
       let tagRE = /<[a-zA-Z\\-\\!\\/](?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])*>/g;
       let tagAll = []
       let html2 = html.match(tagRE)
+      
       for(i in html2){
+        if(html2[i].match(/\/(\s*?)>/)){
+          continue
+        }
         let tag1 = html2[i].replace(">", " g=" + y + ">")
         html = html.replace(html2[i], tag1)
         y += 1
       }
-      // html.replace(tagRE, function (tag, index) {
-      // //  console.log(tag, 'index')
-
-        
-      // });
-      // console.log(html)
       
       html.replace(tagRE, function (tag, index) {
         let tagMatch = tag.match(/<\/?([^\s]+?)[/\s>]/);
         let type = tagMatch[1] + ".0";
+
+        if(tag.match(/\/(\s*?)>/)){
+          console.log(tag, 222)
+          return
+        }
+        console.log(type, 123)
         if (tag.match(/wx:for/)) {
-          console.log(0)
+          // console.log(0)
           type = tagMatch[1] + ".1"
           let t = tag.match(/wx:for="{{(.*)}}"/);
           let item = tag.match(/wx:for-item="(.*?)?"/) ? tag.match(/wx:for-item="(.*?)?"/)[1] : 'item'
           let index =tag.match(/wx:for-index="(.*?)?"/) ? tag.match(/wx:for-index="(.*?)?"/)[1] : 'index'
           noChange.push(item)
           noChange.push(index)
+          
 
           html = html.replaceAll(tag, `\${this.data.${t[1]}.map((${item}, ${index}) =>  \` ` + tag)
         }
-
         function truncate(arr) {
           var m = arr.slice(0);
           m.splice(m.length - 1, 1);
           return m;
         }
-        // console.log(tag, 233)
-        if (tag.match(/\//)) {
+  
+        if (tag.match(/<(\s*?)\//)) {
+          console.log(tag, 233)
           // tagAll = truncate(tagAll)
           if (tagAll[tagAll.length - 1] && tagAll[tagAll.length - 1].split(".")[1] === "1") {
             html = html.replace(tag, tag + '`)}')
-            console.log(tag, 233)
           }
           tagAll = truncate(tagAll)
 
@@ -110,25 +114,25 @@ fs.readFile('src/index.js', (err, buffer) => {
         }
         html = html.replace(p[i], `\${${p1}}`)
       }
-      console.log(html)
+      // console.log(html)
       // wx:for的内容转换
       html = html.replace(/[\n]/g, "");
       let wxForexp = /\.map(.*?)`\)}/g;
       let wxForhtml = html.match(wxForexp)
       let wxForhtml1 = html.match(wxForexp)
-      html = html.replace( /<!--(.*?)-->/g, "")
+
+
       for (i in wxForhtml) {
         for (j in noChange) {
-
           if (wxForhtml[i].match(noChange[j])) {
-            console.log('123456')
+            // console.log('123456')
             wxForhtml[i] = wxForhtml[i].replaceAll('this.data.' + noChange[j], noChange[j])
             // console.log(wxForhtml[i])
           }
         }
 
         html = html.replace(wxForhtml1[i], wxForhtml[i])
-
+        // console.log(html)
       }
 
       // if(p !== 'item'){
