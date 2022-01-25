@@ -19,10 +19,20 @@ fs.readFile('src/index.js', (err, buffer) => {
         } else {
           // css处理
           let css = buffer2.toString()
+          css1 = css.replace(/[\n]/g, "");
+          let darkCss = css1.match(/dark\s*\)\s*{(.*?)}\s*}/g);
+          darkCss = darkCss[0].match(/\.(.*?)(.*?){(.*?)}/g);
+          let darks = new Set()
+          for(i in darkCss){
+            var regexp = /\.(.*?)(.*?){(.*?)}/;
+            let p = darkCss[i].match(regexp);
+            
+            darks.add({ [p[2].split(/\s+/)[0]]: p[3] })
+          }
           let noChange = []
           let html =  '<style>' + css + '</style>' + buffer1.toString()
           html = html.replace(/<!--(.*?)-->/g, "") 
-
+          html = html.replace(/'/g, `"`)
           inlineCss(html, options)
             .then(function (html) {
               console.log(html)
@@ -36,7 +46,20 @@ fs.readFile('src/index.js', (err, buffer) => {
                 if (html2[i].match(/\/(\s*?)>/)) {
                   continue
                 }
-                let tag1 = html2[i].replace(">", " g=" + y + ">")
+                let a = ''
+                for (let x of darks) {
+            
+                  if(html2[i].match(Object.keys(x)[0])){
+                    a = x[Object.keys(x)[0]]
+                  }
+                }
+                let tag1 
+                if(a){
+                  tag1 = html2[i].replace(">", " ${this.data.dark == 'dark' ? 'style=\"" + a +"\"' : ''} g=" + y + ">")
+                }else{
+                  tag1 = html2[i].replace(">", " g=" + y + ">")
+                }
+
                 html = html.replace(html2[i], tag1)
                 y += 1
               }
@@ -89,7 +112,7 @@ fs.readFile('src/index.js', (err, buffer) => {
               })
               // console.log(html, 233)
               html = html.replaceAll(" g=0", '')
-              html = html.replace(/'/g, `"`)
+      
               var regexp = /{{(.*?)}}/g;
               let p = html.match(regexp)
     
@@ -168,7 +191,7 @@ fs.readFile('src/index.js', (err, buffer) => {
               let onload = /onReady:(.*)function(.*)\((.*?)\)(.*){/
               let onloadJS = str.match(onload)
               if (onloadJS) {
-                str = str.replace(onloadJS[0], onloadJS[0] + ' this.setdata({})')
+                str = str.replace(onloadJS[0], onloadJS[0] + ' this.data.dark =wx.getSystemInfoSync().theme; wx.onThemeChange(e => {console.log(e.theme);this.setdata({dark: e.theme})}); this.setdata();')
               }
     
               str = str.replace('Page({', `  

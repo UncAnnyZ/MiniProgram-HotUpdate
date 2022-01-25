@@ -82,6 +82,10 @@
   .map_box {
     filter: invert(90%) !important;
   }
+  
+  .img {
+    filter: invert(90%) !important;
+  }
 }
 
 /*!

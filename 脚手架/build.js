@@ -7,17 +7,11 @@ fs.readFile('dist/index.js', (err, buffer) => {
   if (err) {
     console.log(err)
   } else {
-    fs.readFile('dist/index.js', (err, buffer) => {
-      
-    })
-
-
 
     let str = buffer.toString()
     // print(str)
     str = str.replace(/\\n/g, "");
     str = str.replace(/\\"/g, "'");
-
 
     fs.readFile('src/index.css', (err, buffer) => {
       if (err) {
@@ -25,10 +19,9 @@ fs.readFile('dist/index.js', (err, buffer) => {
       } else {
         // css处理
         let css = buffer.toString()
-        css = css.replace(/[\n]/g, "");
+
         var regexp = /\.(.*?)(.*?){(.*?)}/g;
         allcss = css.match(regexp);
-
         let s = new Set()
         for (i in allcss) {
        
@@ -39,8 +32,6 @@ fs.readFile('dist/index.js', (err, buffer) => {
        
         // console.log(s);
 
-
-
           let allStrClass = str.match(/class='.*?{{(.*?)}}.*?'/g)
           if(allStrClass === null){
             allStrClass = str.match(/class="*?{{(.*?)}}.*?"/g)
@@ -49,7 +40,6 @@ fs.readFile('dist/index.js', (err, buffer) => {
           // console.log(allStrClass, 233)
   
           for (i in allStrClass) {
-            
             var regexp = /class='.*?{{(.*?)}}.*?'/;
             if(allStrClass1 === null){
               var regexp = /class="*?{{(.*?)}}.*?"/;
@@ -79,6 +69,7 @@ fs.readFile('dist/index.js', (err, buffer) => {
               // console.log(newStyle[j])
               Style += newStyle[j]
             }
+            
             // console.log(Style)
       
             if(allStrClass[i].match(/this.data./)){
@@ -99,8 +90,6 @@ fs.readFile('dist/index.js', (err, buffer) => {
             allStrClass1 = str.match(/class="*?{{(.*?)}}.*?"/g)
           }
         
-        
-
         for (i in allStrClass1) {
           // console.log(allStrClass1[i], allStrClass[i])
           str = str.replace(String(allStrClass1[i]), allStrClass[i])
