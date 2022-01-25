@@ -1,0 +1,49 @@
+{
+  "name": "inline-css",
+  "version": "3.0.0",
+  "description": "Inline css into an html file.",
+  "main": "index.js",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "css-rules": "^1.0.9",
+    "extract-css": "^2.0.0",
+    "flat-util": "^1.1.6",
+    "pick-util": "^1.1.3",
+    "slick": "^1.12.2",
+    "specificity": "^0.4.1"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "coveralls": "^3.1.0",
+    "eslint": "^7.12.0",
+    "lerna": "^3.22.1",
+    "mocha": "^8.2.0",
+    "nyc": "^15.1.0",
+    "should": "^13.2.3",
+    "vinyl": "^2.2.1"
+  },
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "test": "mocha test packages/**/test",
+    "lint": "eslint index.js lib/ packages/",
+    "lint:fix": "eslint --fix index.js lib/ packages/",
+    "coverage": "nyc npm test && nyc report",
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
+  },
+  "files": [
+    "index.js",
+    "lib/"
+  ],
+  "repository": "jonkemp/inline-css",
+  "keywords": [
+    "inline",
+    "css",
+    "html",
+    "email"
+  ],
+  "author": "Jonathan Kemp <kempdogg@gmail.com> (http://jonkemp.com/)",
+  "license": "MIT"
+}

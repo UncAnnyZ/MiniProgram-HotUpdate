@@ -1,0 +1,23 @@
+{
+  "name": "mediaquery-text",
+  "version": "1.2.0",
+  "description": "Returns Media Query text for a CSS source.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "repository": "https://github.com/jonkemp/inline-css/tree/master/packages/mediaquery-text",
+  "keywords": [
+    "mediaqueries",
+    "css",
+    "styles",
+    "inline"
+  ],
+  "author": "Jonathan Kemp <kempdogg@gmail.com> (http://jonkemp.com/)",
+  "license": "MIT",
+  "homepage": "https://github.com/jonkemp/inline-css/tree/master/packages/mediaquery-text",
+  "dependencies": {
+    "cssom": "^0.5.0"
+  },
+  "gitHead": "3434622fd50124ac83e63f9814438599dc9aaaf6"
+}

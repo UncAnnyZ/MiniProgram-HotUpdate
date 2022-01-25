@@ -9,20 +9,16 @@ var __webpack_exports__ = {};
   \\***********************/
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 function runCode() {
-  //index.js
-  //获取应用实例
+  // pages/schoolNav/schoolNav.js
 
 
   var Page = function Page(page) {
     return page;
   };
   return Page({
-
-    onReady: function onReady(options) {
-      this.setdata({});
-    },
-
     parseTag: function parseTag(tag) {
       var res = {
         type1: "tag",
@@ -116,683 +112,560 @@ function runCode() {
     },
 
     setdata: function setdata(dictData) {
-      var _this = this;
 
       this.setData(dictData);
-      var html = "<view style='  border-top: 1rpx solid rgb(200, 200, 200);'><view style='  display: flex;  flex-direction: row;  justify-content: space-between;  align-items: center;  padding: 35rpx 30rpx;'>  <view style='  font-size: 50rpx;  /* color: rgb(200, 40, 40);   */  /* 0-50 */  /* color: rgb(250, 246, 40);  */  /* 50-60*/  /* color: rgb(40, 250, 40);   */'>    <label>\\u603B\\u5206\\uFF1A</label>    <text      style='color:rgb(" + (this.data.total < 50 ? 200 + this.data.total : 250 - 21 * (this.data.total - 50)) + "," + (this.data.total < 50 ? this.data.total * 4 + 40 : 240 + this.data.total) + ",40)'>" + this.data.total + "</text>  </view>  <view style='  display: flex;  flex-direction: row;  justify-content: center;  align-items: center;'>    <label>\\u5973</label>    <switch type='switch' bindchange='Setsex' checked='true'></switch>    <label>\\u7537</label>   </view></view><view style='  display: flex;  justify-content: space-evenly;  padding: 20rpx;  background-color: whitesmoke;  border-top: 1rpx solid rgb(200, 200, 200);'>  <button id='1' style='"+(this.data.grade==1?"  background-color: rgb(60, 200, 60);  color: white;":"  background-color: white;")+"' bindtap='gradeClick'>\\u5927\\u4E00</button>  <button id='2' style='"+(this.data.grade==2?"  background-color: rgb(60, 200, 60);  color: white;":"  background-color: white;")+"' bindtap='gradeClick'>\\u5927\\u4E8C</button>  <button id='3' style='"+(this.data.grade==3?"  background-color: rgb(60, 200, 60);  color: white;":"  background-color: white;")+"' bindtap='gradeClick'>\\u5927\\u4E09</button>  <button id='4' style='"+(this.data.grade==4?"  background-color: rgb(60, 200, 60);  color: white;":"  background-color: white;")+"' bindtap='gradeClick'>\\u5927\\u56DB</button></view>" + this.data.block.map(function (item, index) {
-        return " <view wx:for='" + _this.data.block + "' wx:key='index'>  <view style='  display: flex;  flex-direction: row;  justify-content: space-between;  align-items: center;  padding: 35rpx 30rpx;  border-top: 1rpx solid rgb(200, 200, 200);'>    <label style='    width: 30%;' bindtap='tips' id='" + item.score + "' data-power='" + item.power + "'      data-label='" + item.label + "'>" + item.label + "\\uFF1A</label>    <view style='  display: flex;  flex-direction: row;  justify-content: center;  align-items: center;  width: 45%;'>      <input value='" + _this.data[item.input] + "' style='  color: rgb(100, 100, 100);  height: 50rpx;  width: 35%;  border-bottom: 1rpx solid rgb(200, 200, 200);  text-align: center;' bindinput='" + item.input + "' type='digit'></input>      <text style='  color: gray;  font-size: 14px;  padding-left: 10rpx;  width: 15%;  text-align: center;'>" + item.unit + "</text>    </view>    <view style='  width: 25%;  height: 100%;  font-size: 15px;  text-align: end;  color: rgb(0, 200, 0);'>      <text hidden='" + !(_this.data.score[item.score] != "" && _this.data.score[item.score] != 0) + "'>" + (_this.data.score[item.score] + " 分") + "</text>    </view>  </view></view>";
-      }) + "<view style='  display: flex;  flex-direction: row;  justify-content: space-between;  align-items: center;  padding: 35rpx 30rpx;  border-top: 1rpx solid rgb(200, 200, 200);' id='longrun'>  <label style='    width: 30%;' bindtap='tips' id='longrun' data-power='0.2'    data-label='" + (this.data.sex ? "1000m" : "800m") + "'>" + (this.data.sex ? "1000m" : "800m") + "\\uFF1A</label>  <view style='  display: flex;  flex-direction: row;  justify-content: center;  align-items: center;  width: 45%;'>    <input style='  color: rgb(100, 100, 100);  height: 50rpx;  width: 35%;  border-bottom: 1rpx solid rgb(200, 200, 200);  text-align: center;' style='width:25%;' placeholder='\\u5206' bindinput='min' type='number'></input>    <text  style='  color: gray;  font-size: 14px;  padding-left: 10rpx;  width: 15%;  text-align: center;' style='width:10%;'>'</text>    <input style='width:25%;' placeholder=' \\u79D2' bindinput='second' type='number'></input>    <text style='  color: gray;  font-size: 14px;  padding-left: 10rpx;  width: 15%;  text-align: center;' style='width:10%;'>'</text>  </view>  <view style='  width: 25%;  height: 100%;  font-size: 15px;  text-align: end;  color: rgb(0, 200, 0);'>    <text hidden='" + !(this.data.score.longrun != "" && this.data.score.longrun != 0) + "'>" + (this.data.score.longrun + " 分") + "</text>  </view></view><view style='  display: flex;  flex-direction: row;  justify-content: center;  align-items: flex-end;      border-top: 1rpx solid rgb(200, 200, 200);  height: 100rpx;'>  <navigator style='  font-size: 300;  border: rgb(216, 216, 216) 1rpx solid;  border-radius: 50rpx;  padding: 10rpx 50rpx;' url='./tcdetail?sex=" + this.data.sex + "'>\\u56FD\\u5BB6\\u5B66\\u751F\\u4F53\\u8D28\\u5065\\u5EB7\\u6807\\u51C6</navigator></view></view>";
+      var html = "<view class='remind-box' wx:if='" + (_typeof(this.data.isLoading) === "object" ? JSON.stringify(this.data.isLoading) : this.data.isLoading) + "' style='align-items: center; display: flex; flex: 1; flex-direction: column; justify-content: center;'>  <image class='remind-img' src='/images/loading.gif'></image></view><view wx:else>  <view class='map_box' style='bottom: 130px; left: 0px; position: absolute; right: 0px; top: 0px;'>    <map style='height: 100%; width: 100%;' id='navi_map' longitude='" + (_typeof(this.data.userLongitude) === "object" ? JSON.stringify(this.data.userLongitude) : this.data.userLongitude) + "' latitude='" + (_typeof(this.data.userLatitude) === "object" ? JSON.stringify(this.data.userLatitude) : this.data.userLatitude) + "' scale='18' markers='" + (_typeof(this.data.markers) === "object" ? JSON.stringify(this.data.markers) : this.data.markers) + "' polyline='" + (_typeof(this.data.polyline) === "object" ? JSON.stringify(this.data.polyline) : this.data.polyline) + "' bindmarkertap='makertap' show-location subkey='JLHBZ-JQELU-I7HVD-B2XSN-5VU3Z-BZFDK' enable-3D='true' show-compass>      <cover-view class='controls " + (_typeof(this.data.fullscreen) === "object" ? JSON.stringify(this.data.fullscreen) : this.data.fullscreen ? "full" : "") + "' style='left: 85%; position: relative; top: 70%;'>        <cover-view bindtap='jtt'>          <cover-image class='img' src='image/staticMap.png' style='height: 80rpx; margin-top: 5px; width: 80rpx;'>        </cover-image></cover-view>        <cover-view bindtap='moveSchool'>          <cover-image class='img' src='image/moveSchool.png' style='height: 80rpx; margin-top: 5px; width: 80rpx;'>        </cover-image></cover-view>        <cover-view bindtap='location'>          <cover-image class='img' src='image/location.png' style='height: 80rpx; margin-top: 5px; width: 80rpx;'>        </cover-image></cover-view>      </cover-view>    </map>  </view>  <view class='text_box' style='bottom: 0px; height: 130px; left: 0px; position: absolute; right: 0px;'>    <view class='text_box_text' style='margin: 15px;'>\\u5E7F\\u4E1C\\u77F3\\u6CB9\\u5316\\u5DE5\\u5B66\\u9662 (\\u90AE\\u7F16\\uFF1A525000)</view>    <view class='text_box_text' style='margin: 15px;'>\\u5B98\\u6E21\\u6821\\u533A\\uFF1A\\u5E7F\\u4E1C\\u7701\\u8302\\u540D\\u5E02\\u8302\\u5357\\u533A\\u5B98\\u6E21\\u4E8C\\u8DEF139\\u53F7</view>    <view class='text_box_text' style='margin: 15px;'>\\u897F\\u57CE\\u6821\\u533A\\uFF1A\\u8302\\u540D\\u5E02\\u8302\\u5357\\u533A\\u4E2D\\u79D1\\u4E91\\u7CA4\\u897F\\u4EA7\\u4E1A\\u56ED</view>  </view></view>";
       this.setData({ html: this.parse(html) });
     },
 
+    /**
+     * 页面的初始数据
+     */
     data: {
-      grade: '', //年级
-      sex: true, //性别    男:true  女:false
-      tall: 0, //身高
-      weight: 0, //体重
-      volume: 0, //肺活量
-      jump: 0, //跳远
-      handlong: 0, //坐位体前屈
-      ishandlong: false, //是否已填写
-      shortrun: 0, //50m
-      longrun: 0, //800、1000m
-      min: 0,
-      second: 0,
-      sit_up: 0, //仰卧起坐
-      pull_up: 0, //引体向上
-      score: {
-        fat: 0, //体脂
-        tall: 0, //身高
-        weight: 0, //体重
-        volume: 0, //肺活量
-        jump: 0, //跳远
-        handlong: 0, //坐位体前屈
-        shortrun: 0, //50m
-        longrun: 0, //800、1000m
-        sit_up: 0, //仰卧起坐
-        pull_up: 0 //引体向上
-      },
-      total: 0,
-      block: [{
-        label: "身高",
-        input: "tall",
-        unit: "cm",
-        score: "tall",
-        sex: 2,
-        power: 0.15
+      mapHeight: "800",
+      placeName: "",
+      hideOrNot: 0,
+      activePlaceID: -1,
+      markers: [{
+        id: 0,
+        latitude: 21.677456,
+        longitude: 110.924444,
+        iconPath: "image/others.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '公交站',
+          display: 'ALWAYS'
+        }
       }, {
-        label: "体重",
-        input: "weight",
-        unit: "kg",
-        score: "fat",
-        sex: 2,
-        power: 0.15
+        id: 1,
+        latitude: 21.679041,
+        longitude: 110.922631,
+        iconPath: "image/sports.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '体育馆',
+          display: 'ALWAYS'
+        }
       }, {
-        label: "肺活量",
-        input: "volume",
-        unit: "ml",
-        score: "volume",
-        sex: 2,
-        power: 0.15
+        id: 2,
+        latitude: 21.680033,
+        longitude: 110.924519,
+        iconPath: "image/sports.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '游泳池',
+          display: 'ALWAYS'
+        }
       }, {
-        label: "立定跳远",
-        input: "jump",
-        unit: "cm",
-        score: "jump",
-        sex: 2,
-        power: 0.1
+        id: 3,
+        latitude: 21.681175,
+        longitude: 110.922615,
+        iconPath: "image/sports.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '球类体育场',
+          display: 'ALWAYS'
+        }
       }, {
-        label: "坐位体前屈",
-        input: "handlong",
-        unit: "cm",
-        score: "handlong",
-        sex: 2,
-        power: 0.1
+        id: 4,
+        latitude: 21.678962,
+        longitude: 110.923371,
+        iconPath: "image/xingzheng.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '综合楼',
+          display: 'ALWAYS'
+        }
       }, {
-        label: "引体向上",
-        input: "pull_up",
-        unit: "个",
-        score: "pull_up",
-        sex: true,
-        power: 0.1
+        id: 5,
+        latitude: 21.677855,
+        longitude: 110.921939,
+        iconPath: "image/xingzheng.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '中专楼',
+          display: 'ALWAYS'
+        }
       }, {
-        label: "仰卧起坐",
-        input: "sit_up",
-        unit: "个",
-        score: "sit_up",
-        sex: false,
-        power: 0.1
+        id: 6,
+        latitude: 21.680981,
+        longitude: 110.921472,
+        iconPath: "image/sports.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '操场',
+          display: 'ALWAYS'
+        }
       }, {
-        label: "50m",
-        input: "shortrun",
-        unit: '"',
-        score: "shortrun",
-        sex: 2,
-        power: 0.2
-      }]
+        id: 7,
+        latitude: 21.677591,
+        longitude: 110.922867,
+        iconPath: "image/jiaoxuelou.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '一教',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 8,
+        latitude: 21.677147,
+        longitude: 110.921789,
+        iconPath: "image/jiaoxuelou.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '二教A',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 9,
+        latitude: 21.677541,
+        longitude: 110.921778,
+        iconPath: "image/jiaoxuelou.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '二教B',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 10,
+        latitude: 21.678897,
+        longitude: 110.920882,
+        iconPath: "image/xiaomen.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '计算机楼',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 11,
+        latitude: 21.679276,
+        longitude: 110.920893,
+        iconPath: "image/shitang.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '一饭',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 12,
+        latitude: 21.682197,
+        longitude: 110.922476,
+        iconPath: "image/shitang.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '二饭',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 13,
+        latitude: 21.679365,
+        longitude: 110.920169,
+        iconPath: "image/shitang.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '四饭和4D区',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 14,
+        latitude: 21.679699,
+        longitude: 110.920732,
+        iconPath: "image/shitang.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '五饭',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 15,
+        latitude: 21.679704,
+        longitude: 110.92158,
+        iconPath: "image/sushe.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '1区',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 16,
+        latitude: 21.678842,
+        longitude: 110.920657,
+        iconPath: "image/sushe.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '2区',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 17,
+        latitude: 21.682227,
+        longitude: 110.921794,
+        iconPath: "image/sushe.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '3区',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 18,
+        latitude: 21.680123,
+        longitude: 110.920544,
+        iconPath: "image/sushe.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '4区',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 19,
+        latitude: 21.676374,
+        longitude: 110.92346,
+        iconPath: "image/jiaoxuelou.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '实验楼',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 20,
+        latitude: 21.678588,
+        longitude: 110.924026,
+        iconPath: "image/sushe.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '5区',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 21,
+        latitude: 21.658237,
+        longitude: 110.820106,
+        iconPath: "image/sushe.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '北苑B区',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 22,
+        latitude: 21.65702,
+        longitude: 110.820272,
+        iconPath: "image/sushe.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '北苑A区',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 23,
+        latitude: 21.655834,
+        longitude: 110.823206,
+        iconPath: "image/sports.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '体育馆',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 24,
+        latitude: 21.656662,
+        longitude: 110.819054,
+        iconPath: "image/shitang.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '北华饭堂',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 25,
+        latitude: 21.65375,
+        longitude: 110.821023,
+        iconPath: "image/jiaoxuelou.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '艺术楼',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 26,
+        latitude: 21.652952,
+        longitude: 110.81847,
+        iconPath: "image/jiaoxuelou.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '教学综合楼',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 27,
+        latitude: 21.653321,
+        longitude: 110.815943,
+        iconPath: "image/sushe.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '西南区饭堂',
+          display: 'ALWAYS'
+        }
+      }, {
+        id: 28,
+        latitude: 21.65553,
+        longitude: 110.816774,
+        iconPath: "image/jiaoxuelou.png",
+        width: 23,
+        height: 24,
+        callout: {
+          content: '教学楼（看详细地图）',
+          display: 'ALWAYS'
+        }
+      }],
+      distance: '',
+      cost: '',
+      polyline: [],
+      userLongitude: 110.922599,
+      userLatitude: 21.679529,
+      inSchool: false,
+      isLoading: true
     },
 
+    /**
+     * 生命周期函数--监听页面加载
+     */
     onLoad: function onLoad(e) {
+      var _this = this;
+      wx.showModal({
+        title: '选择校区',
+        showCancel: true, //是否显示取消按钮
+        content: "请选择校区",
+        cancelText: "西城校区", //默认是“取消”
+        confirmText: "官渡校区", //默认是“确定”
+        success: function success(res) {
+          if (res.cancel) {
+            _this.setdata({
+              userLongitude: 110.818019,
+              userLatitude: 21.654388
+            });
+          } else {
+            _this.setdata({
+              userLongitude: 110.922599,
+              userLatitude: 21.679529
+            });
+          }
+        },
+        fail: function fail(res) {}, //接口调用失败的回调函数
+        complete: function complete(res) {} //接口调用结束的回调函数（调用成功、失败都会执行）
+      });
+
+      // if (e.markerId !== '' && Object.keys(e).length !== 0) {
+      //   _this.makertap(e);
+      // }
+      wx.getLocation({
+        type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标  
+        success: function success(res) {
+          _this.setdata({
+            userLongitude: res.longitude,
+            userLatitude: res.latitude
+          });
+        }
+      });
+    },
+    onReady: function onReady() {
+      this.setdata({});
       var that = this;
-      wx.getSystemInfo({
+      setTimeout(function () {
+        that.setdata({
+          isLoading: false
+        });
+      }, 800);
+    },
+    makertap: function makertap(e) {
+      console.log(e);
+      var id = e.markerId;
+      var that = this;
+      wx.getLocation({
+        type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标  
         success: function success(res) {
           that.setdata({
-            elementStyle: 'width:' + res.windowWidth + 'px;' + 'min-height:' + res.windowHeight + 'px;'
+            userLongitude: res.longitude,
+            userLatitude: res.latitude
+          });
+          that.setdata({
+            activePlaceID: id,
+            placeName: that.data.markers[id].callout.content
+          });
+          var userLocation = that.data.userLongitude + ',' + that.data.userLatitude;
+          var destination = that.data.markers[id].longitude + ',' + that.data.markers[id].latitude;
+          that.planPolyline(userLocation, destination);
+        }
+      });
+    },
+    planPolyline: function planPolyline(origin, destination) {
+      var that = this;
+      var id = that.data.activePlaceID;
+      //规划步行路线
+      myAmapFun.getWalkingRoute({
+        origin: origin,
+        destination: destination,
+        success: function success(data) {
+          var points = [];
+          if (data.paths && data.paths[0] && data.paths[0].steps) {
+            var steps = data.paths[0].steps;
+            for (var i = 0; i < steps.length; i++) {
+              var poLen = steps[i].polyline.split(';');
+              for (var j = 0; j < poLen.length; j++) {
+                points.push({
+                  longitude: parseFloat(poLen[j].split(',')[0]),
+                  latitude: parseFloat(poLen[j].split(',')[1])
+                });
+              }
+            }
+          }
+          that.setdata({
+            json: data.paths[0],
+            polyline: [{
+              points: points,
+              color: "#7acfa6",
+              width: 6
+            }]
+          });
+          if (data.paths[0] && data.paths[0].distance) {
+            that.setdata({
+              distance: data.paths[0].distance + '米'
+            });
+          }
+          if (data.paths[0] && data.paths[0].duration) {
+            that.setdata({
+              cost: parseInt(data.paths[0].duration / 60) + '分钟'
+            });
+          }
+          var markers = that.data.markers;
+          var points = that.data.polyline[0].points;
+          //暂时一共70个坐标点
+          markers[22] = {
+            id: 22,
+            latitude: points[0].latitude,
+            longitude: points[0].longitude,
+            iconPath: '../..image/mapicon_navi_s.png',
+            width: 23,
+            height: 33
+          };
+          markers[23] = {
+            id: 23,
+            latitude: points[points.length - 1].latitude,
+            longitude: points[points.length - 1].longitude,
+            iconPath: '../..image/mapicon_navi_e.png',
+            width: 24,
+            height: 34
+          };
+
+          that.setdata({
+            markers: markers
           });
         }
       });
-      wx.setStorageSync('state', "onload");
-      this.gradeClick({
-        target: { id: 1 }
-      });
-      wx.removeStorageSync('state');
     },
-
-    tips: function tips(e) {
-      var id = e.target.id;
-      var text;
-      if (id == "tall" || id == "fat") text = "体脂权重为：" + e.target.dataset.power;else text = e.target.dataset.label + "" + "权重为：" + e.target.dataset.power;
-
-      wx.showToast({
-        title: text,
-        icon: "none",
-        duration: 2000
-      });
-    },
-
-
-    /* 性别 */
-    Setsex: function Setsex(e) {
-      if (e.detail.value) {
-        this.setdata({
-          sex: e.detail.value, //男：true 女：false
-          min: 0,
-          second: 0,
-          longrun: 0,
-          "score.longrun": 0,
-          sit_up: 0
-
-        });
-      }
-      if (!e.detail.value) {
-        this.setdata({
-          sex: e.detail.value, //男：true 女：false
-          min: 0,
-          second: 0,
-          longrun: 0,
-          "score.longrun": 0,
-          pull_up: 0
-        });
-      }
-      this.update();
-    },
-
-    /* 年级 */
-    gradeClick: function gradeClick(e) {
-      this.setdata({
-        grade: e.target.id
-      });
-      this.update();
-    },
-
-    /* 体脂 */
-    tall: function tall(e) {
-      if (e != undefined) this.setdata({
-        tall: Number(e.detail.value)
-      });
-      var fat;
-      if (this.data.tall != 0 && this.data.tall != "" && this.data.weight != 0 && this.data.weight != "") {
-        fat = this.data.weight / (this.data.tall * this.data.tall / 10000);
-        if (this.data.sex == true) //男生
-          {
-            if (fat >= 27.95) this.setdata({
-              'score.fat': 60
-            });
-            if (23.95 <= fat < 27.95) this.setdata({
-              'score.fat': 80
-            });
-            if (17.75 <= fat < 23.95) this.setdata({
-              'score.fat': 100
-            });
-            if (fat < 17.75) this.setdata({
-              'score.fat': 80
-            });
-          }
-        if (this.data.sex == false) //女生
-          {
-            if (fat >= 27.95) this.setdata({
-              'score.fat': 60
-            });
-            if (23.95 <= fat < 27.95) this.setdata({
-              'score.fat': 80
-            });
-            if (17.15 <= fat < 23.95) this.setdata({
-              'score.fat': 100
-            });
-            if (fat < 17.15) this.setdata({
-              'score.fat': 80
-            });
-          }
-        this.calculate();
-      } else {
-        this.setdata({
-          'score.fat': 0
-        });
-        this.calculate();
-      }
-    },
-    weight: function weight(e) {
-      if (e != undefined) this.setdata({
-        weight: Number(e.detail.value)
-      });
-      var fat;
-      if (this.data.tall != 0 && this.data.tall != "" && this.data.weight != 0 && this.data.weight != "") {
-        fat = this.data.weight / (this.data.tall * this.data.tall / 10000);
-        if (this.data.sex == true) //男生
-          {
-            if (fat >= 27.95) this.setdata({
-              'score.fat': 60
-            });else if (fat >= 23.95) this.setdata({
-              'score.fat': 80
-            });else if (fat >= 17.75) this.setdata({
-              'score.fat': 100
-            });else if (fat < 17.75) this.setdata({
-              'score.fat': 80
-            });
-          }
-        if (this.data.sex == false) //女生
-          {
-            if (fat >= 27.95) this.setdata({
-              'score.fat': 60
-            });else if (fat >= 23.95) this.setdata({
-              'score.fat': 80
-            });else if (fat >= 17.15) this.setdata({
-              'score.fat': 100
-            });else if (fat < 17.15) this.setdata({
-              'score.fat': 80
-            });
-          }
-        this.calculate();
-      } else {
-        this.setdata({
-          'score.fat': 0
-        });
-        this.calculate();
-      }
-    },
-
-    /* 肺活量 */
-    volume: function volume(e) {
-      if (e != undefined) this.setdata({
-        volume: Number(e.detail.value)
-      });
-      var volume;
-
-      if (this.data.sex == true) {
-        //男生
-        if (this.data.grade == 1 || this.data.grade == 2) {
-          //大一、大二
-          if (this.data.volume >= 4300) {
-            if (this.data.volume >= 5040) volume = 100;else if (this.data.volume >= 4800) volume = Math.floor((this.data.volume - 4800) / 120) * 5 + 90;else {
-              volume = Math.floor((this.data.volume - 4300) / 250) * 5 + 80;
-            }
-          } else if (this.data.volume >= 3100) {
-            volume = Math.floor((this.data.volume - 3100) / 120) * 2 + 60;
-          } else if (this.data.volume >= 2300) {
-            volume = Math.floor((this.data.volume - 2300) / 160) * 10 + 10;
-          } else volume = 0;
-        }
-        if (this.data.grade == 3 || this.data.grade == 4) {
-          //大三、大四
-          if (this.data.volume >= 4400) {
-            if (this.data.volume >= 5140) volume = 100;else if (this.data.volume >= 4900) volume = Math.floor((this.data.volume - 4900) / 120) * 5 + 90;else {
-              volume = Math.floor((this.data.volume - 4400) / 250) * 5 + 80;
-            }
-          } else if (this.data.volume >= 3200) {
-            volume = Math.floor((this.data.volume - 3200) / 120) * 2 + 60;
-          } else if (this.data.volume >= 2350) {
-            volume = Math.floor((this.data.volume - 2350) / 170) * 10 + 10;
-          } else volume = 0;
-        }
-      }
-      if (this.data.sex == false) {
-        //女生
-        if (this.data.grade == 1 || this.data.grade == 2) {
-          if (this.data.volume >= 3000) {
-            if (this.data.volume >= 3400) volume = 100;else if (this.data.volume >= 3300) volume = Math.floor((this.data.volume - 3300) / 50) * 5 + 90;else {
-              volume = Math.floor((this.data.volume - 3000) / 150) * 5 + 80;
-            }
-          } else if (this.data.volume >= 2000) {
-            volume = Math.floor((this.data.volume - 2000) / 100) * 2 + 60;
-          } else if (this.data.volume >= 1800) {
-            volume = Math.floor((this.data.volume - 1800) / 40) * 10 + 10;
-          } else volume = 0;
-        }
-        if (this.data.grade == 3 || this.data.grade == 4) {
-          if (this.data.volume >= 3050) {
-            if (this.data.volume >= 3450) volume = 100;else if (this.data.volume >= 3350) volume = Math.floor((this.data.volume - 3350) / 50) * 5 + 90;else {
-              volume = Math.floor((this.data.volume - 3050) / 150) * 5 + 80;
-            }
-          } else if (this.data.volume >= 2050) {
-            volume = Math.floor((this.data.volume - 2050) / 100) * 2 + 60;
-          } else if (this.data.volume >= 1800) {
-            volume = Math.floor((this.data.volume - 1850) / 40) * 10 + 10;
-          } else volume = 0;
-        }
-      }
-      this.setdata({
-        'score.volume': volume
-      });
-      this.calculate();
-    },
-    /* 跳远 */
-    jump: function jump(e) {
-      if (e != undefined) this.setdata({
-        jump: Number(e.detail.value)
-      });
-      var jump;
-
-      if (this.data.sex == true) {
-        //男生
-        if (this.data.grade == 1 || this.data.grade == 2) {
-          //大一、大二
-          if (this.data.jump >= 248) {
-            if (this.data.jump >= 273) jump = 100;else if (this.data.jump >= 268) jump = 95;else if (this.data.jump >= 263) jump = 90;else if (this.data.jump >= 256) jump = 85;else if (this.data.jump >= 248) jump = 80;
-          } else if (this.data.jump >= 208) {
-            jump = Math.floor((this.data.jump - 208) / 4) * 2 + 60;
-          } else if (this.data.jump >= 183) {
-            jump = Math.floor((this.data.jump - 183) / 5) * 10 + 10;
-          } else jump = 0;
-        }
-        if (this.data.grade == 3 || this.data.grade == 4) {
-          //大三、大四
-          if (this.data.jump >= 250) {
-            if (this.data.jump >= 275) jump = 100;else if (this.data.jump >= 270) jump = 95;else if (this.data.jump >= 265) jump = 90;else if (this.data.jump >= 258) jump = 85;else if (this.data.jump >= 250) jump = 80;
-          } else if (this.data.jump >= 210) {
-            jump = Math.floor((this.data.jump - 210) / 4) * 2 + 60;
-          } else if (this.data.jump >= 185) {
-            jump = Math.floor((this.data.jump - 185) / 5) * 10 + 10;
-          } else jump = 0;
-        }
-      }
-      if (this.data.sex == false) {
-        //女生
-        if (this.data.grade == 1 || this.data.grade == 2) {
-          //大一、大二
-          if (this.data.jump >= 181) {
-            if (this.data.jump >= 207) jump = 100;else if (this.data.jump >= 201) jump = 95;else if (this.data.jump >= 195) jump = 90;else if (this.data.jump >= 188) jump = 85;else if (this.data.jump >= 181) jump = 80;
-          } else if (this.data.jump >= 151) {
-            jump = Math.floor((this.data.jump - 151) / 3) * 2 + 60;
-          } else if (this.data.jump >= 126) {
-            jump = Math.floor((this.data.jump - 126) / 5) * 10 + 10;
-          } else jump = 0;
-        }
-        if (this.data.grade == 3 || this.data.grade == 4) {
-          //大三、大四
-          if (this.data.jump >= 182) {
-            if (this.data.jump >= 208) jump = 100;else if (this.data.jump >= 202) jump = 95;else if (this.data.jump >= 196) jump = 90;else if (this.data.jump >= 189) jump = 85;else if (this.data.jump >= 182) jump = 80;
-          } else if (this.data.jump >= 152) {
-            jump = Math.floor((this.data.jump - 152) / 3) * 2 + 60;
-          } else if (this.data.jump >= 127) {
-            jump = Math.floor((this.data.jump - 127) / 5) * 10 + 10;
-          } else jump = 0;
-        }
-      }
-      this.setdata({
-        'score.jump': jump
-      });
-      this.calculate();
-    },
-    /* 体前屈 */
-    handlong: function handlong(e) {
-      if (e != "update") {
-        this.setdata({
-          ishandlong: true,
-          handlong: Number(e.detail.value)
-        });
-        if (e.detail.value == "") {
-          this.setdata({
-            ishandlong: false
+    location: function location() {
+      var _this = this;
+      wx.getLocation({
+        type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标  
+        success: function success(res) {
+          _this.setdata({
+            userLongitude: res.longitude,
+            userLatitude: res.latitude
           });
         }
-      }
-
-      var handlong;
-
-      if (this.data.sex == true) {
-        //男生
-        if (this.data.grade == 1 || this.data.grade == 2) {
-          //大一、大二
-          if (this.data.handlong >= 17.7) {
-            if (this.data.handlong >= 24.9) handlong = 100;else if (this.data.handlong >= 17.7) handlong = Math.floor((this.data.handlong - 17.7) / 1.8) * 5 + 80;
-          } else if (this.data.handlong >= 3.7) {
-            handlong = Math.floor((this.data.handlong - 3.7) / 1.4) * 2 + 60;
-          } else if (this.data.handlong >= -1.3) {
-            handlong = Math.floor((this.data.handlong + 1.3) / 1) * 10 + 10;
-          } else handlong = 0;
-        }
-        if (this.data.grade == 3 || this.data.grade == 4) {
-          //大三、大四
-          if (this.data.handlong >= 18.2) {
-            if (this.data.handlong >= 25.1) handlong = 100;else if (this.data.handlong >= 21.5) handlong = Math.floor((this.data.handlong - 21.5) / 1.8) * 5 + 90;else if (this.data.handlong >= 18.2) handlong = Math.floor((this.data.handlong - 18.2) / 1.7) * 5 + 80;
-          } else if (this.data.handlong >= 4.2) {
-            handlong = Math.floor((this.data.handlong - 4.2) / 1.4) * 2 + 60;
-          } else if (this.data.handlong >= -0.8) {
-            handlong = Math.floor((this.data.handlong + 0.8) / 1) * 10 + 10;
-          } else handlong = 0;
-        }
-      }
-      if (this.data.sex == false) {
-        //女生
-        if (this.data.grade == 1 || this.data.grade == 2) {
-          //大一、大二
-          if (this.data.handlong >= 19) {
-            if (this.data.handlong >= 25.8) handlong = 100;else if (this.data.handlong >= 22.2) handlong = Math.floor((this.data.handlong - 22.2) / 1.8) * 5 + 90;else if (this.data.handlong >= 19) handlong = Math.floor((this.data.handlong - 19) / 1.6) * 5 + 80;
-          } else if (this.data.handlong >= 6) {
-            handlong = Math.floor((this.data.handlong - 6) / 1.3) * 2 + 60;
-          } else if (this.data.handlong >= 2) {
-            handlong = Math.floor((this.data.handlong - 2) / 0.8) * 10 + 10;
-          } else handlong = 0;
-        }
-        if (this.data.grade == 3 || this.data.grade == 4) {
-          //大三、大四
-          if (this.data.handlong >= 19.5) {
-            if (this.data.handlong >= 26.3) handlong = 100;else if (this.data.handlong >= 24.4) handlong = 95;else if (this.data.handlong >= 22.4) handlong = 90;else if (this.data.handlong >= 21.0) handlong = 85;else if (this.data.handlong >= 19.5) handlong = 80;
-          } else if (this.data.handlong >= 6.5) {
-            handlong = Math.floor((this.data.handlong - 6.5) / 1.3) * 2 + 60;
-          } else if (this.data.handlong >= 2.5) {
-            handlong = Math.floor((this.data.handlong - 2.5) / 0.8) * 10 + 10;
-          } else handlong = 0;
-        }
-      }
-
-      if (!this.data.ishandlong) handlong = 0;
-
-      this.setdata({
-        'score.handlong': handlong
-      });
-      this.calculate();
-    },
-    /* 仰卧起坐 */
-    sit_up: function sit_up(e) {
-      if (e != undefined) this.setdata({
-        sit_up: Number(e.detail.value)
-      });
-      var sit_up;
-
-      if (this.data.grade == 1 || this.data.grade == 2) {
-        //大一、大二
-        if (this.data.sit_up >= 46) {
-          if (this.data.sit_up >= 56) sit_up = 100;else if (this.data.sit_up >= 52) sit_up = Math.floor((this.data.sit_up - 52) / 2) * 5 + 90;else if (this.data.sit_up >= 46) sit_up = Math.floor((this.data.sit_up - 46) / 3) * 5 + 80;
-        } else if (this.data.sit_up >= 26) {
-          sit_up = Math.floor((this.data.sit_up - 26) / 2) * 2 + 60;
-        } else if (this.data.sit_up >= 16) {
-          sit_up = Math.floor((this.data.sit_up - 16) / 2) * 10 + 10;
-        } else sit_up = 0;
-      }
-      if (this.data.grade == 3 || this.data.grade == 4) {
-        //大三、大四
-        if (this.data.sit_up >= 47) {
-          if (this.data.sit_up >= 57) sit_up = 100;else if (this.data.sit_up >= 53) sit_up = Math.floor((this.data.sit_up - 53) / 2) * 5 + 90;else if (this.data.sit_up >= 47) sit_up = Math.floor((this.data.sit_up - 47) / 3) * 5 + 80;
-        } else if (this.data.sit_up >= 27) {
-          sit_up = Math.floor((this.data.sit_up - 27) / 2) * 2 + 60;
-        } else if (this.data.sit_up >= 17) {
-          sit_up = Math.floor((this.data.sit_up - 17) / 2) * 10 + 10;
-        } else sit_up = 0;
-      }
-      this.setdata({
-        'score.sit_up': sit_up
-      });
-      this.setdata({
-        total: (this.data.score.fat * 0.15 + this.data.score.volume * 0.15 + this.data.score.jump * 0.1 + this.data.score.handlong * 0.1 + sit_up * 0.1 + this.data.score.shortrun * 0.2 + this.data.score.longrun * 0.2).toFixed(2)
       });
     },
-    /* 引体向上 */
-    pull_up: function pull_up(e) {
-      if (e != undefined) this.setdata({
-        pull_up: Number(e.detail.value)
-      });
-      var pull_up;
-
-      if (this.data.grade == 1 || this.data.grade == 2) {
-        //大一、大二
-        if (this.data.pull_up >= 19) pull_up = 100;else if (this.data.pull_up >= 15) {
-          pull_up = (this.data.pull_up - 15) * 5 + 80;
-        } else if (this.data.pull_up >= 10) {
-          pull_up = (this.data.pull_up - 10) * 4 + 60;
-        } else if (this.data.pull_up >= 5) {
-          pull_up = (this.data.pull_up - 5) * 10 + 10;
-        } else pull_up = 0;
-      }
-      if (this.data.grade == 3 || this.data.grade == 4) {
-        //大三、大四
-        if (this.data.pull_up >= 20) pull_up = 100;else if (this.data.pull_up >= 16) {
-          pull_up = (this.data.pull_up - 16) * 5 + 80;
-        } else if (this.data.pull_up >= 11) {
-          pull_up = (this.data.pull_up - 11) * 4 + 60;
-        } else if (this.data.pull_up >= 6) {
-          pull_up = (this.data.pull_up - 6) * 10 + 10;
-        } else pull_up = 0;
-      }
-      this.setdata({
-        'score.pull_up': pull_up
-      });
-      this.setdata({
-        total: (this.data.score.fat * 0.15 + this.data.score.volume * 0.15 + this.data.score.jump * 0.1 + this.data.score.handlong * 0.1 + pull_up * 0.1 + this.data.score.shortrun * 0.2 + this.data.score.longrun * 0.2).toFixed(2)
+    moveSchool: function moveSchool() {
+      //视图返回学校
+      var _this = this;
+      wx.showModal({
+        title: '选择校区',
+        showCancel: true, //是否显示取消按钮
+        content: "请选择校区",
+        cancelText: "西城校区", //默认是“取消”
+        confirmText: "官渡校区", //默认是“确定”
+        success: function success(res) {
+          if (res.cancel) {
+            _this.setdata({
+              userLongitude: 110.818019,
+              userLatitude: 21.654388
+            });
+          } else {
+            _this.setdata({
+              userLongitude: 110.922599,
+              userLatitude: 21.679529
+            });
+          }
+        },
+        fail: function fail(res) {}, //接口调用失败的回调函数
+        complete: function complete(res) {} //接口调用结束的回调函数（调用成功、失败都会执行）
       });
     },
-    /* 短跑50m */
-    shortrun: function shortrun(e) {
-      if (e != undefined) this.setdata({
-        shortrun: Number(e.detail.value)
-      });
-
-      var shortrun;
-
-      if (this.data.sex == true) {
-        //男生
-        if (this.data.grade == 1 || this.data.grade == 2) {
-          //大一、大二
-          if (this.data.shortrun > 10.1 || this.data.shortrun == 0) shortrun = 0;else if (this.data.shortrun >= 9.1) {
-            shortrun = 60 - Math.ceil((this.data.shortrun - 9.1) / 0.2) * 10;
-          } else if (this.data.shortrun >= 7.1) {
-            shortrun = 80 - Math.ceil((this.data.shortrun - 7.1) / 0.2) * 2;
-          } else if (this.data.shortrun >= 6.7) {
-            shortrun = 100 - Math.ceil((this.data.shortrun - 6.7) / 0.1) * 5;
-          } else shortrun = 100;
-        }
-        if (this.data.grade == 3 || this.data.grade == 4) {
-          //大三、大四
-          if (this.data.shortrun > 10) shortrun = 0;else if (this.data.shortrun >= 9) {
-            shortrun = 60 - Math.ceil((this.data.shortrun - 9) / 0.2) * 10;
-          } else if (this.data.shortrun >= 7.0) {
-            shortrun = 80 - Math.ceil((this.data.shortrun - 7) / 0.2) * 2;
-          } else if (this.data.shortrun >= 6.6) {
-            shortrun = 100 - Math.ceil((this.data.shortrun - 6.6) / 0.1) * 5;
-          } else shortrun = 100;
-        }
-      }
-      if (this.data.sex == false) {
-        //女生
-        if (this.data.grade == 1 || this.data.grade == 2) {
-          //大一、大二
-          if (this.data.shortrun > 11.3) shortrun = 0;else if (this.data.shortrun >= 10.3) {
-            shortrun = 60 - Math.ceil((this.data.shortrun - 10.3) / 0.2) * 10;
-          } else if (this.data.shortrun >= 8.3) {
-            shortrun = 80 - Math.ceil((this.data.shortrun - 8.3) / 0.2) * 2;
-          } else if (this.data.shortrun >= 7.7) {
-            shortrun = 100 - Math.ceil((this.data.shortrun - 7.7) / 0.3) * 5;
-          } else if (this.data.shortrun >= 7.5) {
-            shortrun = 100 - Math.ceil((this.data.shortrun - 7.5) / 0.1) * 5;
-          } else shortrun = 100;
-        }
-        if (this.data.grade == 3 || this.data.grade == 4) {
-          //大三、大四
-          if (this.data.shortrun > 11.2) shortrun = 0;else if (this.data.shortrun >= 10.2) {
-            shortrun = 60 - Math.ceil((this.data.shortrun - 10.2) / 0.2) * 10;
-          } else if (this.data.shortrun >= 8.2) {
-            shortrun = 80 - Math.ceil((this.data.shortrun - 8.2) / 0.2) * 2;
-          } else if (this.data.shortrun >= 7.6) {
-            shortrun = 100 - Math.ceil((this.data.shortrun - 7.6) / 0.3) * 5;
-          } else if (this.data.shortrun >= 7.4) {
-            shortrun = 100 - Math.ceil((this.data.shortrun - 7.4) / 0.1) * 5;
-          } else shortrun = 100;
-        }
-      }
-
-      if (e != undefined && e.detail.value == 0) shortrun = 0;
-
-      this.setdata({
-        'score.shortrun': shortrun
-      });
-      // if (this.data.shortrun != 0)
-      this.calculate();
-    },
-    /* 长跑800、1000 */
-    min: function min(e) {
-      if (e != undefined) this.setdata({
-        min: e.detail.value,
-        longrun: Number(e.detail.value) * 60 + Number(this.data.second)
-      });
-      this.longrun();
-    },
-    second: function second(e) {
-      if (e != undefined) this.setdata({
-        second: e.detail.value,
-        longrun: Number(this.data.min) * 60 + Number(e.detail.value)
-      });
-      this.longrun();
-    },
-    longrun: function longrun(e) {
-      var longrun;
-      if (this.data.sex == true) {
-        //男生
-        if (this.data.grade == 1 || this.data.grade == 2) {
-          //大一、大二
-          if (this.data.longrun > 372) longrun = 0;else if (this.data.longrun >= 272) {
-            longrun = 60 - Math.ceil((this.data.longrun - 272) / 20) * 10;
-          } else if (this.data.longrun >= 222) {
-            longrun = 80 - Math.ceil((this.data.longrun - 222) / 5) * 2;
-          } else if (this.data.longrun >= 207) {
-            longrun = 90 - Math.ceil((this.data.longrun - 207) / 7) * 5;
-          } else if (this.data.longrun >= 197) {
-            longrun = 100 - Math.ceil((this.data.longrun - 197) / 5) * 5;
-          } else longrun = 100;
-        }
-        if (this.data.grade == 3 || this.data.grade == 4) {
-          //大三、大四
-          if (this.data.longrun > 370) longrun = 0;else if (this.data.longrun >= 270) {
-            longrun = 60 - Math.ceil((this.data.longrun - 270) / 20) * 10;
-          } else if (this.data.longrun >= 220) {
-            longrun = 80 - Math.ceil((this.data.longrun - 220) / 5) * 2;
-          } else if (this.data.longrun >= 205) {
-            longrun = 90 - Math.ceil((this.data.longrun - 205) / 7) * 5;
-          } else if (this.data.longrun >= 195) {
-            longrun = 100 - Math.ceil((this.data.longrun - 195) / 5) * 5;
-          } else longrun = 100;
-        }
-      }
-      if (this.data.sex == false) {
-        //女生
-        if (this.data.grade == 1 || this.data.grade == 2) {
-          //大一、大二
-          if (this.data.longrun > 324) longrun = 0;else if (this.data.longrun >= 274) {
-            longrun = 60 - Math.ceil((this.data.longrun - 274) / 10) * 10;
-          } else if (this.data.longrun >= 224) {
-            longrun = 80 - Math.ceil((this.data.longrun - 224) / 5) * 2;
-          } else if (this.data.longrun >= 210) {
-            longrun = 90 - Math.ceil((this.data.longrun - 210) / 7) * 5;
-          } else if (this.data.longrun >= 198) {
-            longrun = 100 - Math.ceil((this.data.longrun - 198) / 6) * 5;
-          } else longrun = 100;
-        }
-        if (this.data.grade == 3 || this.data.grade == 4) {
-          //大三、大四
-          if (this.data.longrun > 322) longrun = 0;else if (this.data.longrun >= 272) {
-            longrun = 60 - Math.ceil((this.data.longrun - 272) / 10) * 10;
-          } else if (this.data.longrun >= 222) {
-            longrun = 80 - Math.ceil((this.data.longrun - 222) / 5) * 2;
-          } else if (this.data.longrun >= 208) {
-            longrun = 90 - Math.ceil((this.data.longrun - 208) / 7) * 5;
-          } else if (this.data.longrun >= 196) {
-            longrun = 100 - Math.ceil((this.data.longrun - 196) / 6) * 5;
-          } else longrun = 100;
-        }
-      }
-      if (this.data.longrun == 0) longrun = 0;
-
-      this.setdata({
-        'score.longrun': longrun
-      });
-      // if (this.data.longrun != 0)
-      this.calculate();
-    },
-
-    /* 计算统计 */
-    calculate: function calculate(e) {
-      if (this.data.sex == true) this.setdata({
-        total: (this.data.score.fat * 0.15 + this.data.score.volume * 0.15 + this.data.score.jump * 0.1 + this.data.score.handlong * 0.1 + this.data.score.pull_up * 0.1 + this.data.score.shortrun * 0.2 + this.data.score.longrun * 0.2).toFixed(2)
-      });
-      if (this.data.sex == false) this.setdata({
-        total: (this.data.score.fat * 0.15 + this.data.score.volume * 0.15 + this.data.score.jump * 0.1 + this.data.score.handlong * 0.1 + this.data.score.sit_up * 0.1 + this.data.score.shortrun * 0.2 + this.data.score.longrun * 0.2).toFixed(2)
+    jtt: function jtt() {
+      wx.showModal({
+        title: '选择校区',
+        showCancel: true, //是否显示取消按钮
+        content: "请选择校区",
+        cancelText: "西城校区", //默认是“取消”
+        confirmText: "官渡校区", //默认是“确定”
+        success: function success(res) {
+          if (res.cancel) {
+            wx.previewImage({
+              current: "cloud://un1-d62c68.756e-un1-d62c68-1258307938/a.png", // 当前显示图片的http链接
+              urls: ["cloud://un1-d62c68.756e-un1-d62c68-1258307938/a.png"] // 需要预览的图片http链接列表
+            });
+          } else {
+            wx.previewImage({
+              current: "cloud://un1-d62c68.756e-un1-d62c68-1258307938/b.png", // 当前显示图片的http链接
+              urls: "cloud://un1-d62c68.756e-un1-d62c68-1258307938/b.png" // 需要预览的图片http链接列表
+            });
+          }
+        },
+        fail: function fail(res) {}, //接口调用失败的回调函数
+        complete: function complete(res) {} //接口调用结束的回调函数（调用成功、失败都会执行）
       });
     },
-
-    /* 更新数据 */
-    update: function update(e) {
-      this.tall();
-      this.weight();
-      this.volume();
-      this.jump();
-      if (wx.getStorageSync("state") == "") this.handlong("update");
-      this.sit_up();
-      this.pull_up();
-      if (this.data.shortrun != 0) this.shortrun();
-      if (this.data.longrun != 0) this.longrun();
-
-      this.calculate();
+    goDetail: function goDetail() {
+      var that = this;
+      var latitude = that.data.markers[that.data.activePlaceID].latitude;
+      var longitude = that.data.markers[that.data.activePlaceID].longitude;
+      var name = that.data.markers[that.data.activePlaceID].callout.content;
+      wx.openLocation({
+        latitude: latitude,
+        longitude: longitude,
+        name: name,
+        address: '广东石油化工学院',
+        scale: 8
+      });
     }
-
   });
 }
 module.exports = runCode;

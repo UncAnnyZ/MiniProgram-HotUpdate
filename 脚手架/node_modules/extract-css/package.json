@@ -1,0 +1,23 @@
+{
+  "name": "extract-css",
+  "version": "2.0.1",
+  "description": "Extract the CSS from an HTML document.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "repository": "https://github.com/jonkemp/inline-css/tree/master/packages/extract-css",
+  "keywords": [
+    "css"
+  ],
+  "author": "Jonathan Kemp <kempdogg@gmail.com> (http://jonkemp.com/)",
+  "license": "MIT",
+  "homepage": "https://github.com/jonkemp/inline-css/tree/master/packages/extract-css",
+  "dependencies": {
+    "batch": "^0.6.1",
+    "href-content": "^2.0.1",
+    "list-stylesheets": "^1.2.10",
+    "style-data": "^1.4.8"
+  },
+  "gitHead": "3434622fd50124ac83e63f9814438599dc9aaaf6"
+}

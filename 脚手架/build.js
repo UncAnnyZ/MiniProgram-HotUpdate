@@ -41,18 +41,18 @@ fs.readFile('dist/index.js', (err, buffer) => {
 
 
 
-          let allStrClass = str.match(/class='(.*?)*?'/g)
+          let allStrClass = str.match(/class='.*?{{(.*?)}}.*?'/g)
           if(allStrClass === null){
-            allStrClass = str.match(/class="(.*?)*?"/g)
+            allStrClass = str.match(/class="*?{{(.*?)}}.*?"/g)
           }
-          let allStrClass1 = str.match(/class='(.*?)*?'/g);
+          let allStrClass1 = str.match(/class='.*?{{(.*?)}}.*?'/g);
           // console.log(allStrClass, 233)
   
           for (i in allStrClass) {
             
-            var regexp = /class='(.*?)'/;
+            var regexp = /class='.*?{{(.*?)}}.*?'/;
             if(allStrClass1 === null){
-              var regexp = /class="(.*?)"/;
+              var regexp = /class="*?{{(.*?)}}.*?"/;
             }
             let p = allStrClass[i].match(regexp)[1];
             let newStyle = p.split(/\s+/)
@@ -80,19 +80,23 @@ fs.readFile('dist/index.js', (err, buffer) => {
               Style += newStyle[j]
             }
             // console.log(Style)
-            
-            if(allStrClass1 === null){
-              allStrClass[i] = allStrClass[i].replace(regexp, 'style=\"' + Style + '\"')
-            }else{
-              allStrClass[i] = allStrClass[i].replace(regexp, 'style=\'' + Style + '\'')
+      
+            if(allStrClass[i].match(/this.data./)){
+       
+              if(allStrClass1 === null){
+                allStrClass[i] = allStrClass[i].replace(regexp, 'style=\"' + Style + '\"')
+              }else{
+                allStrClass[i] = allStrClass[i].replace(regexp, 'style=\'' + Style + '\'')
+              }
+          
             }
-        
+    
        
           }
           // console.log(allStrClass)
 
           if(allStrClass1 === null){
-            allStrClass1 = str.match(/class="(.*?)*?"/g)
+            allStrClass1 = str.match(/class="*?{{(.*?)}}.*?"/g)
           }
         
         
