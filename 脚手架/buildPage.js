@@ -21,7 +21,7 @@ fs.readFile('src/index.js', (err, buffer) => {
           let css = buffer2.toString()
           css1 = css.replace(/[\n]/g, "");
           let darkCss = css1.match(/dark\s*\)\s*{(.*?)}\s*}/g);
-          darkCss = darkCss[0].match(/\.(.*?)(.*?){(.*?)}/g);
+          darkCss = darkCss ? darkCss[0].match(/\.(.*?)(.*?){(.*?)}/g): darkCss;
           let darks = new Set()
           for(i in darkCss){
             var regexp = /\.(.*?)(.*?){(.*?)}/;
