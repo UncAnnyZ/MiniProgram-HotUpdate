@@ -1,7 +1,22 @@
 
   const app = getApp()
+  Page({
 
-  var onload = app.jsRun('', `/******/ (function() { // webpackBootstrap
+    /**
+     * 页面的初始数据
+     */
+    data: {
+      html : [{type: 'view', text: '模版错误啦'}],
+      
+    },
+  
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    onLoad: function (options) {
+      var args = {
+        xxx: 'xxx',
+        code: `/******/ (function() { // webpackBootstrap
 /******/ 	"use strict";
 var __webpack_exports__ = {};
 /*!***********************!*\\
@@ -173,6 +188,21 @@ function runCode() {
 module.exports = runCode;
 /******/ })()
 ;
-//# sourceMappingURL=index.js.map`)
-  console.log(onload())
-  Page(onload())
+//# sourceMappingURL=index.js.map`
+      }
+      if (args) {
+        try {
+          var onload1 = app.jsRun(args, args.code)
+          const onloadDict = onload1()
+          for(let i in onloadDict){
+            this[i] = onloadDict[i]
+          }
+          this.onLoad(this.options)
+        } catch (e) {
+          console.log(e)
+        }
+      }
+  
+    },
+  
+  })
