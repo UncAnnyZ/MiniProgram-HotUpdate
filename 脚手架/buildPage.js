@@ -1,6 +1,16 @@
 const fs = require('fs')
 
 var inlineCss = require('inline-css');
+const mineType = require('mime-types');
+const path = require('path')
+var base64img = function(file){
+
+  let filePath = path.resolve(file);
+  console.log(filePath)
+  let data = fs.readFileSync( path.resolve(filePath));
+  data = new Buffer(data).toString('base64');
+  return 'data:' + mineType.lookup(filePath) + ';base64,' + data;
+}
 
 fs.readFile('src/index.js', (err, buffer) => {
 
@@ -59,6 +69,26 @@ fs.readFile('src/index.js', (err, buffer) => {
                   tag1 = html2[i].replace(">", " ${this.data.dark == 'dark' ? 'style=\"" + a +"\"' : ''} g=" + y + ">")
                 }else{
                   tag1 = html2[i].replace(">", " g=" + y + ">")
+                }
+                //图片处理
+                try{
+                  let src = tag1.match(/src="(.*?)"/)
+                  if(src){
+            
+                    if(src[1].match(/\.\.\//)){
+                      src[1] = src[1].replace('../', './')
+                    }else{
+                      src[1] = src[1].replace('./', './src/')
+                    }
+                    console.log(src[1])
+                    let img01= base64img("./images/uTools_1643186573282.png");
+                    img01 = img01.replace(/[\n]/g, "");
+                    img01 = img01.replace(/\s+/g, "");
+                    tag1= tag1.replace(/src="(.*?)"/, "src=\"" + img01 + "\"")
+                  }
+
+                }catch(e){
+
                 }
 
                 html = html.replace(html2[i], tag1)
@@ -235,6 +265,10 @@ fs.readFile('src/index.js', (err, buffer) => {
                       // c[1] = c[1].replace(/\\s*/g, "")
                       c[0] = c[0].replace(/\\s*/g, "")
                       // 循环设置属性
+                      var lengthc = 2
+                      for(lengthc; lengthc < c.length ; lengthc++){
+                        c[1] += "=" + c[lengthc]
+                      }
                       let p = c[1].substring(1, c[1].length - 1)
                       try{
                         p = JSON.parse(c[1].substring(1, c[1].length - 1))

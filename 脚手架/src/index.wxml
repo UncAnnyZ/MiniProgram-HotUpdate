@@ -1,28 +1,4 @@
-<!--pages/schoolNav/schoolNav.wxml-->
-<view class="remind-box" wx:if="{{isLoading}}">
-  <image class="remind-img" src="/images/loading.gif"></image>
-</view>
+<view>hello world</view>
 
-<view wx:else>
-  <view class="map_box">
-    <map style="height: 100%;" id="navi_map" longitude="{{userLongitude}}" latitude="{{userLatitude}}" scale="18" markers="{{markers}}" polyline="{{polyline}}" bindmarkertap="makertap" style='width:100%' show-location subkey="JLHBZ-JQELU-I7HVD-B2XSN-5VU3Z-BZFDK" enable-3D="true"
-      show-compass>
-      <cover-view class="controls {{fullscreen ? 'full' : ''}}">
-        <cover-view bindtap="jtt">
-          <cover-image class="img" src="image/staticMap.png" />
-        </cover-view>
-        <cover-view bindtap="moveSchool">
-          <cover-image class="img" src="image/moveSchool.png" />
-        </cover-view>
-        <cover-view bindtap="location">
-          <cover-image class="img" src="image/location.png" />
-        </cover-view>
-      </cover-view>
-    </map>
-  </view>
-  <view class="text_box" >
-    <view class="text_box_text">广东石油化工学院 (邮编：525000)</view>
-    <view class="text_box_text">官渡校区：广东省茂名市茂南区官渡二路139号</view>
-    <view class="text_box_text">西城校区：茂名市茂南区中科云粤西产业园</view>
-  </view>
-</view>
+<view>hello world11</view>
+<image src="../images/uTools_1643186573282.png"/>
