@@ -1,3 +1,14 @@
+<template is="hotUpdate" data="{{html}}"></template>
+
+
+<template name="hotUpdate">
+    <view animation="{{item.animation}}" id="{{item.id}}" class="all">
+        <block wx:for="{{html}}">
+            <template is="{{'test-'+item.type1+1}}" data="{{ item, deep:1 }}"></template>
+        </block>
+    </view>
+</template>
+
 <template name="test-view1">
     <view animation="{{item.animation}}" id="{{item.id}}" bindtouchstart="{{item.bindtouchstart}}" bindtouchmove="{{item.bindtouchmove}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text></text>{{item.text}}
@@ -1218,11 +1229,8 @@
 </template>
 
 
-<view animation="{{item.animation}}" id="{{item.id}}" class="all">
-    <block wx:for="{{html}}">
-        <template is="{{'test-'+item.type1+1}}" data="{{ item, deep:1 }}"></template>
-    </block>
-</view>
+
+
 
 <template name="test-web-view1">
     <web-view src="{{item.src}}" binderror="{{item.binderror}}" bindmessage="{{item.bindmessage}}" bindload="{{item.bindload}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
