@@ -30,6 +30,7 @@ fs.readFile('src/index.js', (err, buffer) => {
             darks.add({ [p[2].split(/\s+/)[0]]: p[3] })
           }
           let noChange = []
+          css = css ? css : '.page{}'
           let html =  '<style>' + css + '</style>' + buffer1.toString()
           html = html.replace(/<!--(.*?)-->/g, "") 
           html = html.replace(/'/g, `"`)
