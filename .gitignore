@@ -11,3 +11,4 @@ $RECYCLE.BIN/
 
 # Node.js
 node_modules/
+./脚手架/node_modules
