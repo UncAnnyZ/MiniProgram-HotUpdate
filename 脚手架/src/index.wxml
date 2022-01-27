@@ -1,4 +1,10 @@
 <view>hello world</view>
 
 <view>hello world11</view>
-<image src="../images/uTools_1643186573282.png"/>
+
+<viwe/> 
+<view>
+  <image src="../images/uTools_1643186573282.png"/>
+  <image src="../images/截屏2022-01-27 下午2.34.46.png"/>
+</view>
+

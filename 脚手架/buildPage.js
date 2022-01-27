@@ -3,11 +3,11 @@ const fs = require('fs')
 var inlineCss = require('inline-css');
 const mineType = require('mime-types');
 const path = require('path')
-var base64img = function(file){
+var base64img = function (file) {
 
   let filePath = path.resolve(file);
   console.log(filePath)
-  let data = fs.readFileSync( path.resolve(filePath));
+  let data = fs.readFileSync(path.resolve(filePath));
   data = new Buffer(data).toString('base64');
   return 'data:' + mineType.lookup(filePath) + ';base64,' + data;
 }
@@ -31,18 +31,35 @@ fs.readFile('src/index.js', (err, buffer) => {
           let css = buffer2.toString()
           css1 = css.replace(/[\n]/g, "");
           let darkCss = css1.match(/dark\s*\)\s*{(.*?)}\s*}/g);
-          darkCss = darkCss ? darkCss[0].match(/\.(.*?)(.*?){(.*?)}/g): darkCss;
+          darkCss = darkCss ? darkCss[0].match(/\.(.*?)(.*?){(.*?)}/g) : darkCss;
           let darks = new Set()
-          for(i in darkCss){
+          for (i in darkCss) {
             var regexp = /\.(.*?)(.*?){(.*?)}/;
             let p = darkCss[i].match(regexp);
-            
-            darks.add({ [p[2].split(/\s+/)[0]]: p[3] })
+
+            darks.add({
+              [p[2].split(/\s+/)[0]]: p[3]
+            })
           }
           let noChange = []
           css = css ? css : '.page{}'
-          let html =  '<style>' + css + '</style>' + buffer1.toString()
-          html = html.replace(/<!--(.*?)-->/g, "") 
+
+          let tagRE = /<[a-zA-Z\\-\\!\\/](?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])*>/g;
+
+
+          let html = buffer1.toString()
+          let html3 = html.match(tagRE)
+          for (i in html3) {
+            let a = html3[i].match(/\s*(.*?)\s*\/>/)
+            if (a) {
+              b = html3[i].replace('\\>', '>')
+              a[1] = a[1].replace('<', '')
+  
+              html = html.replace(html3[i], b + "</" + a[1] + ">")
+            }
+          }
+          html = '<style>' + css + '</style>' + html
+          html = html.replace(/<!--(.*?)-->/g, "")
           html = html.replace(/'/g, `"`)
           inlineCss(html, options)
             .then(function (html) {
@@ -52,53 +69,53 @@ fs.readFile('src/index.js', (err, buffer) => {
               let tagRE = /<[a-zA-Z\\-\\!\\/](?:"[^"]*"['"]*|'[^']*'['"]*|[^'">])*>/g;
               let tagAll = []
               let html2 = html.match(tagRE)
-    
+
               for (i in html2) {
-                if (html2[i].match(/\/(\s*?)>/)) {
-                  continue
-                }
+
                 let a = ''
                 for (let x of darks) {
-            
-                  if(html2[i].match(Object.keys(x)[0])){
+
+                  if (html2[i].match(Object.keys(x)[0])) {
                     a = x[Object.keys(x)[0]]
                   }
                 }
-                let tag1 
-                if(a){
-                  tag1 = html2[i].replace(">", " ${this.data.dark == 'dark' ? 'style=\"" + a +"\"' : ''} g=" + y + ">")
-                }else{
+                // console.log(html2[i])
+
+                let tag1
+                if (a) {
+                  tag1 = html2[i].replace(">", " ${this.data.dark == 'dark' ? 'style=\"" + a + "\"' : ''} g=" + y + ">")
+                } else {
                   tag1 = html2[i].replace(">", " g=" + y + ">")
                 }
                 //图片处理
-                try{
+                try {
                   let src = tag1.match(/src="(.*?)"/)
-                  if(src){
-            
-                    if(src[1].match(/\.\.\//)){
+                  if (src) {
+
+                    if (src[1].match(/\.\.\//)) {
                       src[1] = src[1].replace('../', './')
-                    }else{
+                    } else {
                       src[1] = src[1].replace('./', './src/')
                     }
                     console.log(src[1])
-                    let img01= base64img("./images/uTools_1643186573282.png");
+                    let img01 = base64img(src[1]);
                     img01 = img01.replace(/[\n]/g, "");
                     img01 = img01.replace(/\s+/g, "");
-                    tag1= tag1.replace(/src="(.*?)"/, "src=\"" + img01 + "\"")
+                    tag1 = tag1.replace(/src="(.*?)"/, "src=\"" + img01 + "\"")
                   }
 
-                }catch(e){
+                } catch (e) {
 
                 }
 
                 html = html.replace(html2[i], tag1)
                 y += 1
               }
-    
+
               html.replace(tagRE, function (tag, index) {
                 let tagMatch = tag.match(/<\/?([^\s]+?)[/\s>]/);
                 let type = tagMatch[1] + ".0";
-    
+
                 if (tag.match(/\/(\s*?)>/)) {
                   // console.log(tag, 222)
                   return
@@ -112,17 +129,17 @@ fs.readFile('src/index.js', (err, buffer) => {
                   let index = tag.match(/wx:for-index="(.*?)?"/) ? tag.match(/wx:for-index="(.*?)?"/)[1] : 'index'
                   noChange.push(item)
                   noChange.push(index)
-    
-    
+
+
                   html = html.replaceAll(tag, `\${this.data.${t[1]}.map((${item}, ${index}) =>  \` ` + tag)
                 }
-    
+
                 function truncate(arr) {
                   var m = arr.slice(0);
                   m.splice(m.length - 1, 1);
                   return m;
                 }
-    
+
                 if (tag.match(/<(\s*?)\//)) {
                   // console.log(tag, 233)
                   // tagAll = truncate(tagAll)
@@ -130,11 +147,11 @@ fs.readFile('src/index.js', (err, buffer) => {
                     html = html.replace(tag, tag + '`)}')
                   }
                   tagAll = truncate(tagAll)
-    
+
                 } else {
                   tagAll.push(type)
                 }
-    
+
               });
               html.replace(tagRE, function (tag, index) {
                 // console.log("$" + y)
@@ -143,35 +160,35 @@ fs.readFile('src/index.js', (err, buffer) => {
               })
               // console.log(html, 233)
               html = html.replaceAll(" g=0", '')
-      
+
               var regexp = /{{(.*?)}}/g;
               let p = html.match(regexp)
-    
+
               for (i in p) {
                 let k = p[i].match(/{{(.*?)}}/)[1]
                 let p1 = ''
                 try {
                   JSON.parse(k)
                   p1 = JSON.stringify(k)
-    
+
                 } catch (e) {
                   var fh = k.match(/[`~!@#$%^&*()+<>?:{},\/;[\]]/g)
                   for (j in fh) {
-    
+
                     k = k.replaceAll(fh[j], ` ${fh[j]} `)
-    
+
                   }
                   let dz = k.match(/"(.*?)"/g)
                   k = k.replace(/"(.*?)"/g, '~~~')
                   let array = k.split(/\s+/g)
-    
+
                   for (j in array) {
                     if (array[j].match(/^[a-zA-Z]/)) {
                       // console.log(array)
                       // p1 += `${array[j]}`
                       p1 += 'typeof this.data.' + array[j] + ' === "object" ? JSON.stringify( ' + 'this.data.' + array[j] + ') : this.data.' + array[j]
                     } else {
-                
+
                       try {
                         JSON.parse(k)
                         p1 += JSON.stringify(array[j])
@@ -183,7 +200,7 @@ fs.readFile('src/index.js', (err, buffer) => {
                   for (j in dz) {
                     p1 = p1.replace(/~~~/, dz[j])
                   }
-    
+
                 }
                 html = html.replace(p[i], `\${${p1}}`)
               }
@@ -193,8 +210,8 @@ fs.readFile('src/index.js', (err, buffer) => {
               let wxForexp = /\.map(.*?)`\)}/g;
               let wxForhtml = html.match(wxForexp)
               let wxForhtml1 = html.match(wxForexp)
-    
-    
+
+
               for (i in wxForhtml) {
                 for (j in noChange) {
                   if (wxForhtml[i].match(noChange[j])) {
@@ -203,28 +220,28 @@ fs.readFile('src/index.js', (err, buffer) => {
                     // console.log(wxForhtml[i])
                   }
                 }
-    
+
                 html = html.replace(wxForhtml1[i], wxForhtml[i])
                 // console.log(html)
               }
-    
+
               // if(p !== 'item'){
-    
+
               // }
               // html = html.replace(/{{(.*?)}}/g, `\${}`)
-    
+
               let str = buffer.toString()
               str = `function runCode(){
               `
               str += buffer.toString()
               str = str.replace(/setData/g, "setdata");
-    
+
               let onload = /onReady:(.*)function(.*)\((.*?)\)(.*){/
               let onloadJS = str.match(onload)
               if (onloadJS) {
                 str = str.replace(onloadJS[0], onloadJS[0] + ' this.data.dark =wx.getSystemInfoSync().theme; wx.onThemeChange(e => {console.log(e.theme);this.setdata({dark: e.theme})}); this.setdata();')
               }
-    
+
               str = str.replace('Page({', `  
             
             var Page = function(page){
@@ -353,15 +370,15 @@ fs.readFile('src/index.js', (err, buffer) => {
             window.exports = runCode;
         
             `
-    
+
               fs.writeFile('dist/index.js', str, {
                 encoding: 'utf8'
               }, err => {})
             });
-    
+
         }
       })
- 
+
     })
 
 
