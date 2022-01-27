@@ -404,8 +404,10 @@ fs.readFile('src/index.js', (err, buffer) => {
             
             },
           setdata: function setdata(dictData) {
-       
-            this.setData(dictData);
+            
+            for(var i in dictData){
+              this.data[i] = dictData[i]
+            }
             var html = \`${html}\`
             this.setData({html : this.parse(html)});
           },
