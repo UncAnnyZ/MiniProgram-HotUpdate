@@ -2,7 +2,8 @@ const fs = require('fs')
 
 var inlineCss = require('inline-css');
 const mineType = require('mime-types');
-const path = require('path')
+const path = require('path');
+const { ids } = require('webpack');
 var base64img = function (file) {
 
   let filePath = path.resolve(file);
@@ -111,7 +112,7 @@ fs.readFile('src/index.js', (err, buffer) => {
                 html = html.replace(html2[i], tag1)
                 y += 1
               }
-
+              let elseNumber = 0
               html.replace(tagRE, function (tag, index) {
                 let tagMatch = tag.match(/<\/?([^\s]+?)[/\s>]/);
                 let type = tagMatch[1] + ".0";
@@ -129,9 +130,36 @@ fs.readFile('src/index.js', (err, buffer) => {
                   let index = tag.match(/wx:for-index="(.*?)?"/) ? tag.match(/wx:for-index="(.*?)?"/)[1] : 'index'
                   noChange.push(item)
                   noChange.push(index)
-
-
                   html = html.replaceAll(tag, `\${this.data.${t[1]}.map((${item}, ${index}) =>  \` ` + tag)
+                }
+
+
+                if (tag.match(/wx:if/)) {
+                  // console.log(0)
+        
+                  type = tagMatch[1] + ".2"
+                  let t = tag.match(/wx:if="{{(.*)}}"/);
+                  let tag1 = tag.replace(/wx:if="{{(.*)}}"/, '');
+               
+                  html = html.replaceAll(tag, `\{{"wx&if" ${t[1]}}} ? \`` + tag1)
+       
+                  elseNumber += 1
+                }
+
+                if (tag.match(/wx:elif/)) {
+                  // console.log(0)
+                  type = tagMatch[1] + ".2"
+                  let t = tag.match(/wx:elif="{{(.*)}}"/);
+                  let tag1 = tag.replace(/wx:elif="{{(.*)}}"/, '');
+                  html =  html.replace('`: `'+(elseNumber)+ '`}', '`: ' + `\{{"wx&elif" ${t[1]}}} ? \`` + tag1)
+                  elseNumber += 1
+                }
+
+                if (tag.match(/wx:else/)) {
+                  // console.log(0)
+                  type = tagMatch[1] + ".3"
+                  html =  html.replace('`: `'+(elseNumber)+ '`}', '`: `')
+                  elseNumber -= 1
                 }
 
                 function truncate(arr) {
@@ -146,6 +174,12 @@ fs.readFile('src/index.js', (err, buffer) => {
                   if (tagAll[tagAll.length - 1] && tagAll[tagAll.length - 1].split(".")[1] === "1") {
                     html = html.replace(tag, tag + '`)}')
                   }
+                  if (tagAll[tagAll.length - 1] && tagAll[tagAll.length - 1].split(".")[1] === "2") {
+                    html = html.replace(tag, tag + '`: `'+elseNumber+ '`}')
+                  }
+                  if (tagAll[tagAll.length - 1] && tagAll[tagAll.length - 1].split(".")[1] === "3") {
+                    html = html.replace(tag, tag + '`}')
+                  }
                   tagAll = truncate(tagAll)
 
                 } else {
@@ -153,6 +187,9 @@ fs.readFile('src/index.js', (err, buffer) => {
                 }
 
               });
+
+              html = html.replace('`: `'+(elseNumber)+ '`}', '`: ``}')
+
               html.replace(tagRE, function (tag, index) {
                 // console.log("$" + y)
                 html = html.replaceAll(" g=" + y, '')
@@ -172,7 +209,7 @@ fs.readFile('src/index.js', (err, buffer) => {
                   p1 = JSON.stringify(k)
 
                 } catch (e) {
-                  var fh = k.match(/[`~!@#$%^&*()+<>?:{},\/;[\]]/g)
+                  var fh = k.match(/[`~!@#$%^*()+<>?:{},\/;[\]]/g)
                   for (j in fh) {
 
                     k = k.replaceAll(fh[j], ` ${fh[j]} `)
@@ -202,11 +239,23 @@ fs.readFile('src/index.js', (err, buffer) => {
                   }
 
                 }
-                html = html.replace(p[i], `\${${p1}}`)
+                
+                if(p[i].match(/wx&if/)){
+
+                  html = html.replace(p[i], `\${${p1}`)
+                }else if(p[i].match(/wx&elif/)){
+                  html = html.replace(p[i], `${p1}`)
+                }else{
+                  console.log(p1, 22)
+                  html = html.replace(p[i], `\${${p1}}`)
+                }
+      
               }
               // console.log(html)
               // wx:for的内容转换
               html = html.replace(/[\n]/g, "");
+              html = html.replace(/"wx&if"/g, "");
+              html = html.replace(/"wx&elif"/g, "");
               let wxForexp = /\.map(.*?)`\)}/g;
               let wxForhtml = html.match(wxForexp)
               let wxForhtml1 = html.match(wxForexp)

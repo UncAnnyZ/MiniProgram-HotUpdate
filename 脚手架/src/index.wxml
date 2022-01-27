@@ -7,4 +7,11 @@
   <image src="../images/uTools_1643186573282.png"/>
   <image src="../images/截屏2022-01-27 下午2.34.46.png"/>
 </view>
+<view wx:if="{{zw === 'zw1'}}">zw1</view>
+<view wx:else="{{zw === 'zw'}}" >
+  <view wx:if="{{zw === 'zw3'}}">zw2</view>
+  <view wx:eluf="{{zw === 'zw'}}">zw3</view>
+</view>
+
+
 
