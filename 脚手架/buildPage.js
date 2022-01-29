@@ -49,25 +49,36 @@ fs.readFile('src/index.js', (err, buffer) => {
               [p[2].split(/\s+/)[0]]: p[3]
             })
           }
+
           let noChange = []
           css = css ? css : '.page{}'
           let tagRE = /<[^>]*>/g;
           let html = buffer1.toString()
-
-
           let html3 = html.match(tagRE)
+       
           for (i in html3) {
-
             let a = html3[i].match(/\s*(.*?)\s*\/>/)
+           
             if (a) {
               b = html3[i].replace('\\>', '>')
               a[1] = a[1].replace('<', '')
-
               html = html.replace(html3[i], b + "</" + a[1] + ">")
             }
           }
-          html = '<style>' + css + '</style>' + html
 
+          tagRE = /{{.*?}}/g
+          let html4 = html.match(tagRE)
+          for (i in html4) {
+            // console.log(html4[i], 233)
+            let a = html4[i].match(/{{(.*?)}}/)
+            if (a && a[1].match(/>/)) {
+
+              html = html.replace(a[1], a[1].replace('>', '!!!'))
+            }
+          }
+
+          // console.log(html)
+          html = '<style>' + css + '</style>' + html
           html = html.replace(/<!--(.*?)-->/g, "")
           html = html.replace(/'/g, `"`)
           html = html.replace(/input/g, `input1`)
@@ -157,28 +168,24 @@ fs.readFile('src/index.js', (err, buffer) => {
               html = html.replace(/input1/g, `input`)
               let y = 0;
               // console.log(html)
-              let tagRE = /<(?:[^"'>]|"[^"]*"|'[^']*')*>/g;
+              let tagRE = /<[^>]*>/g;
 
               let tagAll = []
               let html2 = html.match(tagRE)
-
               for (i in html2) {
 
                 let a = ''
                 for (let x of darks) {
-
                   if (html2[i].match(Object.keys(x)[0])) {
                     a = x[Object.keys(x)[0]]
                   }
                 }
-                // console.log(html2[i])
-
-                let tag1 = html2[i].substr(0, html2[i].length - 1);
+               
                 if (a) {
                   // console.log(html2[i])
-                  tag1 = tag1 + "${this.data.dark == 'dark' ? 'style=\"" + a + "\"' : ''} g=" + y + ">"
+                  tag1 = html2[i].replace (/(<\/?([^\s]+?)[/\s>])/,"$1 ${this.data.dark === 'dark' ? 'style=\"" + a + "\"' : ''} g=" + y + " ")
                 } else {
-                  tag1 = tag1 + " g=" + y + ">"
+                  tag1 = html2[i].replace(">", " g=" + y + ">")
                 }
 
                 //图片处理
@@ -205,6 +212,8 @@ fs.readFile('src/index.js', (err, buffer) => {
                 html = html.replace(html2[i], tag1)
                 y += 1
               }
+
+
               let elseNumber = 0
 
               html.replace(tagRE, function (tag, index) {
@@ -229,17 +238,16 @@ fs.readFile('src/index.js', (err, buffer) => {
 
 
                 if (tag.match(/wx:if/)) {
-
+          
                   let t = tag.match(/wx:if="{{(.*)}}"/);
 
                   if (t) {
                     type = tagMatch[1] + ".2"
                     let tag1 = tag.replace(/wx:if="{{(.*)}}"/, '');
                     html = html.replaceAll(tag, `\{{"wx&if" ${t[1]}}} ? \`` + tag1)
-
+    
                     elseNumber += 1
                   }
-
 
                 }
 
@@ -285,18 +293,19 @@ fs.readFile('src/index.js', (err, buffer) => {
                 }
 
               });
-              console.log(elseNumber, 555)
-              let k = 0
-              for(k = 0; k < elseNumber; k++){
-                html = html.replace('`: `' + (k) + '`}', '`: ``}')
-              }
-       
 
+              let k = 0
+
+      
               html.replace(tagRE, function (tag, index) {
 
                 html = html.replaceAll(" g=" + y, '')
                 y -= 1
               })
+
+              for(k = 0; k < elseNumber; k++){
+                html = html.replace('`: `' + (k) + '`}', '`: ``}')
+              }
 
               html = html.replaceAll(" g=0", '')
 
@@ -327,7 +336,7 @@ fs.readFile('src/index.js', (err, buffer) => {
 
                   for (j in array) {
                     if (array[j].match(/^[a-zA-Z]/)) {
-
+                
                       // p1 += `${array[j]}`
                       p1 += 'typeof this.data.' + array[j] + ' === "object" ? JSON.stringify( ' + 'this.data.' + array[j] + ') : this.data.' + array[j]
                     } else {
@@ -363,6 +372,7 @@ fs.readFile('src/index.js', (err, buffer) => {
               html = html.replace(/"wx&if"/g, "");
               html = html.replace(/"wx&class"/g, "");
               html = html.replace(/"wx&elif"/g, "");
+              html = html.replace(/!!!/g, ">");
               let wxForexp = /\.map(.*?)`\)}/g;
               let wxForhtml = html.match(wxForexp)
               let wxForhtml1 = html.match(wxForexp)
@@ -377,12 +387,9 @@ fs.readFile('src/index.js', (err, buffer) => {
 
                   }
                 }
-
                 html = html.replace(wxForhtml1[i], wxForhtml[i])
                 // console.log(html)
               }
-
-
 
               let str = buffer.toString()
               str = `function runCode(){
@@ -390,10 +397,10 @@ fs.readFile('src/index.js', (err, buffer) => {
               str += buffer.toString()
               str = str.replace(/setData/g, "setdata");
 
-              let onload = /onReady:(.*)function(.*)\((.*?)\)(.*){/
+              let onload = /onLoad:(.*)function(.*)\((.*?)\)(.*){/
               let onloadJS = str.match(onload)
               if (onloadJS) {
-                str = str.replace(onloadJS[0], onloadJS[0] + ' this.data.dark =wx.getSystemInfoSync().theme; wx.onThemeChange(e => {console.log(e.theme);this.setdata({dark: e.theme})}); this.setdata();')
+                str = str.replace(onloadJS[0], onloadJS[0] + 'options = this.options; this.data.dark =wx.getSystemInfoSync().theme; wx.onThemeChange(e => {console.log(e.theme);this.setdata({dark: e.theme})}); this.setdata();')
               }
 
               str = str.replace('Page({', `  
@@ -403,7 +410,8 @@ fs.readFile('src/index.js', (err, buffer) => {
             }
           return Page({
             ${onloadJS ? '': `
-            onReady: function (options) {
+            onLoad: function (options) {
+              options = this.options;
               this.setdata({})
             },
             `}
