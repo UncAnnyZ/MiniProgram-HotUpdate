@@ -39,6 +39,8 @@ fs.readFile('src/index.js', (err, buffer) => {
 
           let darkCss = css1.match(/dark\s*\)\s*{(.*?)}\s*}/g);
           darkCss = darkCss ? darkCss[0].match(/\.(.*?)(.*?){(.*?)}/g) : darkCss;
+
+        
           let darks = new Set()
 
           for (i in darkCss) {
@@ -65,6 +67,7 @@ fs.readFile('src/index.js', (err, buffer) => {
               html = html.replace(html3[i], b + "</" + a[1] + ">")
             }
           }
+     
 
           tagRE = /{{.*?}}/g
           let html4 = html.match(tagRE)
@@ -88,6 +91,7 @@ fs.readFile('src/index.js', (err, buffer) => {
             .then(function (html) {
               //内部css处理
               css = css.replace(/[\n]/g, "");
+        
               var regexp = /\.(.*?)(.*?){(.*?)}/g;
               allcss = css.match(regexp);
               let s = new Set()
@@ -157,17 +161,18 @@ fs.readFile('src/index.js', (err, buffer) => {
               }
               // console.log(allStrClass)
 
-          
+         
               for (i in allStrClass1) {
                 // console.log(allStrClass1[i], allStrClass[i])
                 allStrClass[i] = allStrClass[i].replace('class', 'style')
                 html = html.replace(allStrClass1[i], allStrClass[i])
               }
-              // console.log(html)
 
+  
               html = html.replace(/input1/g, `input`)
+
+      
               let y = 0;
-              // console.log(html)
               let tagRE = /<[^>]*>/g;
 
               let tagAll = []
@@ -214,14 +219,14 @@ fs.readFile('src/index.js', (err, buffer) => {
               }
 
 
-              let elseNumber = 0
+              let elseNumber = 0 //wx:if,wx:elif的嵌套标识
 
               html.replace(tagRE, function (tag, index) {
 
                 let tagMatch = tag.match(/<\/?([^\s]+?)[/\s>]/);
 
                 let type = tagMatch[1] + ".0";
-
+       
                 if (tag.match(/wx:for/)) {
                   // console.log(0)
                   type = tagMatch[1] + ".1"
@@ -245,7 +250,7 @@ fs.readFile('src/index.js', (err, buffer) => {
                     type = tagMatch[1] + ".2"
                     let tag1 = tag.replace(/wx:if="{{(.*)}}"/, '');
                     html = html.replaceAll(tag, `\{{"wx&if" ${t[1]}}} ? \`` + tag1)
-    
+                    
                     elseNumber += 1
                   }
 
@@ -368,7 +373,7 @@ fs.readFile('src/index.js', (err, buffer) => {
               }
 
               // wx:for的内容转换
-              html = html.replace(/[\n]/g, "");
+              html = html.replace(/[\n\r]/g, "");
               html = html.replace(/"wx&if"/g, "");
               html = html.replace(/"wx&class"/g, "");
               html = html.replace(/"wx&elif"/g, "");
@@ -377,20 +382,18 @@ fs.readFile('src/index.js', (err, buffer) => {
               let wxForhtml = html.match(wxForexp)
               let wxForhtml1 = html.match(wxForexp)
 
-
-              for (i in wxForhtml) {
+      
+              for (i in wxForhtml) {  
+  
                 for (j in noChange) {
                   if (wxForhtml[i].match(noChange[j])) {
-                    // console.log('123456')
-
                     wxForhtml[i] = wxForhtml[i].replaceAll('this.data.' + noChange[j], noChange[j])
-
                   }
                 }
                 html = html.replace(wxForhtml1[i], wxForhtml[i])
-                // console.log(html)
+  
               }
-
+              console.log(html)
               let str = buffer.toString()
               str = `function runCode(){
               `
