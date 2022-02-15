@@ -577,7 +577,7 @@
 </template>
 
 <template name="test-picker1">
-    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}" value="{{item.date}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}"  style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text></text>{{item.text}}
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type1+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
@@ -586,7 +586,7 @@
 </template>
 
 <template name="test-picker2">
-    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}" value="{{item.date}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}"  style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text></text>{{item.text}}
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type1+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
@@ -605,7 +605,7 @@
 
 <template name="test-picker4">
 
-    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}" value="{{item.date}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}"  style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text></text>{{item.text}}
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type1+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
@@ -614,7 +614,7 @@
 </template>
 
 <template name="test-picker5">
-    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}" value="{{item.date}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}"  style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text></text>{{item.text}}
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type1+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
@@ -623,7 +623,7 @@
 </template>
 
 <template name="test-picker6">
-    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}" value="{{item.date}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}"  style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text></text>{{item.text}}
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type1+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
@@ -632,7 +632,7 @@
 </template>
 
 <template name="test-picker7">
-    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}" value="{{item.date}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}"  style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text></text>{{item.text}}
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type1+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
@@ -641,7 +641,7 @@
 </template>
 
 <template name="test-picker8">
-    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}" value="{{item.date}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}"  style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text></text>{{item.text}}
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type1+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
@@ -650,7 +650,7 @@
 </template>
 
 <template name="test-picker9">
-    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}" value="{{item.date}}" style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
+    <picker value="{{item.value}}" range="{{item.range}}" bindchange="{{item.bindchange}}" mode="{{item.mode ? item.mode : 'selector'}}" start="{{item.start}}" end="{{item.end}}"  style="{{item.style}}" class="{{item.class}}" catchtap="{{ item.bindtap == 'undefined'?'':item.bindtap}}">
         <text></text>{{item.text}}
         <block wx:for="{{item.children}}" wx:for-item="childrenItem">
             <template is="{{ 'test-'+childrenItem.type1+(deep+1) }}" data="{{ item:childrenItem, deep:deep+1 }}"></template>
