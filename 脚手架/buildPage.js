@@ -316,7 +316,7 @@ fs.readFile('src/index.js', (err, buffer) => {
 
               var regexp = /{{(.*?)}}/g;
               let p = html.match(regexp)
-
+              console.log(p)
               for (i in p) {
                 let k = p[i].match(/{{(.*?)}}/)[1]
                 let p1 = ''
@@ -325,9 +325,9 @@ fs.readFile('src/index.js', (err, buffer) => {
                   p1 = JSON.stringify(k)
 
                 } catch (e) {
-                  var fh = k.match(/[`~!@#$%^*()+<>?:{},\/;[\]]/g)
+                  var fh = k.match(/[`~!@#$%^*()+<>?:{},\/;[\]=]/g)
                   if(k.match(/wx&class/)){
-                    var fh = k.match(/[`~@%^*+<>?:{},\/;[\]]/g)
+                    var fh = k.match(/[`~@%^*+<>?:{},\/;[\]=]/g)
                   }
        
                   for (j in fh) {
@@ -336,8 +336,10 @@ fs.readFile('src/index.js', (err, buffer) => {
 
                   }
                   let dz = k.match(/"(.*?)"/g)
+       
                   k = k.replace(/"(.*?)"/g, '~~~')
                   let array = k.split(/\s+/g)
+
 
                   for (j in array) {
                     if (array[j].match(/^[a-zA-Z]/)) {
@@ -354,7 +356,9 @@ fs.readFile('src/index.js', (err, buffer) => {
                       }
                     }
                   }
+          
                   for (j in dz) {
+             
                     p1 = p1.replace(/~~~/, dz[j])
                   }
 
