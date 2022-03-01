@@ -1,17 +1,82 @@
-<view>hello world</view>
+<view class="page">
+  <view class="container">
 
-<view>hello world11</view>
 
-<viwe/> 
-<view>
-  <image src="../images/uTools_1643186573282.png"/>
-  <image src="../images/截屏2022-01-27 下午2.34.46.png"/>
+    <view class="write_Info_Container">
+      <view class="title" style="margin-bottom:30rpx"><text>test</text></view>
+
+      <view class="temperature">
+        <view>选择学校</view>
+        <view class="section_temperature">
+          <picker bindchange="chooseTemperature" value="{{temperature}}" range="{{temperature}}">
+            <view class="tem">
+              {{tem}}
+            </view>
+          </picker>
+        </view>
+      </view>
+      <view class="temperature">
+        <text>是否添加到首页配置</text>
+        <view class="section_Yse_no">
+          <picker bindchange="choose_ever" value="{{everInDangerRegionYesNo}}" range="{{everInDangerRegionYesNo}}">
+            <view class="tem">
+              {{everInDangerRegion}}
+            </view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="temperature" wx:if="{{Ever_InDanger}}">
+        <text style="line-height:64rpx">具体地点</text>
+        <view class="ever_address_section">
+          <picker mode="region" bindchange="everliveRegionChange" value="{{everLiveregion}}" custom-item="{{customItem}}">
+            <view class="ever_region_section">
+              {{everLiveregion}}
+            </view>
+          </picker>
+        </view>
+        <view style="width:80%">
+          <input style="width:60%" type="text" placeholder="详细地址" bindinput="everIndangerPlaceText" value="{{everIndangerRegionText}}" />
+        </view>
+      </view>
+
+      <view wx:else></view>
+
+      <view class="temperature">
+        <text>版本号</text>
+        <view>
+          <picker bindchange="QRcolor" value="{{QRcolor}}" range="{{QRcolor}}">
+            <view class="tem">
+              {{qrColor}}
+            </view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="temperature">
+        <text>名称</text>
+        <view>
+          <picker bindchange="inMaoMingChange" value="{{InMaoMingYesNo}}" range="{{InMaoMingYesNo}}">
+            <view class="tem">
+              {{inMaoMing}}
+            </view>
+          </picker>
+        </view>
+      </view>
+
+      <view class="inp">
+        <text style="font-size:26rpx;font-weight:800;color:rgba(16,16,16,0.7)">当前代码</text>
+        <textarea type="text" placeholder="请输入详细地址" value="{{text}}" bindinput="inp_region">
+        </textarea>
+      </view>
+
+
+      <view class="end">
+        <view class="btn_color1"><button class="btnSubmit" bindtap="submit">哈哈哈</button></view>
+        <button class="btnCancel" bindtap="cancel">测试</button>
+      </view>
+
+    </view>
+
+  </view>
 </view>
-<view wx:if="{{zw === 'zw1'}}">zw1</view>
-<view wx:else="{{zw === 'zw'}}" >
-  <view wx:if="{{zw === 'zw3'}}">zw2</view>
-  <view wx:eluf="{{zw === 'zw'}}">zw3</view>
-</view>
-
-
-

@@ -72,7 +72,7 @@ function runCode() {
 
           if (c[1]) {
             if (c[0] === 'style') {
-              style += p;
+              style = p + style;
               res[c[0]] = style;
             } else {
               res[c[0]] = p;
@@ -130,8 +130,10 @@ function runCode() {
 
     setdata: function setdata(dictData) {
 
-      this.setData(dictData);
-      var html = "" + (_typeof(this.data.zw) === "object" ? JSON.stringify(this.data.zw) : this.data.zw === "zw1" ? "<view >zw1</view>" : "<view wx:else='" + (_typeof(this.data.zw) === "object" ? JSON.stringify(this.data.zw) : this.data.zw === "zw") + "'>  " + (_typeof(this.data.zw) === "object" ? JSON.stringify(this.data.zw) : this.data.zw === "zw3" ? "<view >zw2</view>" : "") + "  <view wx:eluf='" + (_typeof(this.data.zw) === "object" ? JSON.stringify(this.data.zw) : this.data.zw === "zw") + "'>zw3</view></view>");
+      for (var i in dictData) {
+        this.data[i] = dictData[i];
+      }
+      var html = "<view class='page' style='background-color: rgba(246,246,246); height: 1720rpx; margin: 0; width: 100%;'>  <view class='container' style='height: 100%;'>    <view class='write_Info_Container' style='left: 15rpx; position: absolute; right: 15rpx; top: 20rpx;'>      <view class='title' style='color: rgba(16,16,16,0.5); font-size: 36rpx; font-weight: 800; margin-bottom: 30rpx; padding-bottom: 15rpx; padding-top: 40rpx; text-align: center;'><text>test</text></view>      <view class='temperature' style='background-color: white; border-radius: 10rpx; display: flex; font-size: 28rpx; font-weight: 500; margin-bottom: 30rpx; padding: 20rpx 0rpx; padding-bottom: 15rpx; padding-left: 10rpx; padding-right: 10rpx;'>        <view>\\u9009\\u62E9\\u5B66\\u6821</view>        <view class='section_temperature'>          <picker bindchange='chooseTemperature' value='" + (_typeof(this.data.temperature) === "object" ? JSON.stringify(this.data.temperature) : this.data.temperature) + "' range='" + (_typeof(this.data.temperature) === "object" ? JSON.stringify(this.data.temperature) : this.data.temperature) + "'>            <view class='tem' style='border-bottom: 1rpx solid rgba(231,231,231,086); font-size: 24rpx; position: absolute; right: 15rpx; text-align: center; width: 20%;'>              " + (_typeof(this.data.tem) === "object" ? JSON.stringify(this.data.tem) : this.data.tem) + "            </view>          </picker>        </view>      </view>      <view class='temperature' style='background-color: white; border-radius: 10rpx; display: flex; font-size: 28rpx; font-weight: 500; margin-bottom: 30rpx; padding: 20rpx 0rpx; padding-bottom: 15rpx; padding-left: 10rpx; padding-right: 10rpx;'>        <text>\\u662F\\u5426\\u6DFB\\u52A0\\u5230\\u9996\\u9875\\u914D\\u7F6E</text>        <view class='section_Yse_no'>          <picker bindchange='choose_ever' value='" + (_typeof(this.data.everInDangerRegionYesNo) === "object" ? JSON.stringify(this.data.everInDangerRegionYesNo) : this.data.everInDangerRegionYesNo) + "' range='" + (_typeof(this.data.everInDangerRegionYesNo) === "object" ? JSON.stringify(this.data.everInDangerRegionYesNo) : this.data.everInDangerRegionYesNo) + "'>            <view class='tem' style='border-bottom: 1rpx solid rgba(231,231,231,086); font-size: 24rpx; position: absolute; right: 15rpx; text-align: center; width: 20%;'>              " + (_typeof(this.data.everInDangerRegion) === "object" ? JSON.stringify(this.data.everInDangerRegion) : this.data.everInDangerRegion) + "            </view>          </picker>        </view>      </view>      " + (_typeof(this.data.Ever_InDanger) === "object" ? JSON.stringify(this.data.Ever_InDanger) : this.data.Ever_InDanger ? "<view style='temperature'  style='background-color: white; border-radius: 10rpx; display: flex; font-size: 28rpx; font-weight: 500; margin-bottom: 30rpx; padding: 20rpx 0rpx; padding-bottom: 15rpx; padding-left: 10rpx; padding-right: 10rpx;'>        <text style='line-height:64rpx'>\\u5177\\u4F53\\u5730\\u70B9</text>        <view class='ever_address_section'>          <picker mode='region' bindchange='everliveRegionChange' value='" + (_typeof(this.data.everLiveregion) === "object" ? JSON.stringify(this.data.everLiveregion) : this.data.everLiveregion) + "' custom-item='" + (_typeof(this.data.customItem) === "object" ? JSON.stringify(this.data.customItem) : this.data.customItem) + "'>            <view class='ever_region_section'>              " + (_typeof(this.data.everLiveregion) === "object" ? JSON.stringify(this.data.everLiveregion) : this.data.everLiveregion) + "            </view>          </picker>        </view>        <view style='width:80%'>          <input style='border-left: 1rpx solid rgba(127,127,127,0.3); border-radius: 10rpx; margin-left: 20rpx; padding: 10rpx 20rpx; vertical-align: middle; width: 60%;' type='text' placeholder='\\u8BE6\\u7EC6\\u5730\\u5740' bindinput='everIndangerPlaceText' value='" + (_typeof(this.data.everIndangerRegionText) === "object" ? JSON.stringify(this.data.everIndangerRegionText) : this.data.everIndangerRegionText) + "'></input>        </view>      </view>" : "      <view wx:else></view>") + "      <view class='temperature' style='background-color: white; border-radius: 10rpx; display: flex; font-size: 28rpx; font-weight: 500; margin-bottom: 30rpx; padding: 20rpx 0rpx; padding-bottom: 15rpx; padding-left: 10rpx; padding-right: 10rpx;'>        <text>\\u7248\\u672C\\u53F7</text>        <view>          <picker bindchange='QRcolor' value='" + (_typeof(this.data.QRcolor) === "object" ? JSON.stringify(this.data.QRcolor) : this.data.QRcolor) + "' range='" + (_typeof(this.data.QRcolor) === "object" ? JSON.stringify(this.data.QRcolor) : this.data.QRcolor) + "'>            <view class='tem' style='border-bottom: 1rpx solid rgba(231,231,231,086); font-size: 24rpx; position: absolute; right: 15rpx; text-align: center; width: 20%;'>              " + (_typeof(this.data.qrColor) === "object" ? JSON.stringify(this.data.qrColor) : this.data.qrColor) + "            </view>          </picker>        </view>      </view>      <view class='temperature' style='background-color: white; border-radius: 10rpx; display: flex; font-size: 28rpx; font-weight: 500; margin-bottom: 30rpx; padding: 20rpx 0rpx; padding-bottom: 15rpx; padding-left: 10rpx; padding-right: 10rpx;'>        <text>\\u540D\\u79F0</text>        <view>          <picker bindchange='inMaoMingChange' value='" + (_typeof(this.data.InMaoMingYesNo) === "object" ? JSON.stringify(this.data.InMaoMingYesNo) : this.data.InMaoMingYesNo) + "' range='" + (_typeof(this.data.InMaoMingYesNo) === "object" ? JSON.stringify(this.data.InMaoMingYesNo) : this.data.InMaoMingYesNo) + "'>            <view class='tem' style='border-bottom: 1rpx solid rgba(231,231,231,086); font-size: 24rpx; position: absolute; right: 15rpx; text-align: center; width: 20%;'>              " + (_typeof(this.data.inMaoMing) === "object" ? JSON.stringify(this.data.inMaoMing) : this.data.inMaoMing) + "            </view>          </picker>        </view>      </view>      <view class='inp'>        <text style='font-size:26rpx;font-weight:800;color:rgba(16,16,16,0.7)'>\\u5F53\\u524D\\u4EE3\\u7801</text>        <textarea type='text' placeholder='\\u8BF7\\u8F93\\u5165\\u8BE6\\u7EC6\\u5730\\u5740' value='" + (_typeof(this.data.text) === "object" ? JSON.stringify(this.data.text) : this.data.text) + "' bindinput='inp_region' style='background-color: #fff; border-radius: 20rpx; box-sizing: border-box; font-size: 24rpx; height: 200rpx; margin-top: 20rpx; padding: 10rpx 10rpx; width: 100%;'>        </textarea>      </view>      <view class='end' style='margin-top: 40rpx;'>        <view class='btn_color1'><button class='btnSubmit' bindtap='submit' style='background: #74d5d3; border-radius: 20rpx; color: white; font-size: 40rpx; font-weight: 800; height: 80rpx; line-height: 55rpx; margin-bottom: 20rpx; text-align: center; width: 400rpx;'>\\u54C8\\u54C8\\u54C8</button></view>        <button class='btnCancel' bindtap='cancel' style='border: 2rpx solid red; border-radius: 20rpx; color: red; font-size: 40rpx; font-weight: 500; height: 80rpx; line-height: 55rpx; margin: 0 auto; text-align: center; width: 600rpx;'>\\u6D4B\\u8BD5</button>      </view>    </view>  </view></view>";
       this.setData({ html: this.parse(html) });
     },
 
@@ -139,555 +141,58 @@ function runCode() {
      * 页面的初始数据
      */
     data: {
-      zw: "zw",
-      mapHeight: "800",
-      placeName: "",
-      hideOrNot: 0,
-      activePlaceID: -1,
-      markers: [{
-        id: 0,
-        latitude: 21.677456,
-        longitude: 110.924444,
-        iconPath: "image/others.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '公交站',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 1,
-        latitude: 21.679041,
-        longitude: 110.922631,
-        iconPath: "image/sports.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '体育馆',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 2,
-        latitude: 21.680033,
-        longitude: 110.924519,
-        iconPath: "image/sports.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '游泳池',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 3,
-        latitude: 21.681175,
-        longitude: 110.922615,
-        iconPath: "image/sports.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '球类体育场',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 4,
-        latitude: 21.678962,
-        longitude: 110.923371,
-        iconPath: "image/xingzheng.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '综合楼',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 5,
-        latitude: 21.677855,
-        longitude: 110.921939,
-        iconPath: "image/xingzheng.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '中专楼',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 6,
-        latitude: 21.680981,
-        longitude: 110.921472,
-        iconPath: "image/sports.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '操场',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 7,
-        latitude: 21.677591,
-        longitude: 110.922867,
-        iconPath: "image/jiaoxuelou.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '一教',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 8,
-        latitude: 21.677147,
-        longitude: 110.921789,
-        iconPath: "image/jiaoxuelou.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '二教A',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 9,
-        latitude: 21.677541,
-        longitude: 110.921778,
-        iconPath: "image/jiaoxuelou.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '二教B',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 10,
-        latitude: 21.678897,
-        longitude: 110.920882,
-        iconPath: "image/xiaomen.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '计算机楼',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 11,
-        latitude: 21.679276,
-        longitude: 110.920893,
-        iconPath: "image/shitang.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '一饭',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 12,
-        latitude: 21.682197,
-        longitude: 110.922476,
-        iconPath: "image/shitang.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '二饭',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 13,
-        latitude: 21.679365,
-        longitude: 110.920169,
-        iconPath: "image/shitang.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '四饭和4D区',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 14,
-        latitude: 21.679699,
-        longitude: 110.920732,
-        iconPath: "image/shitang.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '五饭',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 15,
-        latitude: 21.679704,
-        longitude: 110.92158,
-        iconPath: "image/sushe.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '1区',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 16,
-        latitude: 21.678842,
-        longitude: 110.920657,
-        iconPath: "image/sushe.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '2区',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 17,
-        latitude: 21.682227,
-        longitude: 110.921794,
-        iconPath: "image/sushe.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '3区',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 18,
-        latitude: 21.680123,
-        longitude: 110.920544,
-        iconPath: "image/sushe.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '4区',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 19,
-        latitude: 21.676374,
-        longitude: 110.92346,
-        iconPath: "image/jiaoxuelou.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '实验楼',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 20,
-        latitude: 21.678588,
-        longitude: 110.924026,
-        iconPath: "image/sushe.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '5区',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 21,
-        latitude: 21.658237,
-        longitude: 110.820106,
-        iconPath: "image/sushe.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '北苑B区',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 22,
-        latitude: 21.65702,
-        longitude: 110.820272,
-        iconPath: "image/sushe.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '北苑A区',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 23,
-        latitude: 21.655834,
-        longitude: 110.823206,
-        iconPath: "image/sports.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '体育馆',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 24,
-        latitude: 21.656662,
-        longitude: 110.819054,
-        iconPath: "image/shitang.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '北华饭堂',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 25,
-        latitude: 21.65375,
-        longitude: 110.821023,
-        iconPath: "image/jiaoxuelou.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '艺术楼',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 26,
-        latitude: 21.652952,
-        longitude: 110.81847,
-        iconPath: "image/jiaoxuelou.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '教学综合楼',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 27,
-        latitude: 21.653321,
-        longitude: 110.815943,
-        iconPath: "image/sushe.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '西南区饭堂',
-          display: 'ALWAYS'
-        }
-      }, {
-        id: 28,
-        latitude: 21.65553,
-        longitude: 110.816774,
-        iconPath: "image/jiaoxuelou.png",
-        width: 23,
-        height: 24,
-        callout: {
-          content: '教学楼（看详细地图）',
-          display: 'ALWAYS'
-        }
-      }],
-      distance: '',
-      cost: '',
-      polyline: [],
-      userLongitude: 110.922599,
-      userLatitude: 21.679529,
-      inSchool: false,
-      isLoading: false
+      //输入的数据
+      experimentData: ""
+      //
+
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function onLoad(e) {
+    onLoad: function onLoad(options) {
       var _this = this;
-      wx.showModal({
-        title: '选择校区',
-        showCancel: true, //是否显示取消按钮
-        content: "请选择校区",
-        cancelText: "西城校区", //默认是“取消”
-        confirmText: "官渡校区", //默认是“确定”
-        success: function success(res) {
-          if (res.cancel) {
-            _this.setdata({
-              userLongitude: 110.818019,
-              userLatitude: 21.654388
-            });
-          } else {
-            _this.setdata({
-              userLongitude: 110.922599,
-              userLatitude: 21.679529
-            });
-          }
-        },
-        fail: function fail(res) {}, //接口调用失败的回调函数
-        complete: function complete(res) {} //接口调用结束的回调函数（调用成功、失败都会执行）
-      });
 
-      // if (e.markerId !== '' && Object.keys(e).length !== 0) {
-      //   _this.makertap(e);
-      // }
-      wx.getLocation({
-        type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标  
-        success: function success(res) {
-          _this.setdata({
-            userLongitude: res.longitude,
-            userLatitude: res.latitude
-          });
-        }
-      });
-    },
-    onReady: function onReady() {
-      var _this2 = this;
-
-      this.data.dark = wx.getSystemInfoSync().theme;wx.onThemeChange(function (e) {
-        console.log(e.theme);_this2.setdata({ dark: e.theme });
+      options = this.options;this.data.dark = wx.getSystemInfoSync().theme;wx.onThemeChange(function (e) {
+        console.log(e.theme);_this.setdata({ dark: e.theme });
       });this.setdata();
-      var that = this;
-      setTimeout(function () {
-        that.setdata({
-          isLoading: false
-        });
-      }, 800);
     },
-    makertap: function makertap(e) {
-      console.log(e);
-      var id = e.markerId;
-      var that = this;
-      wx.getLocation({
-        type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标  
-        success: function success(res) {
-          that.setdata({
-            userLongitude: res.longitude,
-            userLatitude: res.latitude
-          });
-          that.setdata({
-            activePlaceID: id,
-            placeName: that.data.markers[id].callout.content
-          });
-          var userLocation = that.data.userLongitude + ',' + that.data.userLatitude;
-          var destination = that.data.markers[id].longitude + ',' + that.data.markers[id].latitude;
-          that.planPolyline(userLocation, destination);
-        }
-      });
-    },
-    planPolyline: function planPolyline(origin, destination) {
-      var that = this;
-      var id = that.data.activePlaceID;
-      //规划步行路线
-      myAmapFun.getWalkingRoute({
-        origin: origin,
-        destination: destination,
-        success: function success(data) {
-          var points = [];
-          if (data.paths && data.paths[0] && data.paths[0].steps) {
-            var steps = data.paths[0].steps;
-            for (var i = 0; i < steps.length; i++) {
-              var poLen = steps[i].polyline.split(';');
-              for (var j = 0; j < poLen.length; j++) {
-                points.push({
-                  longitude: parseFloat(poLen[j].split(',')[0]),
-                  latitude: parseFloat(poLen[j].split(',')[1])
-                });
-              }
-            }
-          }
-          that.setdata({
-            json: data.paths[0],
-            polyline: [{
-              points: points,
-              color: "#7acfa6",
-              width: 6
-            }]
-          });
-          if (data.paths[0] && data.paths[0].distance) {
-            that.setdata({
-              distance: data.paths[0].distance + '米'
-            });
-          }
-          if (data.paths[0] && data.paths[0].duration) {
-            that.setdata({
-              cost: parseInt(data.paths[0].duration / 60) + '分钟'
-            });
-          }
-          var markers = that.data.markers;
-          var points = that.data.polyline[0].points;
-          //暂时一共70个坐标点
-          markers[22] = {
-            id: 22,
-            latitude: points[0].latitude,
-            longitude: points[0].longitude,
-            iconPath: '../..image/mapicon_navi_s.png',
-            width: 23,
-            height: 33
-          };
-          markers[23] = {
-            id: 23,
-            latitude: points[points.length - 1].latitude,
-            longitude: points[points.length - 1].longitude,
-            iconPath: '../..image/mapicon_navi_e.png',
-            width: 24,
-            height: 34
-          };
+    //输入
 
-          that.setdata({
-            markers: markers
-          });
-        }
+    /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+    onReady: function onReady() {},
+    Check: function Check() {
+      wx.navigateTo({
+        url: '/pages/test1/test1'
       });
     },
-    location: function location() {
-      var _this = this;
-      wx.getLocation({
-        type: 'gcj02', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标  
-        success: function success(res) {
-          _this.setdata({
-            userLongitude: res.longitude,
-            userLatitude: res.latitude
-          });
-        }
-      });
-    },
-    moveSchool: function moveSchool() {
-      //视图返回学校
-      var _this = this;
-      wx.showModal({
-        title: '选择校区',
-        showCancel: true, //是否显示取消按钮
-        content: "请选择校区",
-        cancelText: "西城校区", //默认是“取消”
-        confirmText: "官渡校区", //默认是“确定”
-        success: function success(res) {
-          if (res.cancel) {
-            _this.setdata({
-              userLongitude: 110.818019,
-              userLatitude: 21.654388
-            });
-          } else {
-            _this.setdata({
-              userLongitude: 110.922599,
-              userLatitude: 21.679529
-            });
-          }
-        },
-        fail: function fail(res) {}, //接口调用失败的回调函数
-        complete: function complete(res) {} //接口调用结束的回调函数（调用成功、失败都会执行）
-      });
-    },
-    jtt: function jtt() {
-      wx.showModal({
-        title: '选择校区',
-        showCancel: true, //是否显示取消按钮
-        content: "请选择校区",
-        cancelText: "西城校区", //默认是“取消”
-        confirmText: "官渡校区", //默认是“确定”
-        success: function success(res) {
-          if (res.cancel) {
-            wx.previewImage({
-              current: "cloud://un1-d62c68.756e-un1-d62c68-1258307938/a.png", // 当前显示图片的http链接
-              urls: ["cloud://un1-d62c68.756e-un1-d62c68-1258307938/a.png"] // 需要预览的图片http链接列表
-            });
-          } else {
-            wx.previewImage({
-              current: "cloud://un1-d62c68.756e-un1-d62c68-1258307938/b.png", // 当前显示图片的http链接
-              urls: "cloud://un1-d62c68.756e-un1-d62c68-1258307938/b.png" // 需要预览的图片http链接列表
-            });
-          }
-        },
-        fail: function fail(res) {}, //接口调用失败的回调函数
-        complete: function complete(res) {} //接口调用结束的回调函数（调用成功、失败都会执行）
-      });
-    },
-    goDetail: function goDetail() {
-      var that = this;
-      var latitude = that.data.markers[that.data.activePlaceID].latitude;
-      var longitude = that.data.markers[that.data.activePlaceID].longitude;
-      var name = that.data.markers[that.data.activePlaceID].callout.content;
-      wx.openLocation({
-        latitude: latitude,
-        longitude: longitude,
-        name: name,
-        address: '广东石油化工学院',
-        scale: 8
-      });
-    }
+
+
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow: function onShow() {},
+
+    /**
+     * 生命周期函数--监听页面隐藏
+     */
+    onHide: function onHide() {},
+
+    /**
+     * 生命周期函数--监听页面卸载
+     */
+    onUnload: function onUnload() {},
+
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh: function onPullDownRefresh() {},
+
+    onReachBottom: function onReachBottom() {},
+
+    onShareAppMessage: function onShareAppMessage() {}
   });
 }
 module.exports = runCode;
