@@ -58,17 +58,8 @@
 
 ## 注意事项
 
-- 不支持 `wx:if` ，使用请查看下面推荐写法
-```javascript
-  // 原生 
-  <view wx:if="{{boxShow}}" class="box">
-  </view>
-  
-  // 推荐写法
-  {{ boxShow === 'true' ? '<view class="box"></view>' : '' }}
-```
-- 不支持 `<block>` 标签，请用 `<view>` 标签替代
-- 不支持CSS子类继承、伪类选择器等写法
+- 假如没有标签，需要自己添加
+
 </br>
 
 ---
