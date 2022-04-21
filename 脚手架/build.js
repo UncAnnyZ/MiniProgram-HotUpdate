@@ -17,7 +17,6 @@ fs.readFile('dist/index.js', (err, buffer) => {
       if (err) {
         console.log(err)
       } else {
-        // css处理
     
         str = str.replace('window.exports', 'module.exports')
         str = str.replace(/\\/g, '\\\\')
