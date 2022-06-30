@@ -13,6 +13,7 @@ var base64img = function (file) {
 
 // 运行转译过程
 function AstRead(html, css, js, otherCss, darkCss) {
+
   css = css ? css : '.page{}'
   html = html.replaceAll(`"`, `'`)
   let options = {
@@ -28,8 +29,9 @@ function AstRead(html, css, js, otherCss, darkCss) {
       htmlAst.forEach(htmlNode => {
         Object.keys(htmlNode).forEach(eKey => {
 
-          item = item || htmlNode[' wx:for-item'] || 'item'
-          index = index || htmlNode[' wx:for-index'] || 'index'
+          item = htmlNode[' wx:for-item'] || item || 'item'
+          index = htmlNode[' wx:for-index'] || index || 'index'
+          
           if (htmlNode[eKey]) {
             let tagRE = /{{.*?}}/g
             let inside = (htmlNode[eKey]).toString().match(tagRE)
@@ -48,12 +50,12 @@ function AstRead(html, css, js, otherCss, darkCss) {
                     p1 = re(k, p1, [item, index], eKey, otherCss)
 
                   }
-                  if (eKey === ' wx:for' || eKey === ' wx:if' || eKey === ' wx:else') {
+                  if (eKey === ' wx:for' || eKey === ' wx:elif'|| eKey === ' wx:if' || eKey === ' wx:else') {
                     htmlNode[eKey] = htmlNode[eKey].replaceAll(a[0], `${p1}`)
                   } else if (eKey === ' class') {
-             
+
                     htmlNode[' style'] += ';' + htmlNode[eKey].replaceAll(a[0], `\${${p1}}`)
-     
+
 
                     htmlNode[eKey] = htmlNode[eKey].replaceAll(a[0], ``)
                   } else {
@@ -64,7 +66,7 @@ function AstRead(html, css, js, otherCss, darkCss) {
               })
 
             }
-            if(eKey === ' class'){
+            if (eKey === ' class') {
               let a = ''
               for (let dd of darkCss) {
                 if (htmlNode[eKey].match(Object.keys(dd)[0])) {
@@ -74,10 +76,10 @@ function AstRead(html, css, js, otherCss, darkCss) {
               if (a) {
                 htmlNode[' style'] += ';' + "${this.data.dark === 'dark' ? '" + a + "' : ''}"
               }
-            }else if(eKey === ' src'){
-              try{
+            } else if (eKey === ' src') {
+              try {
                 let src1
-           
+
                 if (htmlNode[eKey].match(/\.\.\//)) {
                   src1 = htmlNode[eKey].replace('../', './')
                 } else {
@@ -87,7 +89,7 @@ function AstRead(html, css, js, otherCss, darkCss) {
                 img01 = img01.replace(/[\n]/g, "");
                 img01 = img01.replace(/\s+/g, "");
                 htmlNode[eKey] = img01
-              }catch(e){
+              } catch (e) {
 
               }
 
@@ -95,7 +97,7 @@ function AstRead(html, css, js, otherCss, darkCss) {
 
           }
 
-          
+
         })
         if (htmlNode.children.length > 0) {
 
@@ -108,7 +110,7 @@ function AstRead(html, css, js, otherCss, darkCss) {
     let newHtml = ''
     // 转回html
     const nodeReturn = (htmlNode) => {
-      noInKey = ['type', 'name', 'voidElement', 'text', 'children', ' wx:if', ' wx:for', ' wx:else']
+      noInKey = ['type', 'name', 'voidElement', 'text', 'children', ' wx:if', ' wx:for', ' wx:else', ' wx:elif']
       return Object.keys(htmlNode).map(eKey => {
         if (noInKey.includes(eKey)) {
           return ''
@@ -119,11 +121,14 @@ function AstRead(html, css, js, otherCss, darkCss) {
     }
     const parsehtml = (htmlAst) => {
       html = ''
-      htmlAst.forEach(htmlNode => {
+      htmlAst.forEach((htmlNode, index) => {
         let forBoolean = false
         let ifBoolean = false
         if (htmlNode[' wx:if']) {
           html = html + `\${${htmlNode[' wx:if']} ? \``
+          ifBoolean = true
+        } else if (htmlNode[' wx:elif']) {
+          html = html + `${htmlNode[' wx:elif']} ? \``
           ifBoolean = true
         } else if (htmlNode[' wx:for']) {
           let item = htmlNode[' wx:for-item'] || 'item'
@@ -132,9 +137,9 @@ function AstRead(html, css, js, otherCss, darkCss) {
           forBoolean = true
         }
         html = html + `<${htmlNode.type} ${nodeReturn(htmlNode).join("")}> ${htmlNode.text || ''} ${htmlNode.children.length > 0 ? parsehtml(htmlNode.children ) : ''} </${htmlNode.type}> `
-        if (htmlNode['wx:elif']) {
-          html = html + `\` ? \``
-        } else if (htmlNode['wx:else'] || ifBoolean) {
+        if (htmlAst[index + 1] && htmlAst[index + 1][' wx:elif']) {
+          html = html + `\` : `
+        } else if ((htmlAst[index + 1] && htmlAst[index + 1][' wx:else'])|| ifBoolean) {
           html = html + `\` : \`\`}`
         } else if (forBoolean) {
           html = html + `\`\)\}`
@@ -143,7 +148,7 @@ function AstRead(html, css, js, otherCss, darkCss) {
       return html
     }
     newHtml = parsehtml(htmlAst)
-    newHtml =  newHtml.replace(/input1/g, `input`)
+    newHtml = newHtml.replace(/input1/g, `input`)
 
     let str = ''
     str = `function runCode(){
@@ -157,7 +162,6 @@ function AstRead(html, css, js, otherCss, darkCss) {
       onload =  /(.*)onLoad(.*)\((.*?)\)(.*){/
       onloadJS = str.match(onload)
     }
-    
     if (onloadJS) {
       str = str.replace(onloadJS[0], onloadJS[0] + 'options = this.options; this.data.dark =wx.getSystemInfoSync().theme; wx.onThemeChange(e => {console.log(e.theme);this.setdata({dark: e.theme})}); this.setdata();')
     }
@@ -287,11 +291,8 @@ setdata: function setdata(dictData) {
     str = str.replace(/\\n/g, "");
     str = str.replace(/\\"/g, "'");
     str += `
-
-
 }
   window.exports = runCode;
-
   `
 
     fs.writeFile('dist/index.js', str, {
@@ -307,32 +308,46 @@ setdata: function setdata(dictData) {
 
 
 //处理this.data
-function re(k, p1, noChange, eKey, otherCss) {
+function re(k, p1, noChange, eKey, otherCss, noThisData = false) {
 
-  var fh = k.match(/[`~!@#$%^*()+?:{},\/;]|[==]|[===]|[<=]|[>=]/g)
+  var fh = k.match(/[`~!@#$%^*()+?:{},\/;]|[||]|[==]|[===]|[<=]|[>=]/g)
+
   for (j in fh) {
     k = k.replaceAll(fh[j], ` ${fh[j]} `)
+  }
+  if (k.match(/\[(.*?)\]/g)) {
+    k = k.replaceAll(k.match(/\[(.*?)\]/g)[0],(k.match(/\[(.*?)\]/g)[0]).replace(/\s+/g, ""))
   }
 
   let dz = k.match(/'(.*?)'/g)
   k = k.replace(/'(.*?)'/g, '~~~')
-
   let array = k.split(/\s+/g)
+
+  // console.log(p1, 2)
   for (j in array) {
-    if (array[j].match(/\[(.*?)\]/g)) {
-      let arrayre = re(array[j].match(/\[(.*?)\]/)[1], '', noChange, eKey, otherCss)
-      array[j] = array[j].replaceAll(array[j].match(/\[(.*?)\]/)[1], arrayre)
-    }
-    if (array[j].match(/^[a-zA-Z]/)) {
+
+    if (array[j].match(/^[a-zA-Z]/) || array[j].match(/^\[/)) {
       if (eKey == ' wx:for') {
-        p1 += '(this.data.' + array[j] + ')'
+        console.log(array[j].split(".")[0],233)
+        if(noChange.includes(array[j].split(".")[0])){
+          p1 +=  '(' + array[j] + ')'
+        }else{
+          p1 += '(this.data.' + array[j] + ')'
+        }
+  
       } else {
-        let noThisData = false
         noChange.forEach(e => {
-          if (array[j].match(e)) {
+          console.log(e, array[j])
+          if (e === array[j].split('.')[0]) {
             noThisData = true
           }
         })
+
+        if (array[j].match(/\[(.*?)\]/g)) {
+          let arraytemp = array[j]
+          let arrayre = re(array[j].match(/\[(.*?)\]/)[1], '', noChange, eKey, otherCss)
+          array[j] = arraytemp.replaceAll(arraytemp.match(/\[(.*?)\]/)[1], arrayre)
+        }
         if (noThisData) {
           p1 += '(typeof ' + array[j] + ' === "object" ? JSON.stringify( ' + array[j] + ') : ' + array[j] + ')'
         } else {
@@ -353,9 +368,16 @@ function re(k, p1, noChange, eKey, otherCss) {
 
   for (j in dz) {
 
+    for (let dd of otherCss) {
+
+      if (`'${Object.keys(dd)[0]}'` === dz[j]) {
+        dz[j] = `'${dd[Object.keys(dd)[0]]}'`
+
+      }
+    }
+    // otherCss.
     p1 = p1.replace(/~~~/, dz[j])
   }
-
   return p1
 }
 
@@ -510,7 +532,7 @@ fs.readFile('src/index.js', (err, js) => {
                 html = html.replace(html3[i], b + "</" + a[1] + ">")
               }
             }
-       
+
             AstRead(html, css, js, otherCss, darks)
 
 
