@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "node buildPage.js && webpack && node build.js",
-    "start": "node buildPageAst.js && webpack && node build.js && node run.js",
-    "test": "node buildPageAst.js"
+    "start": "node buildPage.js && webpack && node build.js && node run.js",
+    "test": "node buildPage.js"
   },
   "author": "",
   "license": "ISC",
